@@ -13,7 +13,7 @@ const LANGUAGES = [
   { id: "ar", label: "Arabic", intlLangName: "intlArabic", icon: <SAFlag /> },
 
   { id: "en", label: "English", intlLangName: "intlEnglish", icon: <USFlag /> },
-  { id: "fr", label: "German", intlLangName: "intlGerman", icon: <DEFlag /> },
+  { id: "fr", label: "French", intlLangName: "intlGerman", icon: <DEFlag /> },
 ];
 
 const LanguageMenu = ({ onClick }) => {

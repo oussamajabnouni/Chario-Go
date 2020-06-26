@@ -6,7 +6,7 @@
   "navFurnitureMenu": "Meubles",
   "navBookMenu": "Livre",
   "navMedicineMenu": "Médecine",
-  "navFoodsMenu": "Foods",
+  "navFoodsMenu": "Nourriture",
 
   "groceriesTitle": "Épicerie livrée en {minute} minute",
   "groceriesSubTitle": "Recevez vos aliments sains et collations à portée de main toute la journée",
@@ -160,7 +160,7 @@
   "intlOrderCardTitleText": "Commande",
   "intlOrderCardDateText": "Date de commande",
   "intlOrderCardTotalText": "Prix total",
-  "joinButton": "Join",
+  "joinButton": "Joindre",
   "intlArabic": "arabe",
   "intlChinese": "chinois",
   "intlEnglish": "English",

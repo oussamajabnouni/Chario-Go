@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, { useCallback } from "react";
+import { FormattedMessage } from "react-intl";
 import {
   Box,
   Image,
@@ -7,11 +7,22 @@ import {
   Title,
   Description,
   SearchWrapper,
-} from './banner.style';
+} from "./banner.style";
 
-import { Waypoint } from 'react-waypoint';
-import { useAppDispatch } from 'contexts/app/app.provider';
-import Search from 'features/search/search';
+import { Restaurant } from "assets/icons/Restaurant";
+import { FruitsVegetable } from "assets/icons/FruitsVegetable";
+
+import { Waypoint } from "react-waypoint";
+import { useAppDispatch } from "contexts/app/app.provider";
+import Search from "features/search/search";
+import CardType from "../CardType/cardType";
+
+const MENU_ITEMS = [
+  {
+    iconG: <FruitsVegetable />,
+    iconF: <Restaurant />,
+  },
+];
 
 interface Props {
   imageUrl: string;
@@ -25,10 +36,10 @@ export const Banner: React.FC<Props> = ({
   intlDescriptionId,
 }) => {
   const dispatch = useAppDispatch();
-  const setSticky = useCallback(() => dispatch({ type: 'SET_STICKY' }), [
+  const setSticky = useCallback(() => dispatch({ type: "SET_STICKY" }), [
     dispatch,
   ]);
-  const removeSticky = useCallback(() => dispatch({ type: 'REMOVE_STICKY' }), [
+  const removeSticky = useCallback(() => dispatch({ type: "REMOVE_STICKY" }), [
     dispatch,
   ]);
 
@@ -55,6 +66,48 @@ export const Banner: React.FC<Props> = ({
             shadow="0 21px 36px rgba(0,0,0,0.05)"
           />
         </SearchWrapper>
+        <SearchWrapper>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              borderRadius: 6,
+              marginTop: "1rem",
+              height: "5rem",
+              width: 800,
+            }}
+          >
+            <div
+              style={{
+                marginLeft: "50px",
+                width: 325,
+              }}
+            >
+              {MENU_ITEMS.map((item) => (
+                <CardType
+                  icon={item.iconG}
+                  restaurantType="Superarché"
+                  description="Supermarchés, Épiceries Fines, Produits frais."
+                ></CardType>
+              ))}
+            </div>
+            <div
+              style={{
+                marginLeft: "50px",
+                width: 325,
+              }}
+            >
+              {MENU_ITEMS.map((item) => (
+                <CardType
+                  icon={item.iconF}
+                  restaurantType="Restaurants"
+                  description="Vos plats préférés près de chez vous."
+                ></CardType>
+              ))}
+            </div>
+          </div>
+        </SearchWrapper>
+
         <Waypoint onEnter={removeSticky} onLeave={setSticky} />
       </Content>
     </Box>
