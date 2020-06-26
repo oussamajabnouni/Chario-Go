@@ -72,7 +72,7 @@ export const Banner: React.FC<Props> = ({
               display: "flex",
               alignItems: "center",
               borderRadius: 6,
-              marginTop: "1rem",
+              marginTop: "2rem",
               height: "5rem",
               width: 800,
             }}

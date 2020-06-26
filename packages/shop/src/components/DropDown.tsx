@@ -3,34 +3,29 @@ import React, { Component } from "react";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
 
-const ChooseCity = [
+export const StateOptions = [
   {
-    label: " Choose a city",
-  },
-];
-const colourOptions = [
-  {
-    key: 1,
+    value: " sousse medina",
     label: " sousse medina",
   },
   {
-    key: 2,
+    value: " Hamem sousse",
     label: " Hamem sousse",
   },
   {
-    key: 3,
+    value: " Sahloul",
     label: " Sahloul",
   },
   {
-    key: 4,
+    value: " Jawhara",
     label: " Jawhara",
   },
   {
-    key: 5,
+    value: " Galaa sghira",
     label: " Galaa sghira",
   },
   {
-    key: 6,
+    value: " Galaa Kbira",
     label: " Galaa Kbira",
   },
 ];
@@ -38,30 +33,46 @@ const colourOptions = [
 const customStyles = {
   control: (base) => ({
     ...base,
-    height: 53,
+    height: 57,
     minHeight: 35,
   }),
 };
+
+const filterState = (inputValue: string) => {
+  return StateOptions.filter((i) =>
+    i.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
+};
+
+const loadOptions = (inputValue, callback) => {
+  setTimeout(() => {
+    callback(filterState(inputValue));
+  }, 50);
+};
+
 export default class SelectPage extends Component {
+  state = { inputValue: "" };
   handleInputChange = (newValue: string) => {
     const inputValue = newValue.replace(/\W/g, "");
     this.setState({ inputValue });
     return inputValue;
   };
-
   render() {
     return (
       <div>
-        <Select
-          options={colourOptions}
-          onInputChange={this.handleInputChange}
+        <AsyncSelect
+          cacheOptions
+          loadOptions={loadOptions}
+          defaultValue={StateOptions[0]}
+          defaultOptions
           styles={customStyles}
           theme={(theme) => ({
             ...theme,
-
-            borderRadius: 7,
+            borderRadius: 2,
 
             colors: {
+              ...theme.colors,
+
               primary: "#009e7f",
             },
           })}

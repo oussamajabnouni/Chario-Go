@@ -1,5 +1,5 @@
 import React from "react";
-import { CardTypeWrapper } from "./type-card.style";
+import { CardTypeWrapper, Title, Description, Icon } from "./type-card.style";
 
 type CardTypeProps = {
   restaurantType: string;
@@ -17,12 +17,11 @@ const CardType: React.FC<CardTypeProps> = ({
 }) => {
   return (
     <CardTypeWrapper>
-      <h3>
-        {" "}
-        <span>{icon}</span> {restaurantType}
-      </h3>
+      <Title>
+        <Icon>{icon}</Icon> {restaurantType}
+      </Title>
 
-      <h6>{description}</h6>
+      <Description>{description}</Description>
     </CardTypeWrapper>
   );
 };
