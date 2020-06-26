@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
-const CartPopupButtonStyled = styled('button')`
+const CartPopupButtonStyled = styled("button")`
   height: 60px;
   width: auto;
   display: flex;
   align-items: center;
-  background-color: ${themeGet('colors.primary', '#009E7F')};
+  background-color: ${themeGet("colors.primary", "#009E7F")};
   padding: 0;
   padding-left: 30px;
   border-radius: 60px;
@@ -20,11 +20,11 @@ const CartPopupButtonStyled = styled('button')`
   z-index: 999;
 
   @media (max-width: 767px) {
-    width: calc(100% - 60px);
-    height: 45px;
+    width: 100%;
     padding: 2px 2px 2px 30px;
-    bottom: 30px;
-    right: 30px;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
   }
 
   @media (min-width: 768px) {
@@ -34,12 +34,12 @@ const CartPopupButtonStyled = styled('button')`
   }
 `;
 
-const ButtonImgBox = styled('span')`
+const ButtonImgBox = styled("span")`
   color: #ffffff;
 `;
 
-const ItemCount = styled('span')`
-  font-family: 'Lato', sans-serif;
+const ItemCount = styled("span")`
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: 700;
   color: #ffffff;
@@ -47,7 +47,7 @@ const ItemCount = styled('span')`
   padding-right: 10px;
 `;
 
-const PriceBox = styled('span')`
+const PriceBox = styled("span")`
   width: 56px;
   height: 56px;
   overflow: hidden;
@@ -56,10 +56,10 @@ const PriceBox = styled('span')`
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: ${themeGet('colors.primary', '#009E7F')};
+  color: ${themeGet("colors.primary", "#009E7F")};
   margin-right: 2px;
 
   @media (max-width: 767px) {
@@ -71,14 +71,14 @@ const PriceBox = styled('span')`
   }
 `;
 
-const CartPopupBoxButton = styled('button')`
+const CartPopupBoxButton = styled("button")`
   height: auto;
   width: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: ${themeGet('colors.primary', '#009E7F')};
+  background-color: ${themeGet("colors.primary", "#009E7F")};
   padding: 0;
   border-radius: 6px 0 0 6px;
   box-shadow: 0 21px 36px rgba(0, 0, 0, 0.16);
@@ -96,8 +96,8 @@ const CartPopupBoxButton = styled('button')`
   }
 `;
 
-const TotalItems = styled('span')`
-  font-family: 'Lato', sans-serif;
+const TotalItems = styled("span")`
+  font-family: "Lato", sans-serif;
   font-size: 13px;
   font-weight: 700;
   color: #ffffff;
@@ -113,7 +113,7 @@ const TotalItems = styled('span')`
   }
 `;
 
-const PriceBoxAlt = styled('span')`
+const PriceBoxAlt = styled("span")`
   width: auto;
   height: 35px;
   min-width: 80px;
@@ -123,10 +123,10 @@ const PriceBoxAlt = styled('span')`
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 13px;
   font-weight: 700;
-  color: ${themeGet('colors.primary', '#009E7F')};
+  color: ${themeGet("colors.primary", "#009E7F")};
   margin: 0 10px 10px;
 `;
 

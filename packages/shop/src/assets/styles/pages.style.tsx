@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
 export const MobileCarouselDropdown = styled.div`
   @media (min-width: 990px) {
@@ -91,7 +91,7 @@ const OfferSection = styled.div`
   padding: 60px;
   background-color: #ffffff;
   position: relative;
-  border-bottom: 1px solid ${themeGet('colors.borderColor', '#f1f1f1')};
+  border-bottom: 1px solid ${themeGet("colors.borderColor", "#f1f1f1")};
 
   @media (max-width: 1199px) and (min-width: 991px) {
     padding: 20px 15px;
@@ -105,6 +105,37 @@ const OfferSection = styled.div`
   }
   @media (max-width: 990px) {
     padding: 15px;
+
+    .prevButton {
+      left: 5px;
+    }
+
+    .nextButton {
+      right: 5px;
+    }
+  }
+`;
+
+const FilterSection = styled.div`
+  width: 100%;
+  display: block;
+  padding: 120px 60px 45px 60px;
+  background-color: #ffffff;
+  position: relative;
+  border-bottom: 1px solid ${themeGet("colors.borderColor", "#f1f1f1")};
+
+  @media (max-width: 1199px) and (min-width: 991px) {
+    padding: 60px 15px 15px 15px;
+    .prevButton {
+      left: 0;
+    }
+
+    .nextButton {
+      right: 0;
+    }
+  }
+  @media (max-width: 990px) {
+    padding: 60px 15px 15px 15px;
 
     .prevButton {
       left: 5px;
@@ -187,4 +218,5 @@ export {
   OfferSection,
   Heading,
   ProductsCol,
+  FilterSection,
 };

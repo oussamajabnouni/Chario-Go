@@ -1,26 +1,23 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { Modal } from '@redq/reuse-modal';
-import { withApollo } from 'utils/apollo';
-import StoreNav from 'components/store-nav/store-nav';
-import Carousel from 'components/carousel/carousel';
-import { Banner } from 'components/banner/banner';
-import Sidebar from 'layouts/sidebar/sidebar';
-import Products from 'components/product-grid/product-list/product-list';
-import CartPopUp from 'features/carts/cart-popup';
+import React from "react";
+import { useRouter } from "next/router";
+import { Modal } from "@redq/reuse-modal";
+import { withApollo } from "utils/apollo";
+import ProductFilters from "components/product-filters/product-filters";
+import Sidebar from "layouts/sidebar/sidebar";
+import Products from "components/product-grid/product-list/product-list";
+import CartPopUp from "features/carts/cart-popup";
 import {
   MainContentArea,
   SidebarSection,
   ContentSection,
-  OfferSection,
-  MobileCarouselDropdown,
-} from 'assets/styles/pages.style';
+  FilterSection,
+} from "assets/styles/pages.style";
 // Static Data Import Here
-import OFFERS from 'data/offers';
-import { PAGES_DATA } from 'data/pages';
-import storeType from 'constants/storeType';
-import { SEO } from 'components/seo';
-import { useRefScroll } from 'utils/use-ref-scroll';
+import OFFERS from "data/offers";
+import { PAGES_DATA } from "data/pages";
+import storeType from "constants/storeType";
+import { SEO } from "components/seo";
+import { useRefScroll } from "utils/use-ref-scroll";
 
 const CategoryPage: React.FC<any> = ({ deviceType }) => {
   const { query } = useRouter();
@@ -41,20 +38,9 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
       <SEO title={page?.page_title} description={page?.page_description} />
 
       <Modal>
-        <Banner
-          intlTitleId={page?.banner_title_id}
-          intlDescriptionId={page?.banner_description_id}
-          imageUrl={page?.banner_image_url}
-        />
-        <MobileCarouselDropdown>
-          <StoreNav items={storeType} />
-          <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
-        </MobileCarouselDropdown>
-        <OfferSection>
-          <div style={{ margin: '0 -10px' }}>
-            <Carousel deviceType={deviceType} data={OFFERS} />
-          </div>
-        </OfferSection>
+        <FilterSection>
+          <ProductFilters />
+        </FilterSection>
         <MainContentArea>
           <SidebarSection>
             <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
