@@ -164,7 +164,7 @@
   "intlArabic": "Arabic",
   "intlChinese": "Chinese",
   "intlEnglish": "English",
-  "intlGerman": "German",
+  "intlGerman": "French",
   "intlHebrew": "Hebrew",
   "intlSpanish": "Spanish",
   "navLinkHome": "Home",
@@ -180,5 +180,6 @@
   "deliveryText": "Delivery",
   "cuisineText": "Cuisine",
   "minOrderText": "Min Order",
-  "fromText": "From"
+  "fromText": "From",
+  "loadMoreButton": "Load More"
 }
