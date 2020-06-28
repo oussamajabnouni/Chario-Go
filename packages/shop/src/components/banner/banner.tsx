@@ -72,7 +72,7 @@ export const Banner: React.FC<Props> = ({
               display: "flex",
               alignItems: "center",
               borderRadius: 6,
-              marginTop: "2rem",
+              marginTop: "2.5rem",
               height: "5rem",
               width: 800,
             }}
@@ -87,7 +87,7 @@ export const Banner: React.FC<Props> = ({
                 <CardType
                   icon={item.iconG}
                   restaurantType="Superarché"
-                  description="Supermarchés, Épiceries Fines, Produits frais."
+                  description="Supermarchés, Épiceries Fines."
                 ></CardType>
               ))}
             </div>

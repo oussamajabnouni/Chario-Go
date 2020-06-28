@@ -18,6 +18,7 @@ import "rc-drawer/assets/index.css";
 import "rc-table/assets/index.css";
 import "rc-collapse/assets/index.css";
 import "react-multi-carousel/lib/styles.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "components/multi-carousel/multi-carousel.style.css";
 import "@redq/reuse-modal/lib/index.css";
 import { GlobalStyle } from "assets/styles/global.style";

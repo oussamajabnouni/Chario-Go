@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import css from "@styled-system/css";
 export const CardTypeWrapper = styled.button`
   /* display: block; */
   display: flex;
@@ -27,17 +27,25 @@ export const CardTypeWrapper = styled.button`
   }
 `;
 
-export const Title = styled.h2({
-  color: "#50536E",
-});
+export const Title = styled.h2(
+  css({
+    fontSize: [15, 23, 20],
+    color: "#44444a",
+  })
+);
 
 export const Icon = styled.span({
   marginRight: "0.2rem",
 
-  color: "#50536E",
+  color: "#44444a",
 });
 
-export const Description = styled.h5({
-  marginTop: "0.3rem",
-  color: "#77798C",
-});
+export const Description = styled.p(
+  css({
+    fontSize: [12, 13, 17],
+    color: "darkRegular",
+  }),
+  {
+    marginTop: "0.2rem",
+  }
+);

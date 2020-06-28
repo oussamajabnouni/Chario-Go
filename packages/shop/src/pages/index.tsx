@@ -4,6 +4,7 @@ import { Modal } from "@redq/reuse-modal";
 import { withApollo } from "utils/apollo";
 import StoreNav from "components/store-nav/store-nav";
 import Carousel from "components/carousel/carousel";
+import Footer from "layouts/footer";
 import { Banner } from "components/banner/banner";
 import Sidebar from "layouts/sidebar/sidebar";
 import {
@@ -19,6 +20,7 @@ import { PAGES_DATA } from "data/pages";
 import storeType from "constants/storeType";
 import { SEO } from "components/seo";
 import { useRefScroll } from "utils/use-ref-scroll";
+import HomePage from "features/HomePage/HomePage";
 
 const PAGE_TYPE = "home";
 
@@ -55,6 +57,10 @@ const IndexPage: React.FC<any> = ({ deviceType }) => {
           </div>
         </OfferSection>
       </Modal>
+
+      <HomePage />
+
+      <Footer />
     </>
   );
 };
