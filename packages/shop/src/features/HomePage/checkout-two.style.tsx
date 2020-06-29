@@ -75,11 +75,10 @@ export const Heading = styled.h3`
 export const MainWrapper = styled.div`
   height: 100%;
 
-  padding: 30px;
-  margin-top: 1.3rem;
-  margin-bottom: 1.3rem;
-  margin-right: 1.3rem;
-  margin-left: 1.3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
   background-color: #fff;
   position: relative;
   font-family: "Lato", sans-serif;
