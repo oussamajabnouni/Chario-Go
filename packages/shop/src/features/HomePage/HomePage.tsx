@@ -1,113 +1,53 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 import Image from "components/image/image";
-
-import CheckoutWrapper, {
-  MainWrapper,
-  ImageWrapper,
-  Info,
+import Typical from "react-typical";
+import { FormattedMessage } from "react-intl";
+import { Button } from "components/button/button";
+import {
+  MainWrapperI,
   Description,
   DescriptionP,
   TitleBox,
-} from "./checkout-two.style";
+} from "./HomePage.style";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import Location from "assets/images/location.png";
-import Shopping from "assets/images/shopping.png";
-import Fast from "assets/images/fast.png";
+import Location from "assets/images/location.svg";
+import Shopping from "assets/images/Panier.svg";
+import Fast from "assets/images/Fast.svg";
 import Back from "assets/images/dummy-img-1.png";
 import Back2 from "assets/images/dummy-img-2.png";
+import GooglePlay from "assets/images/GooglePlay.png";
+import AppStore from "assets/images/AppStore.png";
 
 const HomePage = ({}) => {
   return (
     <div>
-      <MainWrapper>
-        <Row>
-          <Col xs={6} md={6}>
-            <div
-              style={{
-                height: "445px",
-                width: "445px",
-              }}
-            >
-              <img
-                src={Back}
-                height="545px"
-                width="545px"
-                style={{
-                  display: "flex",
-                  overflow: "hidden",
-                  height: "100%",
-                  borderBottomRightRadius: "80%",
-                  borderTopRightRadius: "40%",
-                }}
-              />
-            </div>
-          </Col>
-
-          <Col xs={6} md={5}>
-            <div style={{ paddingTop: "7rem" }}>
-              <Description>Restaurant</Description>
-              <DescriptionP>
-                Grocery delivery companies will deliver groceries, pre-prep or
-                pre-made meals, and more to customers. The companies work with
-                brick and mortar stores or their own line of grocery items.
-                These orders are typically larger and more expensive than normal
-                meal deliveries, and are often not meant to be eaten right away,
-                rather they are to replace items someone has run out of, like
-                flour or milk.
-              </DescriptionP>
-            </div>
-          </Col>
-        </Row>
-      </MainWrapper>
-      <MainWrapper>
-        <Row>
-          <Col xs={6} md={7}>
-            <div style={{ padding: "7rem" }}>
-              <Description>SuperMarché</Description>
-              <DescriptionP>
-                Grocery delivery companies will deliver groceries, pre-prep or
-                pre-made meals, and more to customers. The companies work with
-                brick and mortar stores or their own line of grocery items.
-                These orders are typically larger and more expensive than normal
-                meal deliveries, and are often not meant to be eaten right away,
-                rather they are to replace items someone has run out of, like
-                flour or milk.
-              </DescriptionP>
-            </div>
-          </Col>
-
-          <Col xs={6} md={5}>
-            <div
-              style={{
-                height: "445px",
-                width: "445px",
-              }}
-            >
-              <img
-                src={Back2}
-                height="545px"
-                width="545px"
-                style={{
-                  display: "flex",
-                  overflow: "hidden",
-                  height: "100%",
-                  borderBottomLeftRadius: "80%",
-                  borderTopLeftRadius: "40%",
-                }}
-              />
-            </div>
-          </Col>
-        </Row>
-      </MainWrapper>
-
-      <MainWrapper style={{ padding: "30px" }}>
+      <MainWrapperI style={{ padding: "30px" }}>
         <Container>
           <Row>
-            <Info>
-              <TitleBox>Comment ça marche</TitleBox>
-            </Info>
+            <TitleBox
+              style={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              <Typical
+                loop={Infinity}
+                wrapper="b"
+                steps={[
+                  "Comment ça marche",
+                  10000,
+                  "Sélectionnez votre zone de livraison",
+                  5000,
+                  "Choisissez votre produits",
+                  5000,
+                  "Recevez-le à votre porte",
+                  5000,
+                ]}
+              />
+            </TitleBox>
           </Row>
 
           <Row>
@@ -127,10 +67,7 @@ const HomePage = ({}) => {
                 />
               </Row>
 
-              <Description>Sélectionnez votre zone de livraison</Description>
-              <DescriptionP>
-                Renseignez l'adresse où vous souhaitez être livré
-              </DescriptionP>
+              <DescriptionP>Sélectionnez votre zone de livraison</DescriptionP>
             </Col>
 
             <Col xs={6} md={4}>
@@ -149,10 +86,7 @@ const HomePage = ({}) => {
                 />
               </Row>
 
-              <Description>Choisissez votre produits</Description>
-              <DescriptionP>
-                Parcourir les enseignes qui livrent près de chez vous
-              </DescriptionP>
+              <DescriptionP>Choisissez votre produits</DescriptionP>
             </Col>
             <Col xs={6} md={4}>
               <Row>
@@ -170,14 +104,162 @@ const HomePage = ({}) => {
                 />
               </Row>
 
-              <Description>Recevez-le à votre porte</Description>
-              <DescriptionP>
-                Votre commande vous sera livrée en un rien de temps
-              </DescriptionP>
+              <DescriptionP>Recevez-le à votre porte</DescriptionP>
             </Col>
           </Row>
         </Container>
-      </MainWrapper>
+      </MainWrapperI>
+
+      <MainWrapperI>
+        <Row>
+          <Col xs={6} md={4}>
+            <div
+              style={{
+                height: "200px",
+                width: "100%",
+              }}
+            >
+              <img
+                src={Back}
+                height="200px"
+                width="345px"
+                style={{
+                  display: "flex",
+                  overflow: "hidden",
+                  height: "100%",
+                }}
+              />
+            </div>
+          </Col>
+
+          <Col xs={6} md={6}>
+            <div style={{ paddingTop: "3rem", paddingLeft: "7rem" }}>
+              <Description>
+                <FormattedMessage
+                  id={"foodsTitle"}
+                  defaultMessage="You order we deliver"
+                />
+              </Description>
+
+              <DescriptionP>
+                <FormattedMessage
+                  id={"foodsSubTitle"}
+                  defaultMessage="Get your favorite foods in less than an hour"
+                />
+              </DescriptionP>
+              <div style={{ marginLeft: "4.85rem", marginTop: "1rem" }}>
+                <Button
+                  variant="primary"
+                  borderRadius={100}
+                  style={{ width: "220px" }}
+                >
+                  <FormattedMessage id="Button" defaultMessage="  View  " />
+                </Button>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </MainWrapperI>
+      <MainWrapperI>
+        <Row>
+          <Col xs={6} md={6}>
+            <div style={{ paddingTop: "3rem", paddingLeft: "8rem" }}>
+              <Description>
+                <FormattedMessage
+                  id={"groceriesTitle"}
+                  defaultMessage="Groceries Delivered in 30 Minute"
+                  values={{ minute: 90 }}
+                />
+              </Description>
+              <DescriptionP>
+                <FormattedMessage
+                  id={"groceriesSubTitle"}
+                  defaultMessage="Get your healthy foods & snacks delivered at your doorsteps all day everyday"
+                  values={{ minute: 90 }}
+                />
+              </DescriptionP>
+            </div>
+            <div style={{ marginLeft: "11rem", marginTop: "1rem" }}>
+              <Button
+                variant="secondary"
+                borderRadius={100}
+                style={{ width: "220px" }}
+              >
+                <FormattedMessage id="Button" defaultMessage="  View  " />
+              </Button>
+            </div>
+          </Col>
+
+          <Col xs={6} md={4}>
+            <div
+              style={{
+                height: "200px",
+                width: "100%",
+              }}
+            >
+              <img
+                src={Back2}
+                height="200px"
+                width="345px"
+                style={{ marginLeft: "7.4rem" }}
+              />
+            </div>
+          </Col>
+        </Row>
+      </MainWrapperI>
+
+      <MainWrapperI>
+        <Row>
+          <Col xs={1} md={6}>
+            <div
+              style={{
+                backgroundColor: "#009e7f",
+                width: "100%",
+                height: "100%",
+                padding: "2rem",
+              }}
+            >
+              <Row>
+                <img
+                  src={GooglePlay}
+                  height="95"
+                  width="250"
+                  style={{
+                    display: "block",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                />
+              </Row>
+              <Row>
+                <img
+                  src={AppStore}
+                  height="95"
+                  width="250"
+                  style={{
+                    display: "block",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                />
+              </Row>
+            </div>
+          </Col>
+          <Col xs={1} md={6}>
+            <div
+              style={{
+                padding: "4rem",
+              }}
+            >
+              <DescriptionP>
+                L'application CharioFood vous permet d'utiliser votre smartphone
+                pour consulter le menu des meilleurs restaurants et épiceries,
+                et passer une commande pour la livraison à domicile.
+              </DescriptionP>
+            </div>
+          </Col>
+        </Row>
+      </MainWrapperI>
     </div>
   );
 };
