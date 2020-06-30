@@ -32,6 +32,8 @@ export const MainWrapperI = styled.div`
   cursor: pointer;
   @media (max-width: 767px) {
     padding: 15px;
+    margin-right: 1rem;
+    margin-left: 1rem;
   }
 `;
 

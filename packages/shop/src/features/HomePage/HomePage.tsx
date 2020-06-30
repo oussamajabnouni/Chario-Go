@@ -17,8 +17,8 @@ import AppStore from "assets/images/AppStore.png";
 import Location from "assets/images/location.svg";
 import Shopping from "assets/images/Panier.svg";
 import Fast from "assets/images/Fast.svg";
-import Back from "assets/images/dummy-img-1.png";
-import Back2 from "assets/images/dummy-img-3.png";
+import Back from "assets/images/Back.jpg";
+import Back2 from "assets/images/superMarcher.jpg";
 
 const HomePage = ({}) => {
   return (
@@ -112,28 +112,18 @@ const HomePage = ({}) => {
 
       <MainWrapperI>
         <Row>
-          <Col xs={6} md={4}>
+          <Col xs={6} md={6}>
             <div
               style={{
-                height: "200px",
+                height: "100%",
                 width: "100%",
+                backgroundImage: `url(${Back})`,
               }}
-            >
-              <img
-                src={Back}
-                height="200px"
-                width="345px"
-                style={{
-                  display: "flex",
-                  overflow: "hidden",
-                  height: "100%",
-                }}
-              />
-            </div>
+            ></div>
           </Col>
 
           <Col xs={6} md={6}>
-            <div style={{ paddingTop: "3rem", paddingLeft: "7rem" }}>
+            <div style={{ padding: "4rem" }}>
               <Description>
                 <FormattedMessage
                   id={"foodsTitle"}
@@ -147,7 +137,7 @@ const HomePage = ({}) => {
                   defaultMessage="Get your favorite foods in less than an hour"
                 />
               </DescriptionP>
-              <div style={{ marginLeft: "4.85rem", marginTop: "1rem" }}>
+              <div style={{ marginLeft: "4rem", marginTop: "1rem" }}>
                 <Button
                   variant="primary"
                   borderRadius={100}
@@ -163,7 +153,7 @@ const HomePage = ({}) => {
       <MainWrapperI>
         <Row>
           <Col xs={6} md={6}>
-            <div style={{ paddingTop: "3rem", paddingLeft: "8rem" }}>
+            <div style={{ padding: "4rem" }}>
               <Description>
                 <FormattedMessage
                   id={"groceriesTitle"}
@@ -178,32 +168,26 @@ const HomePage = ({}) => {
                   values={{ minute: 90 }}
                 />
               </DescriptionP>
-            </div>
-            <div style={{ marginLeft: "11rem", marginTop: "1rem" }}>
-              <Button
-                variant="secondary"
-                borderRadius={100}
-                style={{ width: "220px" }}
-              >
-                <FormattedMessage id="Button" defaultMessage="  View  " />
-              </Button>
+              <div style={{ marginLeft: "4rem", marginTop: "1rem" }}>
+                <Button
+                  variant="secondary"
+                  borderRadius={100}
+                  style={{ width: "220px" }}
+                >
+                  <FormattedMessage id="Button" defaultMessage="  View  " />
+                </Button>
+              </div>
             </div>
           </Col>
 
-          <Col xs={6} md={4}>
+          <Col xs={6} md={6}>
             <div
               style={{
-                height: "200px",
+                height: "100%",
                 width: "100%",
+                backgroundImage: `url(${Back2})`,
               }}
-            >
-              <img
-                src={Back2}
-                height="200px"
-                width="345px"
-                style={{ marginLeft: "7.4rem" }}
-              />
-            </div>
+            ></div>
           </Col>
         </Row>
       </MainWrapperI>
