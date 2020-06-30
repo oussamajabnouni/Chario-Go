@@ -12,13 +12,13 @@ import {
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import GooglePlay from "assets/images/GooglePlay.png";
+import AppStore from "assets/images/AppStore.png";
 import Location from "assets/images/location.svg";
 import Shopping from "assets/images/Panier.svg";
 import Fast from "assets/images/Fast.svg";
 import Back from "assets/images/dummy-img-1.png";
-import Back2 from "assets/images/dummy-img-2.png";
-import GooglePlay from "assets/images/GooglePlay.png";
-import AppStore from "assets/images/AppStore.png";
+import Back2 from "assets/images/dummy-img-3.png";
 
 const HomePage = ({}) => {
   return (
