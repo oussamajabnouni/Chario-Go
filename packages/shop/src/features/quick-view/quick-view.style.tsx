@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
 export const QuickViewWrapper = styled.div`
   max-width: 1020px;
@@ -50,7 +50,7 @@ export const SaleTag = styled.span`
   font-size: 12px;
   font-weight: 700;
   color: #ffffff;
-  background-color: ${themeGet('colors.yellow', '#FBB979')};
+  background-color: ${themeGet("colors.yellow", "#FBB979")};
   padding: 0 10px;
   line-height: 24px;
   border-radius: 12px;
@@ -61,12 +61,12 @@ export const SaleTag = styled.span`
 `;
 
 export const DiscountPercent = styled.span`
-  font-family: 'Lato', sans-serif;
-  font-size: ${themeGet('fontSizes.1', '13')}px;
-  font-weight: ${themeGet('fontWeights.6', '700')};
+  font-family: "Lato", sans-serif;
+  font-size: ${themeGet("fontSizes.1", "13")}px;
+  font-weight: ${themeGet("fontWeights.6", "700")};
   color: #ffffff;
   line-height: 24px;
-  background-color: ${themeGet('colors.yellow', '#FBB979')};
+  background-color: ${themeGet("colors.yellow", "#FBB979")};
   padding-left: 10px;
   padding-right: 10px;
   position: relative;
@@ -82,7 +82,7 @@ export const DiscountPercent = styled.span`
 export const ProductInfoWrapper = styled.div`
   flex: 0 0 50%;
   max-width: 50%;
-  border-left: 1px solid ${themeGet('colors.lightMediumColor', '#f3f3f3')};
+  border-left: 1px solid ${themeGet("colors.lightMediumColor", "#f3f3f3")};
 
   @media (max-width: 767px) {
     flex: 0 0 100%;
@@ -109,10 +109,10 @@ export const ProductTitlePriceWrapper = styled.div`
 `;
 
 export const ProductTitle = styled.h1`
-  font-family: 'Poppins', sans-serif;
-  font-size: ${themeGet('fontSizes.4', '21')}px;
-  font-weight: ${themeGet('fontWeights.6', '700')};
-  color: ${themeGet('colors.darkBold', '#0D1136')};
+  font-family: "Poppins", sans-serif;
+  font-size: ${themeGet("fontSizes.4", "21")}px;
+  font-weight: ${themeGet("fontWeights.6", "700")};
+  color: ${themeGet("colors.darkBold", "#0D1136")};
   line-height: 1.5;
   display: flex;
 
@@ -134,17 +134,17 @@ export const ProductPriceWrapper = styled.div`
 `;
 
 export const ProductPrice = styled.div`
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 16px;
-  font-weight: ${themeGet('fontWeights.6', '700')};
-  color: ${themeGet('colors.primary', '#009E7F')};
+  font-weight: ${themeGet("fontWeights.6", "700")};
+  color: ${themeGet("colors.primary", "#009E7F")};
 `;
 
 export const SalePrice = styled.span`
-  font-family: 'Lato', sans-serif;
-  font-size: ${themeGet('fontSizes.1', '13')}px;
-  font-weight: ${themeGet('fontWeights.3', '400')};
-  color: ${themeGet('colors.yellow', '#FBB979')};
+  font-family: "Lato", sans-serif;
+  font-size: ${themeGet("fontSizes.1", "13")}px;
+  font-weight: ${themeGet("fontWeights.3", "400")};
+  color: ${themeGet("colors.yellow", "#FBB979")};
   font-style: italic;
   padding: 0 5px;
   overflow: hidden;
@@ -152,11 +152,11 @@ export const SalePrice = styled.span`
   margin-right: 10px;
 
   &:before {
-    content: '';
+    content: "";
     width: 100%;
     height: 1px;
     display: inline-block;
-    background-color: ${themeGet('colors.yellow', '#FBB979')};
+    background-color: ${themeGet("colors.yellow", "#FBB979")};
     position: absolute;
     top: 50%;
     left: 0;
@@ -164,17 +164,17 @@ export const SalePrice = styled.span`
 `;
 
 export const ProductWeight = styled.div`
-  font-family: 'Lato', sans-serif;
-  font-size: ${themeGet('fontSizes.1', '13')}px;
-  font-weight: ${themeGet('fontWeights.3', '400')};
-  color: ${themeGet('colors.darkRegular', '#77798c')};
+  font-family: "Lato", sans-serif;
+  font-size: ${themeGet("fontSizes.1", "13")}px;
+  font-weight: ${themeGet("fontWeights.3", "400")};
+  color: ${themeGet("colors.darkRegular", "#77798c")};
 `;
 
 export const ProductDescription = styled.p`
-  font-family: 'Lato', sans-serif;
-  font-size: ${themeGet('fontSizes.2', '15')}px;
-  font-weight: ${themeGet('fontWeights.3', '400')};
-  color: ${themeGet('colors.darkMedium', '#424561')};
+  font-family: "Lato", sans-serif;
+  font-size: ${themeGet("fontSizes.2", "15")}px;
+  font-weight: ${themeGet("fontWeights.3", "400")};
+  color: ${themeGet("colors.darkMedium", "#424561")};
   line-height: 2;
   margin-top: 30px;
 `;
@@ -188,9 +188,9 @@ export const ProductCartBtn = styled.div`
 
   .cart-button {
     font-family: 'Lato', sans-serif;
-    font-size: ${themeGet('fontSizes.2', '15')}px;
-    font-weight: ${themeGet('fontWeights.6', '700')};
-    color: ${themeGet('colors.primary', '#009E7F')};
+    font-size: ${themeGet("fontSizes.2", "15")}px;
+    font-weight: ${themeGet("fontWeights.6", "700")};
+    color: ${themeGet("colors.primary", "#009E7F")};
     height: 36px;
     border-radius: 4rem;
 
@@ -206,11 +206,32 @@ export const ProductCartBtn = styled.div`
 
     &:hover {
       color: #fff;
-      background-color: ${themeGet('colors.primary', '#009E7F')};
-      border-color: ${themeGet('colors.primary', '#009E7F')};
+      background-color: ${themeGet("colors.primary", "#009E7F")};
+      border-color: ${themeGet("colors.primary", "#009E7F")};
     }
-  }
-`;
+
+
+
+    .cart-view {
+      font-family: 'Lato', sans-serif;
+      font-size: ${themeGet("fontSizes.2", "15")}px;
+      font-weight: ${themeGet("fontWeights.6", "700")};
+      color: ${themeGet("colors.primary", "#009E7F")};
+      height: 36px;
+      width:120px;
+      border-radius: 4rem;
+  
+     
+  
+    
+  
+      &:hover {
+        color: #fff;
+        background-color: ${themeGet("colors.primary", "#009E7F")};
+        border-color: ${themeGet("colors.primary", "#009E7F")};
+      }
+    }
+  `;
 
 export const ButtonText = styled.span`
   @media (max-width: 767px) {
@@ -238,13 +259,13 @@ export const MetaSingle = styled.div`
 `;
 
 export const MetaItem = styled.span`
-  font-family: 'Lato', sans-serif;
-  font-size: ${themeGet('fontSizes.1', '13')}px;
-  font-weight: ${themeGet('fontWeights.6', '700')};
-  color: ${themeGet('colors.darkBold', '#0D1136')};
+  font-family: "Lato", sans-serif;
+  font-size: ${themeGet("fontSizes.1", "13")}px;
+  font-weight: ${themeGet("fontWeights.6", "700")};
+  color: ${themeGet("colors.darkBold", "#0D1136")};
   margin-right: 10px;
   margin-bottom: 10px;
-  background-color: ${themeGet('colors.lightColor', '#f7f7f7')};
+  background-color: ${themeGet("colors.lightColor", "#f7f7f7")};
   padding: 0 15px;
   border-radius: 6px;
   cursor: pointer;
