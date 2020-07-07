@@ -20,7 +20,7 @@ import Fast from "assets/images/Fast.svg";
 import Back from "assets/images/Back.jpg";
 import Back2 from "assets/images/superMarcher.jpg";
 
-const HomePage = ({}) => {
+const HomePage = () => {
   return (
     <div>
       <MainWrapperI style={{ padding: "30px" }}>

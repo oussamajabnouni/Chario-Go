@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   MainMenu,
   MenuItem,
@@ -6,18 +6,19 @@ import {
   Icon,
   Arrow,
   LeftMenuBox,
-} from './left-menu.style';
-import Popover from 'components/popover/popover';
-import { MenuDown } from 'assets/icons/MenuDown';
-import { FruitsVegetable } from 'assets/icons/FruitsVegetable';
-import { FacialCare } from 'assets/icons/FacialCare';
-import { Handbag } from 'assets/icons/Handbag';
-import { DressIcon } from 'assets/icons/DressIcon';
-import { FurnitureIcon } from 'assets/icons/FurnitureIcon';
-import { BookIcon } from 'assets/icons/BookIcon';
-import { MedicineIcon } from 'assets/icons/MedicineIcon';
-import { Restaurant } from 'assets/icons/Restaurant';
+} from "./left-menu.style";
+import Popover from "components/popover/popover";
+import { MenuDown } from "assets/icons/MenuDown";
+import { FruitsVegetable } from "assets/icons/FruitsVegetable";
+import { FacialCare } from "assets/icons/FacialCare";
+import { Handbag } from "assets/icons/Handbag";
+import { DressIcon } from "assets/icons/DressIcon";
+import { FurnitureIcon } from "assets/icons/FurnitureIcon";
+import { BookIcon } from "assets/icons/BookIcon";
+import { MedicineIcon } from "assets/icons/MedicineIcon";
+import { Restaurant } from "assets/icons/Restaurant";
 import {
+  HOME_PAGE,
   GROCERY_PAGE,
   CLOTHING,
   MAKEUP_PAGE,
@@ -26,73 +27,73 @@ import {
   BOOK_PAGE,
   MEDICINE_PAGE,
   RESTAURANT_PAGE,
-} from 'constants/navigation';
-import Router, { useRouter } from 'next/router';
-import { FormattedMessage } from 'react-intl';
+} from "constants/navigation";
+import Router, { useRouter } from "next/router";
+import { FormattedMessage } from "react-intl";
 
-import Logo from 'layouts/logo/logo';
+import Logo from "layouts/logo/logo";
 const MENU_ITEMS = [
   {
     link: GROCERY_PAGE,
     icon: <FruitsVegetable />,
-    label: 'Grocery',
-    intlId: 'navGroceryMenu',
+    label: "Grocery",
+    intlId: "navGroceryMenu",
     dynamic: true,
   },
   {
     link: MAKEUP_PAGE,
-    label: 'Makeup',
+    label: "Makeup",
     icon: <FacialCare />,
-    intlId: 'navMakeupMenu',
+    intlId: "navMakeupMenu",
     dynamic: true,
   },
   {
     link: BAGS_PAGE,
-    label: 'Bags',
+    label: "Bags",
     icon: <Handbag />,
-    intlId: 'navBagsMenu',
+    intlId: "navBagsMenu",
     dynamic: true,
   },
   {
     link: CLOTHING,
-    label: 'Clothing',
+    label: "Clothing",
     icon: <DressIcon />,
-    intlId: 'navClothingMenu',
+    intlId: "navClothingMenu",
     dynamic: true,
   },
   {
     link: FURNITURE_PAGE,
-    label: 'Furniture',
+    label: "Furniture",
     icon: <FurnitureIcon width="15px" height="13px" />,
-    intlId: 'navFurnitureMenu',
+    intlId: "navFurnitureMenu",
     dynamic: true,
   },
   {
     link: BOOK_PAGE,
-    label: 'Book',
+    label: "Book",
     icon: <BookIcon width="15px" height="13px" />,
-    intlId: 'navBookMenu',
+    intlId: "navBookMenu",
     dynamic: true,
   },
   {
     link: MEDICINE_PAGE,
-    label: 'Medicine',
+    label: "Medicine",
     icon: <MedicineIcon width="15px" height="13px" />,
-    intlId: 'navMedicineMenu',
+    intlId: "navMedicineMenu",
     dynamic: true,
   },
   {
     link: RESTAURANT_PAGE,
-    label: 'Foods',
+    label: "Foods",
     icon: <Restaurant />,
-    intlId: 'navFoodsMenu',
+    intlId: "navFoodsMenu",
   },
 ];
 
 const CategoryMenu = (props: any) => {
   const handleOnClick = (item) => {
     if (item.dynamic) {
-      Router.push('/[type]', `${item.link}`);
+      Router.push("/[type]", `${item.link}`);
       props.onClick(item);
       return;
     }
@@ -100,7 +101,7 @@ const CategoryMenu = (props: any) => {
     props.onClick(item);
   };
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       {MENU_ITEMS.map((item) => (
         <MenuItem
           key={item.link}
@@ -130,31 +131,33 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
     <LeftMenuBox>
       <Logo
         imageUrl={logo}
-        alt={'Shop Logo'}
+        alt={"Shop Logo"}
         onClick={() => setActiveMenu(MENU_ITEMS[0])}
       />
 
       <MainMenu>
-        <Popover
-          className="right"
-          handler={
-            <SelectedItem>
-              <span>
-                <Icon>{activeMenu?.icon}</Icon>
+        {router.pathname !== HOME_PAGE && (
+          <Popover
+            className="right"
+            handler={
+              <SelectedItem>
                 <span>
-                  <FormattedMessage
-                    id={activeMenu?.intlId}
-                    defaultMessage={activeMenu?.label}
-                  />
+                  <Icon>{activeMenu?.icon}</Icon>
+                  <span>
+                    <FormattedMessage
+                      id={activeMenu?.intlId}
+                      defaultMessage={activeMenu?.label}
+                    />
+                  </span>
                 </span>
-              </span>
-              <Arrow>
-                <MenuDown />
-              </Arrow>
-            </SelectedItem>
-          }
-          content={<CategoryMenu onClick={setActiveMenu} />}
-        />
+                <Arrow>
+                  <MenuDown />
+                </Arrow>
+              </SelectedItem>
+            }
+            content={<CategoryMenu onClick={setActiveMenu} />}
+          />
+        )}
       </MainMenu>
     </LeftMenuBox>
   );

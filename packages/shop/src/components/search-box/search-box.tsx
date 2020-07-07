@@ -6,7 +6,7 @@ import {
   StyledSearchButton,
 } from "./search-box.style";
 import { SearchIcon } from "assets/icons/SearchIcon";
-import SelectPage from "../DropDown";
+import SelectPage from "../dropdown/dropdown";
 
 interface Props {
   onEnter: (e: React.SyntheticEvent) => void;

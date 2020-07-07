@@ -1,30 +1,49 @@
-import styled from 'styled-components';
-import { background } from 'styled-system';
-import css from '@styled-system/css';
+import styled from "styled-components";
+import { background } from "styled-system";
+import css from "@styled-system/css";
 export const Box = styled.div(
   css({
-    height: [200, '100vh'],
+    height: [200, "100vh"],
   }),
   {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    position: 'relative',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    position: "relative",
     // backgroundColor: #f7f7f7;
   }
 );
+
+export const Row = styled.div(
+  css({
+    display: "flex",
+    alignItems: "center",
+    borderRadius: 6,
+    marginTop: "2.5rem",
+    height: "5rem",
+    width: 800,
+  })
+);
+
+export const Col = styled.div(
+  css({
+    marginLeft: "50px",
+    width: 325,
+  })
+);
+
 export const Image = styled.div<any>(
   css({
-    backgroundSize: ['cover'],
+    backgroundSize: ["cover"],
   }),
   {
-    width: '100%',
-    height: '100%',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    position: 'absolute',
+    width: "100%",
+    height: "100%",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    position: "absolute",
     top: 0,
     left: 0,
   },
@@ -33,42 +52,42 @@ export const Image = styled.div<any>(
 
 export const Content = styled.div(
   css({
-    px: ['15px'],
+    px: ["15px"],
     pt: [40, 0],
   }),
   {
-    position: 'relative',
+    position: "relative",
     zIndex: 2,
   }
 );
 export const Title = styled.h2(
   css({
     fontSize: [17, 30, 45],
-    color: 'darkBold',
+    color: "darkBold",
   }),
   {
     fontWeight: 700,
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   }
 );
 export const Description = styled.p(
   css({
     fontSize: [14, 15, 19],
-    color: 'darkRegular',
+    color: "darkRegular",
     marginBottom: [null, 60],
-    display: ['none', 'block'],
+    display: ["none", "block"],
   }),
   {
     fontWeight: 400,
     lineHeight: 1.5,
-    textAlign: 'center',
+    textAlign: "center",
   }
 );
 
 export const SearchWrapper = styled.div(
   css({
-    display: ['none', 'flex'],
-    justifyContent: 'center',
+    display: ["none", "flex"],
+    justifyContent: "center",
   })
 );
