@@ -135,6 +135,7 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
         onClick={() => setActiveMenu(MENU_ITEMS[0])}
       />
 
+      {/* {router.pathname !== HOME_PAGE && ( */}
       <MainMenu>
         {router.pathname !== HOME_PAGE && (
           <Popover

@@ -28,7 +28,6 @@ import { parseCookies } from "utils/parse-cookies";
 const messages = {
   en: localEn,
   ar: localAr,
-
   fr: localFr,
 };
 // need to provide types

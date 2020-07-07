@@ -13,9 +13,7 @@ import {
   FilterSection,
 } from "assets/styles/pages.style";
 // Static Data Import Here
-import OFFERS from "data/offers";
 import { PAGES_DATA } from "data/pages";
-import storeType from "constants/storeType";
 import { SEO } from "components/seo";
 import { useRefScroll } from "utils/use-ref-scroll";
 
