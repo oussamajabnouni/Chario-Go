@@ -22,8 +22,6 @@ const main = async () => {
       CouponResolver,
       CategoryResolver,
       VendorResolver,
-      StaffResolver,
-      CustomerResolver,
     ],
   });
   const apolloServer = new ApolloServer({

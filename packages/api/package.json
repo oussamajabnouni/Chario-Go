@@ -17,10 +17,7 @@
     "graphql": "^15.0.0",
     "graphql-tools": "^6.0.3",
     "lodash": "^4.17.15",
-    "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.3.0",
-    "sequelize-cli": "^6.2.0",
     "type-graphql": "^1.0.0-rc.2",
     "typedi": "^0.8.0"
   },

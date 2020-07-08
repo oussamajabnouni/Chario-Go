@@ -5,7 +5,6 @@ export enum ProductType {
   BAGS = 'bags',
   GROCERY = 'grocery',
   MEDICINE = 'medicine',
-  FOOD = 'food',
   CLOTH = 'cloth',
   CLOTHING = 'clothing',
   FURNITURE = 'furniture',

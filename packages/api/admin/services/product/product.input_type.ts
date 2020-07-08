@@ -1,10 +1,10 @@
 import { InputType, Field, ID, Int, Float } from 'type-graphql';
-import Product from '../../services/product/product.type';
+import Product from './product.type';
 import CategoryInput from '../category/category.input_type';
 @InputType({ description: 'New recipe data' })
 export default class AddProductInput implements Partial<Product> {
   @Field(type => ID)
-  id: number;
+  id: string;
 
   @Field()
   name: string;

@@ -1,8 +1,8 @@
-import { ObjectType, Field, ID } from "type-graphql";
-import { ProductType } from "./product.enum";
-import Category from "../category/category.type";
-import Gallery from "./gallery.type";
-import PaginatedResponse from "../customer/paginated-response";
+import { ObjectType, Field, ID } from 'type-graphql';
+import { ProductType } from './product.enum';
+import Category from '../category/category.type';
+import Gallery from './gallery.type';
+import PaginatedResponse from '../../helpers/paginated-response';
 
 @ObjectType()
 export class Meta {
