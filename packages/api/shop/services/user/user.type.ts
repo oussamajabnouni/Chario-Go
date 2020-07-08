@@ -1,33 +1,25 @@
-import { Field, ID, ObjectType } from "type-graphql";
-import Contact from "./contact/contact.type";
-import Address from "./address/address.type";
-import Card from "./card/card.type";
+import { ObjectType, Field, Int } from 'type-graphql';
+import Address from './address.type';
+import Contact from './contact.type';
+import Card from './card.type';
 
 @ObjectType()
 export default class User {
-  @Field((type) => ID)
-  id: string;
+  @Field(type => Int)
+  id: number;
 
   @Field()
   name: string;
 
   @Field()
-  image: string;
-
-  @Field()
   email: string;
 
-  @Field((type) => [Address])
-  addresses: Address[];
+  @Field(type => [Address])
+  address: Address[];
 
-  @Field((type) => [Contact])
-  contacts: Contact[];
+  @Field(type => [Contact])
+  contact: Contact[];
 
-  @Field((type) => [Card])
+  @Field(type => [Card])
   card: Card[];
-
-  password: string;
-
-  @Field()
-  creation_date: Date;
 }

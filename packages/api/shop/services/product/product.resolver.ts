@@ -9,8 +9,8 @@ export class ProductResolver {
 
   @Query({ description: 'Get all the products' })
   products(
-    @Arg('limit', type => Int, { defaultValue: 10 }) limit: number,
-    @Arg('offset', type => Int, { defaultValue: 0 }) offset: number,
+    @Arg('limit', (type) => Int, { defaultValue: 10 }) limit: number,
+    @Arg('offset', (type) => Int, { defaultValue: 0 }) offset: number,
     @Arg('type', { nullable: true }) type?: string,
     @Arg('text', { nullable: true }) text?: string,
     @Arg('category', { nullable: true }) category?: string
@@ -32,14 +32,14 @@ export class ProductResolver {
 
   @Query(() => Product)
   async product(
-    @Arg('slug', type => String) slug: string
+    @Arg('slug', (type) => String) slug: string
   ): Promise<Product | undefined> {
-    return await this.items.find(item => item.slug === slug);
+    return await this.items.find((item) => item.slug === slug);
   }
 
   @Query(() => [Product], { description: 'Get the Related products' })
   async relatedProducts(
-    @Arg('slug', slug => String) slug: string,
+    @Arg('slug', (slug) => String) slug: string,
     @Arg('type', { nullable: true }) type?: string
   ): Promise<any> {
     const relatedItem = await getRelatedItems(type, slug, this.items);

@@ -1,8 +1,8 @@
 import { InputType, Field, ID } from 'type-graphql';
-import Staff from './Staff.type';
-@InputType({ description: 'New Staff data' })
+import Staff from './staff.type';
+@InputType({ description: 'New staff data' })
 export default class AddStaffInput implements Partial<Staff> {
-  @Field(type => ID)
+  @Field((type) => ID)
   id: string;
 
   @Field()

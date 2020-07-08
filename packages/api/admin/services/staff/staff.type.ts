@@ -2,7 +2,7 @@ import { Field, ObjectType, ID } from 'type-graphql';
 
 @ObjectType()
 export default class Staff {
-  @Field(type => ID)
+  @Field((type) => ID)
   id: string;
 
   @Field()

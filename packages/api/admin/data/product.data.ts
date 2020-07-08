@@ -1,4 +1,4 @@
-import Product from '../../admin/services/product/product.type';
+import Product from '../services/product/product.type';
 import { plainToClass } from 'class-transformer';
 
 const loadProducts = (): Product[] => {
