@@ -1,78 +1,78 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import css from '@styled-system/css';
-import { compose, variant, border, space } from 'styled-system';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import css from "@styled-system/css";
+import { compose, variant, border, space } from "styled-system";
 
 export const StyledButton = styled.button(
   (props) =>
     css({
-      px: '15px',
+      px: "15px",
       py: 0,
       fontSize: [15],
-      cursor: props.disabled ? 'not-allowed' : 'pointer',
-      color: props.disabled ? 'labelColor' : 'white',
-      bg: props.disabled ? 'borderColor' : 'primary',
+      cursor: props.disabled ? "not-allowed" : "pointer",
+      color: props.disabled ? "labelColor" : "white",
+      bg: props.disabled ? "borderColor" : "primary",
 
-      '&:hover': {
-        color: props.disabled ? 'labelColor' : 'white',
-        bg: props.disabled ? 'borderColor' : 'primaryHover',
+      "&:hover": {
+        color: props.disabled ? "labelColor" : "white",
+        bg: props.disabled ? "borderColor" : "primaryHover",
       },
     }),
   {
-    appearance: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    appearance: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     flexShrink: 0,
-    textAlign: 'center',
-    height: '38px',
-    textDecoration: 'none',
-    fontFamily: 'inherit',
+    textAlign: "center",
+    height: "38px",
+    textDecoration: "none",
+    fontFamily: "inherit",
     fontWeight: 700,
     border: 0,
     borderRadius: 6,
-    transition: '0.35s ease',
-    boxSizing: 'border-box',
-    '&:focus': {
-      outline: 'none',
+    transition: "0.35s ease",
+    boxSizing: "border-box",
+    "&:focus": {
+      outline: "none",
     },
   },
   variant({
     variants: {
       outlined: {
-        color: 'primary',
-        bg: 'white',
+        color: "primary",
+        bg: "white",
         border: 1,
-        borderColor: 'borderColor',
-        '&:hover': {
-          borderColor: 'primary',
-          color: 'primary',
-          bg: 'white',
+        borderColor: "#CCCCCC",
+        "&:hover": {
+          borderColor: "primary",
+          color: "primary",
+          bg: "white",
         },
       },
       primary: {
-        color: 'white',
-        bg: 'primary',
-        '&:hover': {
-          bg: 'primaryHover',
+        color: "white",
+        bg: "primary",
+        "&:hover": {
+          bg: "primaryHover",
         },
       },
       secondary: {
-        color: 'primary',
-        bg: 'white',
+        color: "primary",
+        bg: "white",
         border: 2,
-        borderColor: '#f7f7f7',
-        '&:hover': {
-          color: 'white',
-          bg: 'primary',
+        borderColor: "#f7f7f7",
+        "&:hover": {
+          color: "white",
+          bg: "primary",
         },
       },
       text: {
-        color: 'primary',
-        bg: 'transparent',
-        '&:hover': {
-          bg: 'transparent',
-          color: 'primaryHover',
+        color: "primary",
+        bg: "transparent",
+        "&:hover": {
+          bg: "transparent",
+          color: "primaryHover",
         },
       },
       select: {
@@ -80,34 +80,34 @@ export const StyledButton = styled.button(
         height: 26,
         lineHeight: 1,
         flexShrink: 0,
-        border: '1px solid',
-        borderColor: 'darkRegular',
+        border: "1px solid",
+        borderColor: "darkRegular",
         borderRadius: 13,
         padding: 0,
-        color: 'darkRegular',
-        bg: 'transparent',
-        '&.selected': {
-          bg: 'primary',
-          color: 'white',
-          borderColor: 'primary',
+        color: "darkRegular",
+        bg: "transparent",
+        "&.selected": {
+          bg: "primary",
+          color: "white",
+          borderColor: "primary",
         },
-        '&:hover:not(.selected)': {
-          bg: 'transparent',
-          color: 'primary',
-          borderColor: 'primary',
+        "&:hover:not(.selected)": {
+          bg: "transparent",
+          color: "primary",
+          borderColor: "primary",
         },
       },
     },
   }),
   variant({
-    prop: 'size',
+    prop: "size",
     variants: {
       big: {
-        height: '48px',
+        height: "48px",
         px: 30,
       },
       small: {
-        height: '30px',
+        height: "30px",
         fontSize: 14,
       },
     },
@@ -124,7 +124,7 @@ const Spinner = styled.div`
   height: 18px;
   margin-left: 10px;
   border: 3px solid #ffffff;
-  border-top: 3px solid ${(props) => (props.color ? props.color : '#009e7f')};
+  border-top: 3px solid ${(props) => (props.color ? props.color : "#009e7f")};
   border-radius: 50%;
   transition-property: transform;
   animation-name: ${rotate};
@@ -136,7 +136,7 @@ type Props = {
   children: React.ReactNode;
   loading?: boolean;
   disabled?: boolean;
-  type: 'submit' | 'button';
+  type: "submit" | "button";
   [key: string]: unknown;
 };
 export type Ref = HTMLButtonElement;

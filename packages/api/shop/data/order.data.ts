@@ -1,5 +1,5 @@
 import { plainToClass } from "class-transformer";
-import Order from "../services/order/order.type";
+import Order from "../../admin/services/order/order.type";
 
 const loadOrders = (): Order[] => {
   return plainToClass(Order, [

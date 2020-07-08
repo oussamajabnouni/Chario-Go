@@ -1,25 +1,31 @@
-import { ObjectType, Field, Int } from 'type-graphql';
+import { ObjectType, Field, Int, ID } from "type-graphql";
 
 @ObjectType()
 export default class Category {
-  @Field(type => Int)
-  id: number;
+  @Field((type) => ID)
+  id: string;
+
+  @Field()
+  name: string;
 
   @Field()
   title: string;
 
-  @Field(type => [Category], { nullable: true })
-  children?: Category[];
+  @Field((type) => [Category])
+  children: Category[];
 
-  @Field(type => String)
-  type: string;
+  @Field({ nullable: true })
+  type?: string;
 
-  @Field(type => String, { nullable: true })
-  icon?: string;
+  @Field((type) => String)
+  icon: string;
 
-  @Field(type => String)
+  @Field((type) => String)
   slug: string;
 
-  @Field(type => Int, { nullable: true })
-  itemCount: number;
+  @Field({ defaultValue: 0 })
+  number_of_product?: number;
+
+  @Field()
+  creation_date: Date;
 }

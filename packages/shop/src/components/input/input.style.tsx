@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
 const InputWrapper = styled.div`
   > div {
@@ -9,10 +9,10 @@ const InputWrapper = styled.div`
     justify-content: space-between;
 
     > label {
-      font-family: 'Lato', sans-serif;
-      font-size: ${themeGet('fontSizes.2', '15')}px;
-      font-weight: ${themeGet('fontWeights.6', '700')};
-      color: ${themeGet('colors.darkBold', '#0D1136')};
+      font-family: "Lato", sans-serif;
+      font-size: ${themeGet("fontSizes.2", "15")}px;
+      font-weight: ${themeGet("fontWeights.6", "700")};
+      color: ${themeGet("colors.darkBold", "#0D1136")};
       line-height: 19px;
     }
   }
@@ -29,17 +29,17 @@ const InputWrapper = styled.div`
 
     input,
     textarea,
-    input[type='text'],
-    input[type='email'],
-    input[type='number'],
-    input[type='password'] {
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="password"] {
       width: 100%;
       height: 48px;
-      border-radius: 6px;
-      font-family: 'Lato', sans-serif;
-      font-size: ${themeGet('fontSizes.2', '15')}px;
-      font-weight: ${themeGet('fontWeights.3', '400')};
-      border: 1px solid ${themeGet('colors.borderColor', '#f1f1f1')};
+
+      font-family: "Lato", sans-serif;
+      font-size: ${themeGet("fontSizes.2", "15")}px;
+      font-weight: ${themeGet("fontWeights.3", "400")};
+      border: 1px solid ${themeGet("colors.dark", "#CCCCCC")};
       line-height: 19px;
       padding: 0 18px;
       box-sizing: border-box;
@@ -51,15 +51,15 @@ const InputWrapper = styled.div`
       }
 
       &:focus {
-        border-color: ${themeGet('colors.primary', '#009e7f')};
+        border-color: ${themeGet("colors.primary", "#009e7f")};
       }
 
       &::placeholder {
-        color: ${themeGet('colorsdarkRegular', '#77798C')};
+        color: ${themeGet("colorsdarkRegular", "#77798C")};
       }
     }
 
-    input[type='number'] {
+    input[type="number"] {
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
         -webkit-appearance: none;
@@ -76,13 +76,13 @@ const InputWrapper = styled.div`
   }
 
   &.send-verification {
-    input[type='number'] {
+    input[type="number"] {
       padding-right: 141px;
     }
   }
 
   &.number-verified {
-    input[type='number'] {
+    input[type="number"] {
       padding-right: 95px;
     }
   }
@@ -102,7 +102,7 @@ const InputWrapper = styled.div`
         width: 45px;
         height: 100%;
         font-size: 15px;
-        color: ${themeGet('colorsdarkRegular', '#77798C')};
+        color: ${themeGet("colorsdarkRegular", "#77798C")};
         display: flex;
         align-items: center;
         justify-content: center;
@@ -134,7 +134,7 @@ export const VerifiedLabel = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: ${themeGet('colors.primary', '#009e7f')};
+  color: ${themeGet("colors.primary", "#009e7f")};
   font-size: 12px;
   font-weight: 400;
   text-transform: capitalize;
