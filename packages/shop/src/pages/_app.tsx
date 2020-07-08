@@ -4,6 +4,7 @@ import { theme } from "theme";
 import { AppProvider } from "contexts/app/app.provider";
 import { AuthProvider } from "contexts/auth/auth.provider";
 import { LanguageProvider } from "contexts/language/language.provider";
+import { FilterProvider } from "contexts/filter/filter.provider";
 import { CartProvider } from "contexts/cart/use-cart";
 
 import AppLayout from "layouts/app-layout";
@@ -35,23 +36,25 @@ export default function ExtendedApp({
   Component,
   pageProps,
   userAgent,
-  locale,
+  cookies,
   query,
 }) {
   const deviceType = useDeviceType(userAgent);
   return (
     <ThemeProvider theme={theme}>
-      <LanguageProvider messages={messages} initLocale={locale}>
-        <CartProvider>
-          <AppProvider>
-            <AuthProvider>
-              <AppLayout>
-                <Component {...pageProps} deviceType={deviceType} />
-              </AppLayout>
-              <GlobalStyle />
-            </AuthProvider>
-          </AppProvider>
-        </CartProvider>
+      <LanguageProvider messages={messages} cookies={cookies}>
+        <FilterProvider cookies={cookies}>
+          <CartProvider>
+            <AppProvider>
+              <AuthProvider>
+                <AppLayout>
+                  <Component {...pageProps} deviceType={deviceType} />
+                </AppLayout>
+                <GlobalStyle />
+              </AuthProvider>
+            </AppProvider>
+          </CartProvider>
+        </FilterProvider>
       </LanguageProvider>
     </ThemeProvider>
   );
@@ -61,6 +64,6 @@ ExtendedApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext);
   const { req, query } = appContext.ctx;
   const userAgent = req ? req.headers["user-agent"] : navigator.userAgent;
-  const { locale } = parseCookies(req);
-  return { ...appProps, userAgent, query, locale };
+  const cookies = parseCookies(req);
+  return { ...appProps, userAgent, query, cookies };
 };

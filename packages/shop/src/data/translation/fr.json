@@ -7,7 +7,6 @@
   "navBookMenu": "Livre",
   "navMedicineMenu": "Médecine",
   "navFoodsMenu": "Nourriture",
-
   "groceriesTitle": "Épicerie livrée en {minute} minute",
   "groceriesSubTitle": "Recevez vos aliments sains et collations à portée de main toute la journée",
   "maquillageTitre": "Maquillages de marque et importés",
@@ -16,26 +15,20 @@
   "bagsSubTitle": "Recevez vos sacs exclusifs et de marque en un rien de temps",
   "womenClothsTitle": "Achetez vos robes de créateurs",
   "womenClothsSubTitle": "Des robes de prêt-à-porter sur mesure pour vous en ligne. Dépêchez-vous tant que le stock dure.",
-
   "furnitureTitle": "Meubles exclusifs à bas prix",
   "furnitureSubTitle": "Faites de votre maison une maison avec notre large collection de beaux meubles",
-
   "booksTitle": "Votre propre librairie",
   "booksSubTitle": "Obtenez vos livres préférés de notre large gamme de livres.",
-
   "MedicineTitle": "Vos médicaments, livrés",
   "medicineSubTitle": "Dites adieu à tous vos soucis de santé avec nous",
-
   "foodsTitle": "Vous commandez nous livrons",
   "foodsSubTitle": "Obtenez vos aliments préférés en moins d'une heure",
-
   "alternativeCheckout": "Alternative Checkout",
   "termAndConditionHelper": "En effectuant cet achat, vous acceptez nos",
   "termAndCondition": "termes et conditions.",
   "removeCoupon": "(Supprimer)",
   "reqMedicine": "Demander un médicament",
   "submitRequest": "Soumettre la demande",
-
   "noteHead": "Note",
   "noteDescription": "La disponibilité et le prix du produit seront confirmés par téléphone. Frais de livraison à l'intérieur de la ville $ {inside} et à l'extérieur de la ville $ {outside}.",
   "rmMedicineName": "Nom du médicament",
@@ -45,7 +38,6 @@
   "cartTitle": "Votre commande",
   "discountText": "Discount",
   "vatText": "TVA incluse",
-
   "searchPlaceholder": "Recherchez vos produits d'ici",
   "searchButtonText": "Recherche",
   "navlinkOffer": "Offre",
@@ -128,28 +120,21 @@
   "ForgotPassText": "Mot de passe oublié",
   "sendResetPassText": "Nous vous enverrons un lien pour réinitialiser votre mot de passe",
   "resetPasswordBtn": "Réinitialiser le mot de passe",
-
   "intlCopyBtnId": "Copier",
   "intlCopySuccessId": "Copié",
-
   "locationModalheading": "Sélectionnez votre emplacement",
   "locationModalSubHeading": "Vous devez sélectionner votre emplacement pour fournir un service perpous",
   "locationModalFooter": "Livraison gratuite pour la 1ère commande",
   "saleText": "Vente",
   "offText": "Off",
-
   "faqNo1Title": "Comment contacter le service client?",
   "faqNo1Desc": "Notre équipe d'expérience client est disponible {nombre1} jours par semaine et nous proposons {nombre2} façons d'entrer en contact. E-mail et chat. Nous essayons de répondre rapidement, vous n'avez donc pas besoin d'attendre trop longtemps pour une réponse !. ",
-
   "faqNo2Title": "L'installation de l'application a échoué, comment mettre à jour les informations système?",
   "faqNo2Desc": "Veuillez lire attentivement la documentation. Nous avons également des didacticiels vidéo en ligne concernant ce problème. Si le problème persiste, veuillez ouvrir un ticket dans le forum d'assistance",
-
   "faqNo3Title": "La réponse du site Web prend du temps, comment s'améliorer?",
   "faqNo3Desc": "Dans un premier temps, veuillez vérifier votre connexion Internet. Nous avons également quelques didacticiels vidéo en ligne concernant ce problème. Si le problème persiste, veuillez ouvrir un ticket dans le forum d'assistance.",
-
   "faqNo4Title": "Comment créer un compte?",
   "faqNo4Desc": "Si vous souhaitez ouvrir un compte pour un usage personnel, vous pouvez le faire par téléphone ou en ligne. L'ouverture d'un compte en ligne ne devrait prendre que quelques minutes.",
-
   "intlOrderDetailsDiscount": "Remise",
   "intlOrderDetailsDelivery": "Frais de livraison",
   "intlOrderPageTitle": "Ma commande",
@@ -174,12 +159,11 @@
   "bookSectionTitle": "À propos du livre",
   "authorSectionTitle": "À propos de l'auteur",
   "defaultIntlId": "Veuillez ajouter un espace réservé à partir du fichier de langue",
-
   "noResultFound": "Désolé, aucun résultat trouvé :(",
-
   "deliveryText": "Delivery",
   "cuisineText": "Cuisine",
   "minOrderText": "Min Order",
   "fromText": "De",
-  "loadMoreButton": "Charger Plus"
+  "loadMoreButton": "Charger Plus",
+  "Button": "Button"
 }
