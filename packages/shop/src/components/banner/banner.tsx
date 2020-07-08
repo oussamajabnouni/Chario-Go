@@ -27,7 +27,7 @@ interface Props {
   intlDescriptionId: string;
 }
 
-export const locationOptions = [
+const locationOptions = [
   {
     value: "Sousse",
     label: "Sousse",
