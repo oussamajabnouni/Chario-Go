@@ -1,13 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { FormattedMessage } from "react-intl";
+import { FilterContext } from "contexts/filter/filter.context";
+
 import {
   Box,
   Image,
   Content,
   Title,
   Description,
-  SearchWrapper,
   Row,
   Col,
 } from "./banner.style";
@@ -18,7 +19,6 @@ import { FruitsVegetable } from "assets/icons/FruitsVegetable";
 
 import { Waypoint } from "react-waypoint";
 import { useAppDispatch } from "contexts/app/app.provider";
-import Search from "features/search/search";
 import CardType from "../card-type/card-type";
 
 interface Props {
@@ -54,10 +54,7 @@ export const Banner: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [activeState, setActiveState] = useState({});
-  const [activeCity, setActiveCity] = useState({});
-  const [citiesList, setCitiesList] = useState([]);
-  const [activeType, setActiveType] = useState("");
+  const { filterState, changeLocationState, changeLocationCity } = useContext<any>(FilterContext);
 
   const setSticky = useCallback(() => dispatch({ type: "SET_STICKY" }), [
     dispatch,
@@ -66,24 +63,14 @@ export const Banner: React.FC<Props> = ({
     dispatch,
   ]);
 
-  const handleStateChange = (item) => {
-    setActiveState(item);
-    setCitiesList(item.cities);
-    setActiveCity(item.cities[0]);
-  };
-  const handleCityChange = (value) => {
-    setActiveCity(value);
-  };
+
   const handleCardTypeClick = (value) => {
-    setActiveType(value);
     if (
-      Object.getOwnPropertyNames(activeState).length !== 0 &&
-      Object.getOwnPropertyNames(activeCity).length !== 0
+      filterState.locationState &&
+      filterState.locationCity
     )
       router.push(`/${value}`);
   };
-  const isActiveStateEmpty =
-    Object.getOwnPropertyNames(activeState).length === 0;
 
   return (
     <Box>
@@ -107,19 +94,23 @@ export const Banner: React.FC<Props> = ({
             <Select
               options={locationOptions}
               value={
-                isActiveStateEmpty
+                !filterState.locationState
                   ? { label: "Select your state" }
-                  : activeState
+                  : { label: filterState.locationState, value: filterState.locationState }
               }
-              onChange={handleStateChange}
+              onChange={changeLocationState}
             />
           </Col>
           <Col>
             <Select
-              options={citiesList}
-              value={activeCity}
-              onChange={handleCityChange}
-              isDisabled={isActiveStateEmpty}
+              options={filterState.cityOptions}
+              value={
+                !filterState.locationCity
+                  ? { label: "Select your city" }
+                  : { label: filterState.locationCity, value: filterState.locationCity }
+              }
+              onChange={changeLocationCity}
+              isDisabled={!filterState.locationState}
             />
           </Col>
         </Row>
@@ -131,7 +122,7 @@ export const Banner: React.FC<Props> = ({
               value="grocery"
               description="Supermarchés, Épiceries Fines."
               onClick={handleCardTypeClick}
-              isActiveStateEmpty={isActiveStateEmpty}
+              isActiveStateEmpty={filterState.locationCity === ""}
             ></CardType>
           </Col>
           <Col>
@@ -141,7 +132,7 @@ export const Banner: React.FC<Props> = ({
               value="restaurant"
               description="Vos plats préférés près de chez vous."
               onClick={handleCardTypeClick}
-              isActiveStateEmpty={isActiveStateEmpty}
+              isActiveStateEmpty={filterState.locationCity === ""}
             ></CardType>
           </Col>
         </Row>

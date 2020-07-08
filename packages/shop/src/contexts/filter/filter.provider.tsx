@@ -2,12 +2,6 @@ import React, { useReducer } from "react";
 import { FilterContext } from "./filter.context";
 import Cookie from "js-cookie";
 
-const INITIAL_STATE = {
-  locationState: localStorage.getItem("location_state") && "",
-  locationCity: localStorage.getItem("location_city") && "",
-  sort: "",
-  searchTerm: "",
-};
 
 function reducer(state: any, action: any) {
   console.log("filter", state);
@@ -22,6 +16,11 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         locationCity: action.payload,
+      };
+    case "SET_CITY_OPTIONS":
+      return {
+        ...state,
+        cityOptions: action.payload,
       };
     case "SET_SORT":
       return {
@@ -38,15 +37,28 @@ function reducer(state: any, action: any) {
   }
 }
 
-export const FilterProvider: React.FunctionComponent = ({ children }) => {
+export const FilterProvider: React.FunctionComponent = ({ children, cookies }) => {
+  const INITIAL_STATE = {
+    locationState: cookies.location_state || "",
+    locationCity: cookies.location_city || "",
+    sort: "",
+    searchTerm: "",
+  };
   const [filterState, filterDispatch] = useReducer(reducer, INITIAL_STATE);
-  // const changeLocationState = (newLocale): void => {
-  //   setLocale(newLocale);
-  //   document.documentElement.lang = newLocale;
-  //   Cookie.set("locale", newLocale);
-  // };
+  const changeLocationCity = (newLocationCity): void => {
+    filterDispatch({ type: 'SET_LOCATION_CITY', payload: newLocationCity.value });
+    Cookie.set("location_city", newLocationCity.value);
+  };
+  const changeLocationState = (newLocationState): void => {
+    filterDispatch({ type: 'SET_LOCATION_STATE', payload: newLocationState.value });
+    Cookie.set("location_state", newLocationState.value);
+    filterDispatch({ type: 'SET_CITY_OPTIONS', payload: newLocationState.cities });
+    if (filterState.locationState !== newLocationState.value) {
+      changeLocationCity({ value: "" });
+    }
+  };
   return (
-    <FilterContext.Provider value={{ filterState, filterDispatch }}>
+    <FilterContext.Provider value={{ filterState, filterDispatch, changeLocationState, changeLocationCity }}>
       {children}
     </FilterContext.Provider>
   );
