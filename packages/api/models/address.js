@@ -11,20 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Address, {foreignKey: 'userId', as: 'addresses'});
-      this.hasMany(models.Card, {foreignKey: 'userId', as: 'cards'});
-      this.hasMany(models.Contact, {foreignKey: 'userId', as: 'contacts'});
-
-
     }
   };
   Address.init({
+    type: DataTypes.STRING,
     name: DataTypes.STRING,
-    image: DataTypes.STRING,
-    email: DataTypes.STRING,
-    image: DataTypes.STRING,
-    password: DataTypes.STRING,
-    creation_date: DataTypes.DATE,
+    info: DataTypes.STRING,
+    title: DataTypes.STRING,
+    location: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Address',
