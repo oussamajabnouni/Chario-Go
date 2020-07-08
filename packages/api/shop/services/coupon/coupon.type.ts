@@ -1,16 +1,44 @@
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, ID, Int } from "type-graphql";
+import Product from "../product/product.type";
 
 @ObjectType()
 export default class Coupon {
+  @Field((type) => ID)
+  id: string;
+
   @Field()
-  id: number;
+  title: string;
+
+  @Field((type) => Int)
+  number_of_coupon: number;
+
+  @Field((type) => Int, { defaultValue: 0 })
+  number_of_used_coupon?: number;
+
+  @Field((type) => Int)
+  discount_in_percent: number;
+
+  @Field()
+  category: string;
+
+  @Field((type) => [Product], { nullable: true })
+  products: Product[];
 
   @Field()
   code: string;
 
+  @Field((type) => Int, { defaultValue: 0 })
+  minimum_amount: number;
+
+  @Field({ defaultValue: "active" })
+  status: string;
+
   @Field({ nullable: true })
-  image?: string;
+  expiration_date?: Date;
+
+  @Field({ nullable: true })
+  description?: string;
 
   @Field()
-  discountInPercent: number;
+  creation_date: Date;
 }
