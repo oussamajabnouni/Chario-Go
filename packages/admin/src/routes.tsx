@@ -1,8 +1,9 @@
-import React, { useContext, lazy, Suspense } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React, { useContext, lazy, Suspense } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import {
   LOGIN,
   PRODUCTS,
+  RESTAURANTS,
   CATEGORY,
   DASHBOARD,
   ORDERS,
@@ -11,25 +12,31 @@ import {
   COUPONS,
   STAFF_MEMBERS,
   SITE_SETTINGS,
-} from './settings/constants';
-import AuthProvider, { AuthContext } from './context/auth';
-import { InLineLoader } from './components/InlineLoader/InlineLoader';
-const Products = lazy(() => import('./containers/Products/Products'));
-const AdminLayout = lazy(() => import('./containers/Layout/Layout'));
-const Dashboard = lazy(() => import('./containers/Dashboard/Dashboard'));
-const Category = lazy(() => import('./containers/Category/Category'));
-const Orders = lazy(() => import('./containers/Orders/Orders'));
-const Settings = lazy(() => import('./containers/Settings/Settings'));
+  ORDERS_HISTORY,
+} from "./settings/constants";
+import AuthProvider, { AuthContext } from "./context/auth";
+import { InLineLoader } from "./components/InlineLoader/InlineLoader";
+const Products = lazy(() => import("./containers/Products/Products"));
+const Restaurants = lazy(() => import("./containers/Restaurants/Restaurants"));
+const AdminLayout = lazy(() => import("./containers/Layout/Layout"));
+const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
+const Category = lazy(() => import("./containers/Category/Category"));
+const Orders = lazy(() => import("./containers/Orders/Orders"));
+const OrdersHistory = lazy(() =>
+  import("./containers/OrdersHistory/OrdersHistory")
+);
+
+const Settings = lazy(() => import("./containers/Settings/Settings"));
 const SiteSettingForm = lazy(() =>
-  import('./containers/SiteSettingForm/SiteSettingForm')
+  import("./containers/SiteSettingForm/SiteSettingForm")
 );
 const StaffMembers = lazy(() =>
-  import('./containers/StaffMembers/StaffMembers')
+  import("./containers/StaffMembers/StaffMembers")
 );
-const Customers = lazy(() => import('./containers/Customers/Customers'));
-const Coupons = lazy(() => import('./containers/Coupons/Coupons'));
-const Login = lazy(() => import('./containers/Login/Login'));
-const NotFound = lazy(() => import('./containers/NotFound/NotFound'));
+const Customers = lazy(() => import("./containers/Customers/Customers"));
+const Coupons = lazy(() => import("./containers/Coupons/Coupons"));
+const Login = lazy(() => import("./containers/Login/Login"));
+const NotFound = lazy(() => import("./containers/NotFound/NotFound"));
 
 /**
  *
@@ -50,7 +57,7 @@ function PrivateRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: "/login",
               state: { from: location },
             }}
           />
@@ -79,6 +86,13 @@ const Routes = () => {
               </Suspense>
             </AdminLayout>
           </PrivateRoute>
+          <PrivateRoute path={RESTAURANTS}>
+            <AdminLayout>
+              <Suspense fallback={<InLineLoader />}>
+                <Restaurants />
+              </Suspense>
+            </AdminLayout>
+          </PrivateRoute>
           <PrivateRoute path={CATEGORY}>
             <AdminLayout>
               <Suspense fallback={<InLineLoader />}>
@@ -86,10 +100,18 @@ const Routes = () => {
               </Suspense>
             </AdminLayout>
           </PrivateRoute>
+
           <PrivateRoute path={ORDERS}>
             <AdminLayout>
               <Suspense fallback={<InLineLoader />}>
                 <Orders />
+              </Suspense>
+            </AdminLayout>
+          </PrivateRoute>
+          <PrivateRoute path={ORDERS_HISTORY}>
+            <AdminLayout>
+              <Suspense fallback={<InLineLoader />}>
+                <OrdersHistory />
               </Suspense>
             </AdminLayout>
           </PrivateRoute>
