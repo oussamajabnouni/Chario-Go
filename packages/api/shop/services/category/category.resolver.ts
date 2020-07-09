@@ -1,10 +1,11 @@
 import { Resolver, Query, Arg, ID, Mutation } from 'type-graphql';
 import loadCategories from './category.sample';
 import Category from './category.type';
-import AddCategoryInput from './category.type';
+import { AddCategoryInput } from './category.type';
 import search from '../../helpers/search';
+
 @Resolver()
-export default class CategoryResolver {
+export class CategoryResolver {
   private readonly categoriesCollection: Category[] = loadCategories();
 
   @Query(returns => [Category], { description: 'Get all the categories' })
