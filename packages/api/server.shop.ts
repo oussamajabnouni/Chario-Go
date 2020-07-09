@@ -35,8 +35,10 @@ const main = async () => {
     tracing: true,
   });
   apolloServer.applyMiddleware({ app, path });
+
   models.sequelize.authenticate();
   models.sequelize.sync();
+
   app.listen(PORT, () => {
     console.log(`🚀 started http://localhost:${PORT}${path}`);
   });
