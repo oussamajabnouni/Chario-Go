@@ -1,23 +1,39 @@
-import { Resolver, Query, Arg, Int } from 'type-graphql';
+import { Resolver, Query, Arg, ID, Mutation } from 'type-graphql';
 import loadCategories from './category.sample';
 import Category from './category.type';
+import { AddCategoryInput } from './category.type';
+import search from '../../helpers/search';
 
 @Resolver()
 export class CategoryResolver {
-  private readonly items: Category[] = loadCategories();
+  private readonly categoriesCollection: Category[] = loadCategories();
 
-  @Query(() => [Category], { description: 'Get all the categories' })
+  @Query(returns => [Category], { description: 'Get all the categories' })
   async categories(
-    @Arg('type', type => String) type: string
+    @Arg('type', { nullable: true }) type?: string,
+    @Arg('searchBy', { defaultValue: '' }) searchBy?: string
   ): Promise<Category[]> {
-    return await this.items.filter(item => item.type === type);
-    // return await this.items;
+    let categories = this.categoriesCollection;
+
+    if (type) {
+      categories = await categories.filter(category => category.type === type);
+    }
+    return await search(categories, ['name'], searchBy);
   }
 
-  @Query(() => Category)
+  @Query(returns => Category)
   async category(
-    @Arg('id', type => Int) id: number
+    @Arg('id', type => ID) id: string
   ): Promise<Category | undefined> {
-    return await this.items.find(item => item.id === id);
+    return await this.categoriesCollection.find(category => category.id === id);
+  }
+
+  @Mutation(() => Category, { description: 'Create Category' })
+  async createCategory(
+    @Arg('category') category: AddCategoryInput
+  ): Promise<Category> {
+    console.log(category, 'category');
+
+    return await category;
   }
 }

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Payment.init({
     status: DataTypes.INTEGER,
-    
+
   }, {
     sequelize,
     modelName: 'Payment',

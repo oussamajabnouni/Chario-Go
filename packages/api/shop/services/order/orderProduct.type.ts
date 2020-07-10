@@ -1,5 +1,5 @@
 import { ObjectType, Field } from 'type-graphql';
-import { ProductType } from '../product/product.enum';
+import { ProductType } from '../product/product.type';
 import Category from '../category/category.type';
 
 @ObjectType()
