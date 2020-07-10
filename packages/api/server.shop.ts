@@ -37,7 +37,7 @@ const main = async () => {
 
   models.sequelize.authenticate();
 
-  // models.sequelize.sync({ alter: true });
+  models.sequelize.sync({ alter: true });
 
   app.listen(PORT, () => {
     console.log(`🚀 started http://localhost:${PORT}${path}`);
