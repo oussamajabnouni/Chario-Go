@@ -19,7 +19,7 @@
     "lodash": "^4.17.15",
     "mysql2": "^2.1.0",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.3.0",
+    "sequelize": "^6.3.1",
     "sequelize-cli": "^6.2.0",
     "type-graphql": "^1.0.0-rc.2",
     "typedi": "^0.8.0"
