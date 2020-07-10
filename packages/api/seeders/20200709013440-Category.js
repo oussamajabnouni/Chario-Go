@@ -3,9 +3,10 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'Gategories',
+      'Categories',
       [
         {
+          id: 1,
           title: 'Fruits & Vegetables',
           type: 'grocery',
           icon: 'FruitsVegetable',
@@ -14,6 +15,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 2,
           title: 'Meat & Fish',
           type: 'grocery',
           icon: 'MeatFish',
@@ -35,7 +37,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Gategories', [
+    return queryInterface.bulkDelete('Categories', [
       {
         first_name: 'John',
       },
