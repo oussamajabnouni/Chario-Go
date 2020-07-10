@@ -12,13 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-<<<<<<< HEAD
         this.belongsToMany(models.Category, { through: Category_VendorProduct });
         this.belongsToMany(models.Coupon, { through: Coupon_VendorProduct });
-=======
-      // this.belongsToMany(Category, { through: Category_VendorProduct });
-      // this.belongsToMany(Coupon, { through: Coupon_VendorProduct });
->>>>>>> e703e701aa1474fff2af5affe30ed588f0ab87e1
     }
   };
   VendorProduct.init({
