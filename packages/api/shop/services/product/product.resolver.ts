@@ -1,48 +1,65 @@
-import { Resolver, Query, Arg, Int, ObjectType } from 'type-graphql';
+import { Resolver, Query, Arg, Args, Mutation } from 'type-graphql';
 import { createProductSamples } from './product.sample';
-import Product, { ProductResponse } from './product.type';
-import { filterItems, getRelatedItems } from '../../helpers/filter';
+import Product from './product.type';
+import Products from './products.type';
+import { GetProductsArgs } from './product.type';
+import { AddProductInput } from './product.type';
+import search from '../../helpers/search';
+import shuffle from '../../helpers/shuffle';
+import { sortByHighestNumber, sortByLowestNumber } from '../../helpers/sorts';
 
+const models = require('../../../models')
 @Resolver()
-export class ProductResolver {
-  private readonly items: Product[] = createProductSamples();
+export default class ProductResolver {
+  private readonly productsCollection: Product[] = createProductSamples();
 
-  @Query({ description: 'Get all the products' })
-  products(
-    @Arg('limit', (type) => Int, { defaultValue: 10 }) limit: number,
-    @Arg('offset', (type) => Int, { defaultValue: 0 }) offset: number,
-    @Arg('type', { nullable: true }) type?: string,
-    @Arg('text', { nullable: true }) text?: string,
-    @Arg('category', { nullable: true }) category?: string
-  ): ProductResponse {
-    const total = this.items.length;
-    const filteredData = filterItems(
-      this.items,
-      limit,
-      offset,
-      text,
-      type,
-      category
-    );
-    return new ProductResponse({
-      total: total,
-      ...filteredData,
-    });
+  @Query((returns) => Products, { description: 'Get all the products' })
+  async products(
+    @Args()
+    { limit, offset, sortByPrice, type, searchText, category }: GetProductsArgs
+  ): Promise<Products> {
+    let products = this.productsCollection;
+    if (category) {
+      products = products.filter((product) =>
+        product.categories.find(
+          (category_item) => category_item.slug === category
+        )
+      );
+    }
+    if (type) {
+      products = products.filter((product) => product.type === type);
+    }
+    if (sortByPrice) {
+      if (sortByPrice === 'highestToLowest') {
+        products = sortByHighestNumber(products, 'price');
+      }
+      if (sortByPrice === 'lowestToHighest') {
+        products = sortByLowestNumber(products, 'price');
+      }
+    } else {
+      products = shuffle(products);
+    }
+
+    // return await products.slice(0, limit);
+    products = await search(products, ['name'], searchText);
+    const hasMore = products.length > offset + limit;
+
+    return {
+      items: products.slice(offset, offset + limit),
+      totalCount: this.productsCollection.length,
+      hasMore,
+    };
   }
 
   @Query(() => Product)
-  async product(
-    @Arg('slug', (type) => String) slug: string
-  ): Promise<Product | undefined> {
-    return await this.items.find((item) => item.slug === slug);
+  async product(@Arg('slug') slug: string): Promise<Product | undefined> {
+    return await models.Product.findOne({ where: { slug }, include: [{ all: true }] });
   }
 
-  @Query(() => [Product], { description: 'Get the Related products' })
-  async relatedProducts(
-    @Arg('slug', (slug) => String) slug: string,
-    @Arg('type', { nullable: true }) type?: string
-  ): Promise<any> {
-    const relatedItem = await getRelatedItems(type, slug, this.items);
-    return relatedItem;
+  @Mutation(() => Product, { description: 'Create Category' })
+  async createProduct(
+    @Arg('product') product: AddProductInput
+  ): Promise<Product> {
+    return await models.Product.create(product);
   }
 }

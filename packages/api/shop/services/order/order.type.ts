@@ -16,6 +16,12 @@ export default class Order {
   @Field(type => String)
   status: number;
 
+  @Field()
+  payment_method: string;
+
+  @Field()
+  contact_number: string;
+
   @Field(type => String)
   deliveryTime: string;
 

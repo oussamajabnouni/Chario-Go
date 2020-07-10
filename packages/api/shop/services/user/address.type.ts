@@ -1,4 +1,16 @@
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, InputType } from 'type-graphql';
+
+@InputType({ description: 'New recipe data' })
+export class AddAddressInput implements Partial<Address> {
+  @Field()
+  type: string;
+
+  @Field()
+  title: string;
+
+  @Field()
+  location: string;
+}
 
 @ObjectType()
 export default class Address {

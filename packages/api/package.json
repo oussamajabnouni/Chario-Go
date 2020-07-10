@@ -2,8 +2,8 @@
   "name": "@pick-bazar/api",
   "version": "3.0.0",
   "scripts": {
-    "shop-dev": "ts-node-dev --respawn server.shop.ts",
-    "admin": "ts-node-dev --respawn server.admin.ts",
+    "shop-dev": "ts-node-dev --respawn server.ts",
+    "admin": "ts-node-dev --respawn server.ts",
     "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles -u 1 src/ dist/",
     "serve": "NODE_ENV=production node dist/server.admin.js",
     "start": "NODE_ENV=production node dist/server.shop.js"

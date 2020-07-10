@@ -12,7 +12,9 @@ export class OrderResolver {
   async orders(
     @Arg('user', type => Int) user: number,
     @Arg('text', type => String, { nullable: true }) text: string,
-    @Arg('limit', type => Int, { defaultValue: 7 }) limit: number
+    @Arg('limit', type => Int, { defaultValue: 7 }) limit: number,
+    @Arg("status", type => String, { nullable: true }) status: string,
+    @Arg("searchText", type => String, { defaultValue: "" }) searchText: string
   ): Promise<Order[]> {
     // return await take(this.items.filter(item => item.userId === user), limit);
     return await filterOrder(this.items, user, limit, text);
@@ -28,4 +30,9 @@ export class OrderResolver {
     console.log(orderInput, 'orderinput');
     return await this.items[0];
   }
+  // @Mutation(returns => Order, { description: 'Add an Order' })
+  // async addOrder(@Arg('orderInput') orderInput: Order): Promise<Order> {
+  //   console.log(orderInput, 'orderinput');
+  //   return await orderInput;
+  // }
 }

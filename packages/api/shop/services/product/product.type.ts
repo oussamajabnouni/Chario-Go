@@ -1,4 +1,4 @@
-import { ObjectType, Field, InputType } from 'type-graphql';
+import { ObjectType, Field, Int, Float, InputType, ArgsType, ID } from 'type-graphql';
 import Category from '../category/category.type';
 import PaginatedResponse from '../../helpers/paginated-response';
 
@@ -20,6 +20,68 @@ registerEnumType(ProductType, {
   description: 'The basic product types',
 });
 
+@ArgsType()
+export class GetProductsArgs {
+  @Field(type => Int, { defaultValue: 12 })
+  limit: number;
+
+  @Field(type => Int, { defaultValue: 0 })
+  offset: number;
+
+  @Field({ nullable: true })
+  sortByPrice?: string;
+
+  @Field({ nullable: true })
+  type?: string;
+
+  @Field({ nullable: true })
+  searchText?: string;
+
+  @Field({ nullable: true })
+  category?: string;
+}
+
+@InputType({ description: 'New recipe data' })
+export class AddProductInput implements Partial<Product> {
+  @Field(type => ID)
+  id: string;
+
+  @Field()
+  name: string;
+
+  @Field()
+  slug: string;
+
+  @Field()
+  image: string;
+  @Field(() => ProductType)
+  type: ProductType;
+
+  @Field({ defaultValue: '1' })
+  unit: string;
+
+
+  @Field(type => Int)
+  price: number;
+
+  @Field(type => Float, { nullable: true })
+  salePrice: number;
+
+  @Field(type => Int, { defaultValue: 0 })
+  discountInPercent: number;
+
+  @Field(type => Int, { defaultValue: 1 })
+  per_unit: number;
+
+  @Field(type => Int)
+  quantity: number;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field()
+  creation_date: Date;
+}
 
 @InputType()
 export class ProductSearchInput {
@@ -50,7 +112,7 @@ class Gallery {
 @ObjectType()
 export default class Product {
   @Field()
-  id: number;
+  id: string;
 
   @Field()
   slug: string;
@@ -79,6 +141,10 @@ export default class Product {
   @Field()
   price: number;
 
+
+  @Field(type => Int, { nullable: true })
+  views?: number;
+
   @Field()
   salePrice: number;
 
@@ -89,16 +155,3 @@ export default class Product {
   createdAt: Date;
 }
 
-// TODO: Need to change this in next update
-
-// we need to create a temporary class for the abstract, generic class "instance"
-@ObjectType()
-export class ProductResponse extends PaginatedResponse(Product) {
-  // simple helper for creating new instances easily
-  constructor(productResponse: ProductResponse) {
-    super();
-    Object.assign(this, productResponse);
-  }
-
-  // you can add more fields here if you need
-}
