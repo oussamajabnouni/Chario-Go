@@ -11,14 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Category, { foreignKey: 'category', as: 'children' })
+      this.hasMany(models.Category, { foreignKey: 'parentId', as: 'children' })
       // this.belongsToMany(Product, { through: Category_Product });
       // this.belongsToMany(Product, { through: Category_VendorProduct });
       // this.belongsToMany(VendorProduct, { through: Category_VendorProduct });
     }
   };
   Category.init({
-    name: DataTypes.STRING,
     title: DataTypes.STRING,
     type: DataTypes.STRING,
     icon: DataTypes.STRING,
@@ -29,5 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Category',
   });
+
   return Category;
 };

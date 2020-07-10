@@ -1,39 +1,43 @@
 import { Resolver, Query, Arg, ID, Mutation } from 'type-graphql';
-import loadCategories from './category.sample';
+const { Op } = require("sequelize");
 import Category from './category.type';
 import { AddCategoryInput } from './category.type';
-import search from '../../helpers/search';
+const models = require('../../../models')
 
 @Resolver()
 export class CategoryResolver {
-  private readonly categoriesCollection: Category[] = loadCategories();
+  private categoriesModel: any = models.Category;
 
   @Query(returns => [Category], { description: 'Get all the categories' })
   async categories(
-    @Arg('type', { nullable: true }) type?: string,
-    @Arg('searchBy', { defaultValue: '' }) searchBy?: string
+    @Arg('type', { defaultValue: '', nullable: true }) type?: string,
+    @Arg('searchBy', { defaultValue: '', nullable: true }) searchBy?: string
   ): Promise<Category[]> {
-    let categories = this.categoriesCollection;
 
-    if (type) {
-      categories = await categories.filter(category => category.type === type);
-    }
-    return await search(categories, ['name'], searchBy);
+    return await models.Category
+      .findAll({
+        include: [{ all: true }], where: {
+          type: {
+            [Op.like]: `%${type}%`
+          },
+          title: {
+            [Op.like]: `%${searchBy}%`
+          }
+        }
+      })
   }
 
   @Query(returns => Category)
   async category(
     @Arg('id', type => ID) id: string
   ): Promise<Category | undefined> {
-    return await this.categoriesCollection.find(category => category.id === id);
+    return await this.categoriesModel.findOne({ where: { id }, include: [{ all: true }] });
   }
 
   @Mutation(() => Category, { description: 'Create Category' })
   async createCategory(
     @Arg('category') category: AddCategoryInput
   ): Promise<Category> {
-    console.log(category, 'category');
-
-    return await category;
+    return await this.categoriesModel.create(category);
   }
 }
