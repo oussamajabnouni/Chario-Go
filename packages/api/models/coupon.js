@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        this.belongsToMany(Product, { through: Coupon_Product });
+        this.belongsToMany(models.Product, { through: Coupon_Product });
     }
   };
   Coupon.init({
     title: DataTypes.STRING,
-    number_of_coupon: DataTypes.INTEGE,
-    number_of_used_coupon: DataTypes.INTEGE,
-    discount_in_percent: DataTypes.INTEGE,
+    number_of_coupon: DataTypes.INTEGER,
+    number_of_used_coupon: DataTypes.INTEGER,
+    discount_in_percent: DataTypes.INTEGER,
     category: DataTypes.STRING,
     code: DataTypes.INTEGER,
     minimum_amount: DataTypes.STRING,

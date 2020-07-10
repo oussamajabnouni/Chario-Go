@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 const user = require('./user');
 module.exports = (sequelize, DataTypes) => {
-  class Customer extends User {
+  class Customer extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

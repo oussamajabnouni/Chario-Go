@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        this.belongsToMany(Category, { through: Category_Product });
-        this.belongsToMany(Coupon, { through: Coupon_Product });
+        this.belongsToMany(models.Category, { through: Category_Product });
+        this.belongsToMany(models.Coupon, { through: Coupon_Product });
         this.hasMany(models.Gallery, {foreignKey: 'productId', as: 'gallery'})
 
     }
