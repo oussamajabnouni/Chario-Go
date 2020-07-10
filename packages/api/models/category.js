@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Category.init({
-    name: DataTypes.STRING,
     title: DataTypes.STRING,
     type: DataTypes.STRING,
     icon: DataTypes.STRING,
@@ -31,5 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Category',
   });
+
   return Category;
 };
