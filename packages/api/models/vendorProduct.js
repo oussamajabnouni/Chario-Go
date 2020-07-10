@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsToMany(models.Category, { through: Category_VendorProduct });
-      this.belongsToMany(models.Coupon, { through: Coupon_VendorProduct });
+      /*this.belongsToMany(models.Category, { through: Category_VendorProduct });
+        this.belongsToMany(models.Coupon, { through: Coupon_VendorProduct });*/
     }
   }
   VendorProduct.init(
