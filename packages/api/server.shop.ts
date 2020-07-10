@@ -9,6 +9,10 @@ import { OrderResolver } from './shop/services/order/order.resolver';
 import { CouponResolver } from './shop/services/coupon/coupon.resolver';
 import { CategoryResolver } from './shop/services/category/category.resolver';
 import { VendorResolver } from './shop/services/vendors/vendors.resolver';
+// Sequelize models
+const models = require('./models')
+
+
 const app: express.Application = express();
 const path = '/shop/graphql';
 const PORT = process.env.PORT || 4000;
@@ -31,6 +35,10 @@ const main = async () => {
     tracing: true,
   });
   apolloServer.applyMiddleware({ app, path });
+
+  models.sequelize.authenticate();
+
+  models.sequelize.sync({ alter: true });
 
   app.listen(PORT, () => {
     console.log(`🚀 started http://localhost:${PORT}${path}`);

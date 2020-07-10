@@ -7,6 +7,7 @@ const SelectStyle = styled.div<any>`
     color: ${themeGet('colors.labelColor', '#767676')};
     font-size: ${themeGet('fontSizes.4', '16')}px;
     font-weight: ${themeGet('fontWeights.4', '500')};
+    z-index:999;
   }
 
   /* Select label style when labelPosition on left */

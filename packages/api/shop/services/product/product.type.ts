@@ -1,71 +1,51 @@
-import { ObjectType, Field, ID } from 'type-graphql';
-import { ProductType } from './product.enum';
+import { ObjectType, Field, InputType } from 'type-graphql';
 import Category from '../category/category.type';
-import Gallery from './gallery.type';
 import PaginatedResponse from '../../helpers/paginated-response';
 
-@ObjectType()
-export class Meta {
-  @Field()
-  publisher: string;
+import { registerEnumType } from 'type-graphql';
 
-  @Field()
-  isbn: string;
-
-  @Field()
-  edition: string;
-
-  @Field()
-  country: string;
-
-  @Field(() => [String])
-  languages: string[];
-
-  @Field()
-  numberOfReader: string;
-
-  @Field()
-  numberOfPage: string;
-
-  @Field()
-  samplePDF: string;
+export enum ProductType {
+  BOOK = 'book',
+  BAGS = 'bags',
+  GROCERY = 'grocery',
+  MEDICINE = 'medicine',
+  CLOTH = 'cloth',
+  CLOTHING = 'clothing',
+  FURNITURE = 'furniture',
+  MAKEUP = 'makeup',
 }
 
-@ObjectType()
-export class Social {
-  @Field(() => ID)
-  id: string;
+registerEnumType(ProductType, {
+  name: 'ProductType',
+  description: 'The basic product types',
+});
+
+
+@InputType()
+export class ProductSearchInput {
+  @Field({ nullable: true })
+  id?: number;
 
   @Field()
-  media: string;
+  type: ProductType;
 
-  @Field()
-  profileLink: string;
+  @Field({ nullable: true })
+  category?: string;
+
+  @Field({ defaultValue: 0 })
+  offset: number;
+
+  @Field({ defaultValue: 10 })
+  limit: number;
 }
 
+
 @ObjectType()
-export class Author {
-  @Field(() => ID)
-  id: string;
-
+class Gallery {
   @Field()
-  name: string;
-
-  @Field()
-  avatar: string;
-
-  @Field()
-  bio: string;
-
-  @Field()
-  email: string;
-
-  @Field()
-  website: string;
-
-  @Field(() => [Social])
-  socials: Social[];
+  url: string;
 }
+
 
 @ObjectType()
 export default class Product {
@@ -104,12 +84,6 @@ export default class Product {
 
   @Field()
   discountInPercent: number;
-
-  @Field(() => Author, { nullable: true })
-  author?: Author;
-
-  @Field(() => Meta, { nullable: true })
-  meta?: Meta;
 
   @Field()
   createdAt: Date;
