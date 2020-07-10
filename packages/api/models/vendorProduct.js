@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const category = require('./category');
+
 module.exports = (sequelize, DataTypes) => {
   class VendorProduct extends Model {
     /**
@@ -12,22 +12,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        /*this.belongsToMany(models.Category, { through: Category_VendorProduct });
-        this.belongsToMany(models.Coupon, { through: Coupon_VendorProduct });*/
+      this.belongsToMany(models.Category, {
+        through: 'VendorProductCategory',
+        as: 'vendorProducts',
+        foreignKey: 'vendorProductId'
+      });
     }
-  };
-  VendorProduct.init({
-    name: DataTypes.STRING,
-    type: DataTypes.STRING,
-    categories: DataTypes.STRING,
-    image: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'VendorProduct',
-  });
+  }
+  VendorProduct.init(
+    {
+      name: DataTypes.STRING,
+      type: DataTypes.STRING,
+      categories: DataTypes.STRING,
+      image: DataTypes.STRING,
+      description: DataTypes.STRING,
+      price: DataTypes.INTEGER,
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: 'VendorProduct',
+    }
+  );
   return VendorProduct;
 };

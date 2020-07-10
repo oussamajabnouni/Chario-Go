@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
 export const ProductsRow = styled.div`
   display: flex;
@@ -7,7 +7,7 @@ export const ProductsRow = styled.div`
   margin-top: 25px;
   background-color: #f7f7f7;
   position: relative;
-  z-index: 1;
+
   margin: 0 -15px;
   @media (max-width: 768px) {
     margin-left: -7.5px;
@@ -158,10 +158,10 @@ export const NoResult = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: ${themeGet('fontFamily.0', 'sans-serif')};
-  font-size: ${themeGet('fontSizes.4', '21')}px;
-  font-weight: ${themeGet('fontWeights.6', '700')};
-  color: ${themeGet('colors.darkBold', '#0D1136')};
+  font-family: ${themeGet("fontFamily.0", "sans-serif")};
+  font-size: ${themeGet("fontSizes.4", "21")}px;
+  font-weight: ${themeGet("fontWeights.6", "700")};
+  color: ${themeGet("colors.darkBold", "#0D1136")};
 `;
 
 export const LoaderWrapper = styled.div`
