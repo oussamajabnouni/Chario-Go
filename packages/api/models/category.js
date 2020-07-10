@@ -21,10 +21,25 @@ module.exports = (sequelize, DataTypes) => {
         as: 'vendorProducts',
         foreignKey: 'categoryId'
       });
-      /*this.belongsToMany(models.Product, { through: Category_VendorProduct });
-      this.belongsToMany(models.VendorProduct, { through: Category_VendorProduct });*/
-
-
+      this.belongsToMany(models.OrderProduct, {
+        through: 'OrderProductCategory',
+        as: 'orderproducts',
+        foreignKey: 'categoryId'
+      });
+    }
+  }
+  Category.init(
+    {
+      title: DataTypes.STRING,
+      type: DataTypes.STRING,
+      icon: DataTypes.STRING,
+      slug: DataTypes.STRING,
+      number_of_product: DataTypes.INTEGER,
+      createdAt: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: 'Category',
     }
   );
 
