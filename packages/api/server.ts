@@ -3,7 +3,7 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { UserResolver } from './shop/services/user/user.resolver';
-import { ProductResolver } from './shop/services/product/product.resolver';
+import ProductResolver from './shop/services/product/product.resolver';
 import { PaymentResolver } from './shop/services/payment/payment.resolver';
 import { OrderResolver } from './shop/services/order/order.resolver';
 import { CouponResolver } from './shop/services/coupon/coupon.resolver';
