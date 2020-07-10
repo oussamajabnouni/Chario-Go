@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        this.belongsToMany(models.Product, { through: Coupon_Product });
+        /*this.belongsToMany(models.Product, { through: Coupon_Product });*/
 
       // this.belongsToMany(Product, { through: Coupon_Product });
     }
