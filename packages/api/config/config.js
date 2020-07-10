@@ -1,11 +1,13 @@
-{
+require('dotenv').config();
+
+module.exports = {
   "development": {
-    "username": "root",
-    "password": "root",
-    "database": "chario_go",
-    "host": "localhost",
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_DATABASE,
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
-    "port": "8889"
+    "port": process.env.DB_PORT
   },
   "test": {
     "username": "root",

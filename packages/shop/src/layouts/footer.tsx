@@ -218,11 +218,10 @@ const Footer = () => {
         <Box>
           <FormattedMessage
             id="siteFooter"
-            defaultMessage="PickBazar is a product of"
           />
           &nbsp;
           <a href="#" target="_blank">
-            RedQ, Inc.
+            Chario, Inc.
           </a>
         </Box>
       </Row>
