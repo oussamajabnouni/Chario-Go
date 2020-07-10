@@ -12,9 +12,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        /*this.belongsToMany(models.Category, { through: Category_Product });
-        this.belongsToMany(models.Coupon, { through: Coupon_Product });
-        this.hasMany(models.Gallery, {foreignKey: 'productId', as: 'gallery'})*/
+      this.belongsToMany(models.Category, {
+        through: 'ProductCategory',
+        as: 'categories',
+        foreignKey: 'productId'
+      });
+      this.belongsToMany(models.Coupon, {
+        through: 'ProductCoupon',
+        as: 'coupons',
+        foreignKey: 'productId'
+      });
+      /*this.belongsToMany(models.Coupon, { through: Coupon_Product });*/
+      this.hasMany(models.Gallery, {foreignKey: 'productId', as: 'gallery'})
 
     }
   };
@@ -22,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     slug: DataTypes.STRING,
     title: DataTypes.STRING,
     unit: DataTypes.STRING,
+    type: DataTypes.STRING,
     image: DataTypes.STRING,
     description: DataTypes.STRING,
     price: DataTypes.INTEGER,

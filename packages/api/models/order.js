@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { threadId } = require('worker_threads');
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     /**

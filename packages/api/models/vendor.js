@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.VendorProduct, {foreignKey: 'vendorId', as: 'products'})
-
+      this.hasMany(models.User,{foreignKey: 'vendorId', as: 'owners'})
     }
   };
   Vendor.init({
@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     address: DataTypes.STRING,
     promotion: DataTypes.STRING,
-    owners: DataTypes.ARRAY(DataTypes.STRING),
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   }, {

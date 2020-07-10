@@ -11,6 +11,7 @@ module.exports = {
         slug: 'fruits-and-vegetables',
         createdAt: new Date(),
         updatedAt: new Date(),
+        parentId: null
       },
       {
         id: 2,
@@ -20,21 +21,23 @@ module.exports = {
         slug: 'meat-and-fish',
         createdAt: new Date(),
         updatedAt: new Date(),
+        parentId: 1
       },
       {
+        id: 3,
         title: 'Snacks',
         type: 'grocery',
         icon: 'Snacks',
         slug: 'snacks',
         createdAt: new Date(),
         updatedAt: new Date(),
+        parentId: 1
       },
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete('Categories', [{
-      first_name: 'John'
     }])
   }
 };
