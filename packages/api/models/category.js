@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Category extends Model {
     /**
@@ -28,18 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
     }
-  };
-  Category.init({
-    title: DataTypes.STRING,
-    type: DataTypes.STRING,
-    icon: DataTypes.STRING,
-    slug: DataTypes.STRING,
-    number_of_product: DataTypes.INTEGER,
-    createdAt: DataTypes.DATE,
-  }, {
-    sequelize,
-    modelName: 'Category',
-  });
+  );
 
   return Category;
 };

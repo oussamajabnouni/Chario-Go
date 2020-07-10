@@ -18,19 +18,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'vendorProductId'
       });
     }
-  };
-  VendorProduct.init({
-    name: DataTypes.STRING,
-    type: DataTypes.STRING,
-    categories: DataTypes.STRING,
-    image: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'VendorProduct',
-  });
+  }
+  VendorProduct.init(
+    {
+      name: DataTypes.STRING,
+      type: DataTypes.STRING,
+      categories: DataTypes.STRING,
+      image: DataTypes.STRING,
+      description: DataTypes.STRING,
+      price: DataTypes.INTEGER,
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: 'VendorProduct',
+    }
+  );
   return VendorProduct;
 };

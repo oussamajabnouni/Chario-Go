@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 const Product = require('./product');
 
 module.exports = (sequelize, DataTypes) => {
@@ -20,22 +18,25 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     }
-  };
-  Coupon.init({
-    title: DataTypes.STRING,
-    number_of_coupon: DataTypes.INTEGER,
-    number_of_used_coupon: DataTypes.INTEGER,
-    discount_in_percent: DataTypes.INTEGER,
-    category: DataTypes.STRING,
-    code: DataTypes.INTEGER,
-    minimum_amount: DataTypes.STRING,
-    status: DataTypes.STRING,
-    expiration_date: DataTypes.DATE,
-    description: DataTypes.STRING,
-    creation_date: DataTypes.DATE,
-  }, {
-    sequelize,
-    modelName: 'Coupon',
-  });
+  }
+  Coupon.init(
+    {
+      title: DataTypes.STRING,
+      number_of_coupon: DataTypes.INTEGER,
+      number_of_used_coupon: DataTypes.INTEGER,
+      discount_in_percent: DataTypes.INTEGER,
+      category: DataTypes.STRING,
+      code: DataTypes.INTEGER,
+      minimum_amount: DataTypes.STRING,
+      status: DataTypes.STRING,
+      expiration_date: DataTypes.DATE,
+      description: DataTypes.STRING,
+      creation_date: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: 'Coupon',
+    }
+  );
   return Coupon;
 };
