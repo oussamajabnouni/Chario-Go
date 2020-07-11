@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 const { threadId } = require('worker_threads');
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
@@ -20,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init(
     {
-      userId: DataTypes.INTEGER,
       status: DataTypes.INTEGER,
       deliveryTime: DataTypes.STRING,
       amount: DataTypes.INTEGER,
