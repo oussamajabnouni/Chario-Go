@@ -16,7 +16,7 @@ export class UserResolver {
   async me(@Arg('id') id: string): Promise<User> {
     // as auth user. check from middleware.
     console.log(id, 'user_id');
-    return await this.items[0];
+    return await this.items[0]; 
   }
 
 
