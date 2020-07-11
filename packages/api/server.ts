@@ -9,6 +9,10 @@ import { OrderResolver } from './shop/services/order/order.resolver';
 import { CouponResolver } from './shop/services/coupon/coupon.resolver';
 import { CategoryResolver } from './shop/services/category/category.resolver';
 import { VendorResolver } from './shop/services/vendors/vendors.resolver';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+import {redis} from './redis'
+import cors from 'cors'
 // Sequelize models
 const models = require('./models')
 
@@ -26,13 +30,38 @@ const main = async () => {
       CategoryResolver,
       VendorResolver,
     ],
+    
   });
   const apolloServer = new ApolloServer({
     schema,
     introspection: true,
     playground: true,
     tracing: true,
+    context: ({ req }: any) => ({ req })
   });
+  const RedisStore = connectRedis(session);
+  app.use(
+    cors({
+      credentials: true,
+      origin: "http://localhost:3000"
+    }
+  ));
+  app.use(
+    session({
+      store: new RedisStore({
+        client: redis as any
+      }),
+      name: "qid",
+      secret: "aslkdfjoiq12312",
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 365 // 7 years
+      }
+    })
+  );
   apolloServer.applyMiddleware({ app, path });
 
   models.sequelize.authenticate();
