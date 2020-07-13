@@ -1,52 +1,78 @@
 import { Resolver, Query, Arg, Args, Mutation } from 'type-graphql';
-import { createProductSamples } from './product.sample';
+const { Op } = require("sequelize");
 import Product from './product.type';
 import Products from './products.type';
 import { GetProductsArgs } from './product.type';
 import { AddProductInput } from './product.type';
-import search from '../../helpers/search';
-import shuffle from '../../helpers/shuffle';
-import { sortByHighestNumber, sortByLowestNumber } from '../../helpers/sorts';
 
 const models = require('../../../models')
+
 @Resolver()
 export default class ProductResolver {
-  private readonly productsCollection: Product[] = createProductSamples();
 
   @Query((returns) => Products, { description: 'Get all the products' })
   async products(
     @Args()
-    { limit, offset, sortByPrice, type, searchText, category }: GetProductsArgs
+    { limit, offset, sortByPrice, type, searchText, category, locationState, locationCity }: GetProductsArgs
   ): Promise<Products> {
-    let products = this.productsCollection;
-    if (category) {
-      products = products.filter((product) =>
-        product.categories.find(
-          (category_item) => category_item.slug === category
-        )
-      );
+    let where = {};
+    let order;
+    let include: any = [{ all: true }];
+    if (searchText) {
+      where = {
+        ...where,
+        title: { [Op.like]: `%${searchText}%` }
+      }
     }
     if (type) {
-      products = products.filter((product) => product.type === type);
+      where = {
+        ...where,
+        type
+      }
     }
+    if (category) {
+      include = [...include, {
+        model: models.Category,
+        where: { 'slug': category },
+        as: 'categories',
+      }]
+    };
+    if (locationState && locationCity) {
+      include = [...include, {
+        model: models.Address,
+        where: { 'city': locationCity, "state": locationState },
+        as: 'deliverTo',
+      }]
+    };
     if (sortByPrice) {
       if (sortByPrice === 'highestToLowest') {
-        products = sortByHighestNumber(products, 'price');
+        order = [['price', 'DESC']]
       }
       if (sortByPrice === 'lowestToHighest') {
-        products = sortByLowestNumber(products, 'price');
+        order = [['price', 'ASC']]
       }
-    } else {
-      products = shuffle(products);
     }
-
-    // return await products.slice(0, limit);
-    products = await search(products, ['name'], searchText);
-    const hasMore = products.length > offset + limit;
+    const items = await models.Product
+      .findAll({
+        include,
+        where,
+        order,
+        limit,
+        offset
+      })
+    console.log(items)
+    const count = await models.Product
+      .count({
+        where,
+        order,
+      })
+    const totalCount = await models.Product
+      .count()
+    const hasMore = count > offset + limit;
 
     return {
-      items: products.slice(offset, offset + limit),
-      totalCount: this.productsCollection.length,
+      items,
+      totalCount,
       hasMore,
     };
   }

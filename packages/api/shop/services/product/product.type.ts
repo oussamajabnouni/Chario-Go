@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int, Float, InputType, ArgsType, ID } from 'type-graphql';
 import Category from '../category/category.type';
-import PaginatedResponse from '../../helpers/paginated-response';
+import Address from '../user/address.type';
 
 import { registerEnumType } from 'type-graphql';
 
@@ -39,6 +39,12 @@ export class GetProductsArgs {
 
   @Field({ nullable: true })
   category?: string;
+
+  @Field({ nullable: true })
+  locationState?: string;
+
+  @Field({ nullable: true })
+  locationCity?: string;
 }
 
 @InputType({ description: 'New recipe data' })
@@ -83,24 +89,6 @@ export class AddProductInput implements Partial<Product> {
   creation_date: Date;
 }
 
-@InputType()
-export class ProductSearchInput {
-  @Field({ nullable: true })
-  id?: number;
-
-  @Field()
-  type: ProductType;
-
-  @Field({ nullable: true })
-  category?: string;
-
-  @Field({ defaultValue: 0 })
-  offset: number;
-
-  @Field({ defaultValue: 10 })
-  limit: number;
-}
-
 
 @ObjectType()
 class Gallery {
@@ -125,6 +113,9 @@ export default class Product {
 
   @Field(() => [Category])
   categories: Category[];
+
+  @Field(() => [Address])
+  deliverTo: Address[];
 
   @Field()
   unit: string;

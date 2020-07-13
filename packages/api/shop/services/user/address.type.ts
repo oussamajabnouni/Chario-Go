@@ -1,7 +1,7 @@
 import { ObjectType, Field, InputType } from 'type-graphql';
 
 @InputType({ description: 'New recipe data' })
-export class AddAddressInput implements Partial<Address> {
+export class AddAddressInput {
   @Field()
   type: string;
 
@@ -18,10 +18,10 @@ export default class Address {
   id: string;
 
   @Field()
-  type: string;
+  city: string;
 
   @Field()
-  name: string;
+  state: string;
 
   @Field()
   info: string;

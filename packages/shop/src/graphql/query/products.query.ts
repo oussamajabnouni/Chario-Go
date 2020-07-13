@@ -3,14 +3,14 @@ import gql from 'graphql-tag';
 export const GET_PRODUCTS = gql`
   query getProducts(
     $type: String
-    $text: String
+    $searchText: String
     $category: String
     $offset: Int
     $limit: Int
   ) {
     products(
       type: $type
-      text: $text
+      searchText: $searchText
       category: $category
       offset: $offset
       limit: $limit
@@ -26,10 +26,6 @@ export const GET_PRODUCTS = gql`
         discountInPercent
         type
         image
-        author {
-          id
-          name
-        }
         gallery {
           url
         }

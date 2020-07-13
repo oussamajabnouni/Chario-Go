@@ -15,13 +15,17 @@ module.exports = (sequelize, DataTypes) => {
         as: 'categories',
         foreignKey: 'productId'
       });
+      this.belongsToMany(models.Address, {
+        through: 'ProductDeliverTo',
+        as: 'deliverTo',
+        foreignKey: 'productId'
+      });
       this.belongsToMany(models.Coupon, {
         through: 'ProductCoupon',
         as: 'coupons',
         foreignKey: 'productId'
       });
-      /*this.belongsToMany(models.Coupon, { through: Coupon_Product });*/
-      this.hasMany(models.Gallery, {foreignKey: 'productId', as: 'gallery'})
+      this.hasMany(models.Gallery, { foreignKey: 'productId', as: 'gallery' })
 
     }
   };
