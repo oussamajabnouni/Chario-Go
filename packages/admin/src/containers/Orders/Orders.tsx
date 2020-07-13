@@ -7,33 +7,31 @@ import {
   Row as Rows,
   Col as Column,
 } from "../../components/FlexBox/FlexBox";
-import Select from "../../components/Select/Select";
+
 import Input from "../../components/Input/Input";
 
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { Wrapper, Header, Heading } from "../../components/WrapperStyle";
-import Checkbox from "../../components/CheckBox/CheckBox";
 
-import {
-  TableWrapper,
-  StyledTable,
-  StyledHeadCell,
-  StyledCell,
-} from "./Orders.style";
+import { StyledHeadCell, StyledCell } from "./Orders.style";
 import NoResult from "../../components/NoResult/NoResult";
 
 const GET_ORDERS = gql`
   query getOrders($status: String, $limit: Int, $searchText: String) {
     orders(status: $status, limit: $limit, searchText: $searchText) {
       id
-      customer_id
-      creation_date
-      delivery_address
-      amount
+
+      status
       payment_method
       contact_number
-      status
+      deliveryTime
+      amount
+      subtotal
+      discount
+      deliveryFee
+      deliveryAddress
+      date
     }
   }
 `;
