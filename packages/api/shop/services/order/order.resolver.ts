@@ -2,7 +2,7 @@ import { Resolver, Query, Arg, Int, Mutation } from 'type-graphql';
 import loadOrders from './order.sample';
 import Order from './order.type';
 import { filterOrder } from '../../helpers/filter';
-import { take } from 'lodash';
+const models = require('../../../models')
 
 @Resolver()
 export class OrderResolver {
@@ -10,14 +10,17 @@ export class OrderResolver {
 
   @Query(() => [Order], { description: 'Get all the Orders' })
   async orders(
-    @Arg('user', type => Int) user: number,
+    @Arg('user', type => Int, { nullable: true }) user: number,
     @Arg('text', type => String, { nullable: true }) text: string,
     @Arg('limit', type => Int, { defaultValue: 7 }) limit: number,
     @Arg("status", type => String, { nullable: true }) status: string,
     @Arg("searchText", type => String, { defaultValue: "" }) searchText: string
   ): Promise<Order[]> {
     // return await take(this.items.filter(item => item.userId === user), limit);
-    return await filterOrder(this.items, user, limit, text);
+    return await models.Order
+      .findAll({
+        include: [{ all: true }],
+      })
   }
 
   @Query(() => Order, { description: 'Get single order' })

@@ -6,8 +6,9 @@ module.exports = {
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_DATABASE,
     "host": process.env.DB_HOST,
-    "dialect": "mariadb",
-    "port": process.env.DB_PORT
+    "dialect": process.env.DB_DIALECT,
+    "port": process.env.DB_PORT,
+    "storage": "./session.sqlite"
   },
   "test": {
     "username": "root",

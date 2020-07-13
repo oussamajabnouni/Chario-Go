@@ -1,11 +1,11 @@
-import { Resolver, Query, Arg, Int, Mutation, Ctx} from 'type-graphql';
+import { Resolver, Query, Arg, Int, Mutation, Ctx } from 'type-graphql';
 const models = require('../../../models')
 import { filterItems } from '../../helpers/filter';
 import User from './user.type';
 import loadUsers from './user.sample';
 import bcrypt from "bcryptjs";
-import { signUpInput } from "./user.type";
-import {MyContext} from '../../types/context';
+import { SignUpInput } from "./user.type";
+import { MyContext } from '../../types/context';
 
 @Resolver()
 export class UserResolver {
@@ -16,23 +16,27 @@ export class UserResolver {
   async me(@Arg('id') id: string): Promise<User> {
     // as auth user. check from middleware.
     console.log(id, 'user_id');
-    return await this.items[0]; 
+    return await this.items[0];
   }
 
 
   @Mutation(() => User, { description: 'create user' })
-  async signUp(@Arg("data")
-  {
-    name,
-    email,
-    password
-  }: signUpInput): Promise<User> {
-    const hashedPassword= await bcrypt.hash(password,12)
-    return await models.User.create(
-      name,
-      email,
-      hashedPassword
-    )
+  async signUp(@Arg("user") user: SignUpInput): Promise<User> {
+    const hashedPassword = await bcrypt.hash(user.password, 12)
+
+    try {
+      var newuser = await models.User.create(
+        {
+          name: user.name,
+          email: user.email,
+          password: hashedPassword
+        }
+      )
+    }
+    catch (err) {
+      err
+    }
+    return newuser;
   }
 
   @Mutation(() => User, { nullable: true })
@@ -54,7 +58,7 @@ export class UserResolver {
     }
 
     ctx.req.session!.userId = user.id;
-
+    console.log(ctx.req.session)
     return user;
   }
 

@@ -11,21 +11,21 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(models.Category, { foreignKey: 'parentId', as: 'children' })
       //this.belongsToMany(models.Product, { through: Category_Product });
-      this.belongsToMany(models.Product, {
-        through: 'ProductCategory',
-        as: 'products',
-        foreignKey: 'categoryId'
-      });
-      this.belongsToMany(models.Product, {
-        through: 'vendorProductCategory',
-        as: 'vendorProducts',
-        foreignKey: 'categoryId'
-      });
-      this.belongsToMany(models.OrderProduct, {
-        through: 'OrderProductCategory',
-        as: 'orderproducts',
-        foreignKey: 'categoryId'
-      });
+      // this.belongsToMany(models.Product, {
+      //   through: 'ProductCategory',
+      //   as: 'products',
+      //   foreignKey: 'categoryId'
+      // });
+      // this.belongsToMany(models.Product, {
+      //   through: 'vendorProductCategory',
+      //   as: 'vendorProducts',
+      //   foreignKey: 'categoryId'
+      // });
+      // this.belongsToMany(models.OrderProduct, {
+      //   through: 'OrderProductCategory',
+      //   as: 'orderproducts',
+      //   foreignKey: 'categoryId'
+      // });
     }
   }
   Category.init(

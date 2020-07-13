@@ -10,10 +10,9 @@ import { CouponResolver } from './shop/services/coupon/coupon.resolver';
 import { CategoryResolver } from './shop/services/category/category.resolver';
 import { VendorResolver } from './shop/services/vendors/vendors.resolver';
 import session from 'express-session';
-import connectRedis from 'connect-redis';
-import {redis} from './redis'
 import cors from 'cors'
 // Sequelize models
+const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const models = require('./models')
 
 const app: express.Application = express();
@@ -30,7 +29,7 @@ const main = async () => {
       CategoryResolver,
       VendorResolver,
     ],
-    
+
   });
   const apolloServer = new ApolloServer({
     schema,
@@ -39,18 +38,18 @@ const main = async () => {
     tracing: true,
     context: ({ req }: any) => ({ req })
   });
-  const RedisStore = connectRedis(session);
   app.use(
     cors({
       credentials: true,
       origin: "http://localhost:3000"
     }
-  ));
+    ));
+  const sequelizeStore = new SequelizeStore({
+    db: models.sequelize,
+  });
   app.use(
     session({
-      store: new RedisStore({
-        client: redis as any
-      }),
+      store: sequelizeStore,
       name: "qid",
       secret: "aslkdfjoiq12312",
       resave: false,
@@ -65,8 +64,10 @@ const main = async () => {
   apolloServer.applyMiddleware({ app, path });
 
   models.sequelize.authenticate();
-
-  models.sequelize.sync({ alter: true });
+  // session models creation
+  sequelizeStore.sync({ alter: true });
+  // all models creation
+  // models.sequelize.sync({ alter: true })
 
   app.listen(PORT, () => {
     console.log(`🚀 started http://localhost:${PORT}${path}`);
