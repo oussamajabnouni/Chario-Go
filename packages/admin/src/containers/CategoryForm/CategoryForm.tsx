@@ -60,7 +60,7 @@ const AddCategory: React.FC<Props> = (props) => {
   const { register, handleSubmit, setValue } = useForm();
   const [category, setCategory] = useState([]);
   React.useEffect(() => {
-    register({ name: "parent" });
+    register({ name: "parentId" });
     register({ name: "image" });
   }, [register]);
   const [createCategory] = useMutation(CREATE_CATEGORY, {
@@ -76,11 +76,11 @@ const AddCategory: React.FC<Props> = (props) => {
     },
   });
 
-  const onSubmit = ({ title, slug, parent, image }) => {
+  const onSubmit = ({ title, slug, parentId, image }) => {
     const newCategory = {
       id: uuidv4(),
       title: title,
-      type: parent[0].value,
+      type: parentId[0].value,
       slug: slug,
       icon: image,
       creation_date: new Date(),
@@ -92,7 +92,7 @@ const AddCategory: React.FC<Props> = (props) => {
     console.log(newCategory, "newCategory");
   };
   const handleChange = ({ value }) => {
-    setValue("parent", value);
+    setValue("parentId", value);
     setCategory(value);
   };
   const handleUploader = (files) => {
