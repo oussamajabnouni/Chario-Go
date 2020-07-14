@@ -53,14 +53,14 @@ export class AddProductInput implements Partial<Product> {
   id: string;
 
   @Field()
-  name: string;
+  title: string;
 
   @Field()
   slug: string;
 
   @Field()
   image: string;
-  @Field(() => ProductType)
+  @Field(() => String)
   type: ProductType;
 
   @Field({ defaultValue: '1' })
@@ -108,7 +108,7 @@ export default class Product {
   @Field()
   title: string;
 
-  @Field(() => ProductType)
+  @Field(() => String)
   type: ProductType;
 
   @Field(() => [Category])
@@ -125,6 +125,9 @@ export default class Product {
 
   @Field(() => [Gallery])
   gallery: Gallery[];
+
+  @Field(type => Int)
+  quantity: number;
 
   @Field()
   description: string;
