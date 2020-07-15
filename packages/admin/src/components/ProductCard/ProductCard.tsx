@@ -19,7 +19,7 @@ import { useDrawerDispatch } from '../../context/DrawerContext';
 type ProductCardProps = {
   title: string;
   image: any;
-  weight?: string;
+  unit?: string;
   currency?: string;
   description?: string;
   price: number;
@@ -32,7 +32,7 @@ type ProductCardProps = {
 const ProductCard: React.FC<ProductCardProps> = ({
   title,
   image,
-  weight,
+  unit,
   price,
   salePrice,
   discountInPercent,
@@ -69,7 +69,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </ProductImageWrapper>
       <ProductInfo>
         <ProductTitle>{title}</ProductTitle>
-        <ProductWeight>{weight}</ProductWeight>
+        <ProductWeight>{unit}</ProductWeight>
         <ProductMeta>
           <ProductPriceWrapper>
             <ProductPrice>

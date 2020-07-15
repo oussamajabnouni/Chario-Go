@@ -19,7 +19,7 @@ export class VendorResolver {
     if (text) {
       where = {
         ...where,
-        title: { [Op.like]: `%${text}%` }
+        name: { [Op.like]: `%${text}%` }
       }
     }
     if (type) {

@@ -55,12 +55,11 @@ const GET_PRODUCTS = gql`
     ) {
       items {
         id
-        name
+        title
         image
         type
         price
         unit
-        salePrice
         discountInPercent
       }
       totalCount

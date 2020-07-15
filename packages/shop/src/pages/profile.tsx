@@ -29,7 +29,7 @@ const ProfilePage: NextPage<Props> = ({ deviceType }) => {
   if (error) return <div>{error.message}</div>;
   return (
     <>
-      <SEO title="Profile - PickBazar" description="Profile Details" />
+      <SEO title="Profile - Chario Go" description="Profile Details" />
       <ProfileProvider initData={data.me}>
         <Modal>
           <PageWrapper>

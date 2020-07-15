@@ -20,7 +20,7 @@ type Props = {
 const OrderPage: NextPage<Props> = ({ deviceType }) => {
   return (
     <>
-      <SEO title="Order - PickBazar" description="Order Details" />
+      <SEO title="Order - Chario Go" description="Order Details" />
       <Modal>
         <PageWrapper>
           {deviceType.desktop && (

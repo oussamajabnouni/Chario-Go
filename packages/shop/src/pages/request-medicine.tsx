@@ -27,7 +27,7 @@ const RequestMedicinePage: NextPage<Props> = ({ deviceType }) => {
   return (
     <>
       <SEO
-        title="Request Medicine - PickBazar"
+        title="Request Medicine - Chario Go"
         description="Request Medicine Details"
       />
       <ProfileProvider initData={data.me}>

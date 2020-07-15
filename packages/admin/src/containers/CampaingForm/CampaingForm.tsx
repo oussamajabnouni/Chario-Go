@@ -28,7 +28,7 @@ const GET_COUPONS = gql`
       number_of_used_coupon
       number_of_coupon
       expiration_date
-      creation_date
+      createdAt
       status
     }
   }
@@ -42,7 +42,8 @@ const CREATE_COUPON = gql`
       number_of_used_coupon
       number_of_coupon
       expiration_date
-      creation_date
+      discount_in_percent
+      createdAt
       status
     }
   }
@@ -82,14 +83,12 @@ const AddCampaing: React.FC<Props> = props => {
 
   const onSubmit = data => {
     const newCoupon = {
-      id: uuidv4(),
       title: data.name,
       code: data.code,
       category: category[0].value,
       discount_in_percent: Number(data.discount_in_percent),
       number_of_coupon: Number(data.number_of_coupon),
       minimum_amount: Number(data.minimum_amount),
-      creation_date: new Date(),
     };
     createCoupon({
       variables: { coupon: newCoupon },

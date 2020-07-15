@@ -6,7 +6,7 @@ import { withApollo } from 'utils/apollo';
 const OrderReceivedPage = () => {
   return (
     <>
-      <SEO title="Invoice - PickBazar" description="Invoice Details" />
+      <SEO title="Invoice - Chario Go" description="Invoice Details" />
       <OrderReceived />
     </>
   );

@@ -1,17 +1,17 @@
-import React, { useState, useCallback } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { Scrollbars } from "react-custom-scrollbars";
-import { useDrawerDispatch, useDrawerState } from "../../context/DrawerContext";
-import Uploader from "../../components/Uploader/Uploader";
-import Button, { KIND } from "../../components/Button/Button";
-import DrawerBox from "../../components/DrawerBox/DrawerBox";
-import { Row, Col } from "../../components/FlexBox/FlexBox";
-import Input from "../../components/Input/Input";
-import { Textarea } from "../../components/Textarea/Textarea";
-import Select from "../../components/Select/Select";
-import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
+import { Scrollbars } from 'react-custom-scrollbars';
+import { useDrawerDispatch, useDrawerState } from '../../context/DrawerContext';
+import Uploader from '../../components/Uploader/Uploader';
+import Button, { KIND } from '../../components/Button/Button';
+import DrawerBox from '../../components/DrawerBox/DrawerBox';
+import { Row, Col } from '../../components/FlexBox/FlexBox';
+import Input from '../../components/Input/Input';
+import { Textarea } from '../../components/Textarea/Textarea';
+import Select from '../../components/Select/Select';
+import { FormFields, FormLabel } from '../../components/FormFields/FormFields';
 
 import {
   Form,
@@ -66,6 +66,7 @@ const UPDATE_PRODUCT = gql`
   }
 `;
 
+<<<<<<< HEAD
 const options = [
   { value: "Fruits & Vegetables", name: "Fruits & Vegetables", id: "1" },
   { value: "Meat & Fish", name: "Meat & Fish", id: "2" },
@@ -78,6 +79,35 @@ const options = [
   { value: "Outer Wear", name: "Outer Wear", id: "9" },
   { value: "Pants", name: "Pants", id: "10" },
 ];
+=======
+const GET_CATEGORIES = gql`
+  query getCategories($type: String, $searchBy: String) {
+    categories(type: $type, searchBy: $searchBy) {
+      id
+      icon
+      title
+      slug
+      type
+    }
+  }
+`;
+
+const UPDATE_PRODUCT = gql`
+  mutation createProduct($product: AddProductInput!) {
+    createProduct(product: $product) {
+      id
+      title
+      image
+      slug
+      type
+      price
+      unit
+      description
+      discountInPercent
+    }
+  }
+`;
+>>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
 
 const typeOptions = [
   { value: "grocery", name: "Grocery", id: "1" },
@@ -88,15 +118,22 @@ type Props = any;
 
 const AddProduct: React.FC<Props> = () => {
   const dispatch = useDrawerDispatch();
+<<<<<<< HEAD
   const data = useDrawerState("data");
   const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
+=======
+  const data = useDrawerState('data');
+
+  const { data: gategoryOptions } = useQuery(GET_CATEGORIES);
+  const closeDrawer = useCallback(() => dispatch({ type: 'CLOSE_DRAWER' }), [
+>>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
     dispatch,
   ]);
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: data,
   });
   const [type, setType] = useState([{ value: data.type }]);
-  const [tag, setTag] = useState([]);
+  const [category, setCategory] = useState([]);
   const [description, setDescription] = useState(data.description);
   React.useEffect(() => {
     register({ name: "type" });
@@ -126,8 +163,13 @@ const AddProduct: React.FC<Props> = () => {
   });
 
   const handleMultiChange = ({ value }) => {
+<<<<<<< HEAD
     setValue("categories", value);
     setTag(value);
+=======
+    setValue('categories', value);
+    setCategory(value);
+>>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
   };
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -142,6 +184,7 @@ const AddProduct: React.FC<Props> = () => {
   const handleUploader = (files) => {
     setValue("image", files[0].path);
   };
+<<<<<<< HEAD
   const onSubmit = (data) => {
     const categories = data.categories.map((category) => category.id);
     const updatProduct = {
@@ -159,6 +202,29 @@ const AddProduct: React.FC<Props> = () => {
     updateProduct({
       variables: { product: updatProduct },
     });
+=======
+
+  const getCategoriesFromData = () => {
+    const fullCatgories = data.categories.map((id) => {
+
+    })
+  }
+
+  const onSubmit = data => {
+    const categories = data.categories.map(category => category.id);
+    const updatedProduct = {
+      name: data.name,
+      type: data.type[0].value,
+      description: data.description,
+      image: data.image,
+      price: Number(data.price),
+      unit: data.unit,
+      discountInPercent: Number(data.discountInPercent),
+      slug: data.name,
+      categories: categories
+    };
+    console.log(data, 'updateProduct data');
+>>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
     closeDrawer();
   };
 
@@ -207,10 +273,10 @@ const AddProduct: React.FC<Props> = () => {
             <Col lg={8}>
               <DrawerBox>
                 <FormFields>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Title</FormLabel>
                   <Input
                     inputRef={register({ required: true, maxLength: 20 })}
-                    name="name"
+                    name="title"
                   />
                 </FormFields>
 
@@ -237,22 +303,12 @@ const AddProduct: React.FC<Props> = () => {
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Sale Price</FormLabel>
-                  <Input type="number" inputRef={register} name="salePrice" />
-                </FormFields>
-
-                <FormFields>
                   <FormLabel>Discount In Percent</FormLabel>
                   <Input
                     type="number"
                     inputRef={register}
                     name="discountInPercent"
                   />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Product Quantity</FormLabel>
-                  <Input type="number" inputRef={register} name="quantity" />
                 </FormFields>
 
                 <FormFields>
@@ -316,11 +372,11 @@ const AddProduct: React.FC<Props> = () => {
                 <FormFields>
                   <FormLabel>Categories</FormLabel>
                   <Select
-                    options={options}
-                    labelKey="name"
-                    valueKey="value"
-                    placeholder="Product Tag"
-                    value={tag}
+                    options={gategoryOptions}
+                    labelKey="title"
+                    valueKey="id"
+                    placeholder="Product Category"
+                    value={category}
                     onChange={handleMultiChange}
                     overrides={{
                       Placeholder: {

@@ -17,15 +17,13 @@ const isValidToken = () => {
 
 const AuthProvider = (props: any) => {
   const [isAuthenticated, makeAuthenticated] = React.useState(isValidToken());
-  function authenticate({ email, password }, cb) {
+  async function authenticate({ token }) {
     makeAuthenticated(true);
-    localStorage.setItem('pickbazar_token', `${email}.${password}`);
-    setTimeout(cb, 100); // fake async
+    await localStorage.setItem('pickbazar_token', token);
   }
-  function signout(cb) {
+  function signout() {
     makeAuthenticated(false);
     localStorage.removeItem('pickbazar_token');
-    setTimeout(cb, 100);
   }
   return (
     <AuthContext.Provider
