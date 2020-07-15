@@ -2,8 +2,6 @@ import { ObjectType, Field, Int, ID, InputType } from 'type-graphql';
 import Product from '../product/product.type'
 @InputType({ description: 'New coupon data' })
 export class AddCouponInput {
-  @Field(type => ID)
-  id: string;
 
   @Field()
   title: string;
@@ -23,17 +21,9 @@ export class AddCouponInput {
   @Field(type => Int, { defaultValue: 0 })
   minimum_amount: number;
 
-  @Field({ defaultValue: 'active' })
+  @Field(type => String, { defaultValue: "active" })
   status: string;
 
-  @Field({ nullable: true })
-  expiration_date?: Date;
-
-  @Field({ nullable: true })
-  description?: string;
-
-  @Field()
-  creation_date: Date;
 }
 
 @ObjectType()
@@ -71,9 +61,6 @@ export default class Coupon {
   @Field({ nullable: true })
   expiration_date?: Date;
 
-  @Field({ nullable: true })
-  description?: string;
-
   @Field()
-  creation_date: Date;
+  createdAt: Date;
 }

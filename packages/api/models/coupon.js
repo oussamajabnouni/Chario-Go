@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-        this.belongsToMany(models.Product, {
-          through: 'ProductCoupon',
-          as: 'products',
-          foreignKey: 'couponId'
-        });
+      this.belongsToMany(models.Product, {
+        through: 'ProductCoupon',
+        as: 'products',
+        foreignKey: 'couponId'
+      });
 
     }
   }
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       number_of_used_coupon: DataTypes.INTEGER,
       discount_in_percent: DataTypes.INTEGER,
       category: DataTypes.STRING,
-      code: DataTypes.INTEGER,
+      code: DataTypes.STRING,
       minimum_amount: DataTypes.STRING,
       status: DataTypes.STRING,
       expiration_date: DataTypes.DATE,

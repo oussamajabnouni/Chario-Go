@@ -39,7 +39,7 @@ const GET_COUPONS = gql`
       number_of_used_coupon
       number_of_coupon
       expiration_date
-      creation_date
+      createdAt
       status
     }
   }
@@ -303,7 +303,7 @@ export default function Coupons() {
 
                                 <ProgressText>{`${row[3] ? row[3] : 0} of ${
                                   row[4]
-                                } codes remaining`}</ProgressText>
+                                  } codes remaining`}</ProgressText>
                               </ProgressWrapper>
                             </StyledBodyCell>
                             <StyledBodyCell>
@@ -318,8 +318,8 @@ export default function Coupons() {
                                   row[7] === 'active'
                                     ? active
                                     : row[7] === 'revoked'
-                                    ? revoked
-                                    : ''
+                                      ? revoked
+                                      : ''
                                 }
                               >
                                 {row[7]}
@@ -329,14 +329,14 @@ export default function Coupons() {
                         );
                       })
                   ) : (
-                    <NoResult
-                      hideButton={false}
-                      style={{
-                        gridColumnStart: '1',
-                        gridColumnEnd: 'one',
-                      }}
-                    />
-                  )
+                      <NoResult
+                        hideButton={false}
+                        style={{
+                          gridColumnStart: '1',
+                          gridColumnEnd: 'one',
+                        }}
+                      />
+                    )
                 ) : null}
               </StyledTable>
             </TableWrapper>
