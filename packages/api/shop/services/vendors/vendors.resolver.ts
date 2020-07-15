@@ -1,8 +1,8 @@
 import { Resolver, Query, Arg, Args } from 'type-graphql';
 import { vendorSamples } from './vendors.sample';
 import { Vendor } from './vendor.type';
-import { Vendors } from './vendors.type';
-import { GetVendorsArgs } from './get-vendors.args';
+import { Vendors } from './vendor.type';
+import { GetVendorsArgs } from './vendor.type';
 import search from '../../helpers/search';
 
 @Resolver()

@@ -1,11 +1,11 @@
-import { Resolver, Query, Arg, Int, Mutation, Ctx } from 'type-graphql';
-const models = require('../../../models')
-import { filterItems } from '../../helpers/filter';
+import { Resolver, Query, Arg, Mutation, Ctx } from 'type-graphql';
 import User from './user.type';
 import loadUsers from './user.sample';
 import bcrypt from "bcryptjs";
 import { SignUpInput } from "./user.type";
 import { MyContext } from '../../types/context';
+
+const models = require('../../../models')
 
 @Resolver()
 export class UserResolver {
@@ -58,7 +58,6 @@ export class UserResolver {
     }
 
     ctx.req.session!.userId = user.id;
-    console.log(ctx.req.session)
     return user;
   }
 

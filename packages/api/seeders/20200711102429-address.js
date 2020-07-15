@@ -4,8 +4,6 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('addresses', [
       {
-        type: 'grocery',
-
         info: 'Rue yasser arafet',
         state: 'Tunis',
         city: 'Lac',
@@ -13,8 +11,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        type: 'grocery',
-
         info: 'beb bhar',
         state: 'Sousse',
         city: 'Sahloul',

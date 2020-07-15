@@ -13,6 +13,7 @@ export enum ProductType {
   CLOTHING = 'clothing',
   FURNITURE = 'furniture',
   MAKEUP = 'makeup',
+  FOOD = 'food',
 }
 
 registerEnumType(ProductType, {
@@ -47,25 +48,22 @@ export class GetProductsArgs {
   locationCity?: string;
 }
 
-@InputType({ description: 'New recipe data' })
+@InputType({ description: 'New product data' })
 export class AddProductInput implements Partial<Product> {
-  @Field(type => ID)
-  id: string;
-
   @Field()
-  name: string;
+  title: string;
 
   @Field()
   slug: string;
 
-  @Field()
+  @Field({ nullable: true })
   image: string;
+
   @Field(() => ProductType)
   type: ProductType;
 
   @Field({ defaultValue: '1' })
   unit: string;
-
 
   @Field(type => Int)
   price: number;
@@ -79,14 +77,12 @@ export class AddProductInput implements Partial<Product> {
   @Field(type => Int, { defaultValue: 1 })
   per_unit: number;
 
-  @Field(type => Int)
+  @Field(type => Int, { nullable: true })
   quantity: number;
 
   @Field({ nullable: true })
   description?: string;
 
-  @Field()
-  creation_date: Date;
 }
 
 
@@ -131,7 +127,6 @@ export default class Product {
 
   @Field()
   price: number;
-
 
   @Field(type => Int, { nullable: true })
   views?: number;

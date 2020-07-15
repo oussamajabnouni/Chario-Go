@@ -29,7 +29,6 @@ const main = async () => {
       CategoryResolver,
       VendorResolver,
     ],
-
   });
   const apolloServer = new ApolloServer({
     schema,

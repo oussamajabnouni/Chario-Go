@@ -1,20 +1,24 @@
-import { ObjectType, Field, ID, Int } from 'type-graphql';
-import { VendorProduct } from './product.type';
+import { ObjectType, Field, ID, Int, ArgsType } from 'type-graphql';
+import Product from '../product/product.type';
 
-@ObjectType()
-class DeliveryDetails {
-  @Field()
-  charge: string;
+@ArgsType()
+export class GetVendorsArgs {
+  @Field(() => Int, { defaultValue: 10 })
+  limit: number;
+
+  @Field(() => Int, { defaultValue: 0 })
+  offset: number;
 
   @Field({ nullable: true })
-  maximumDistance?: string;
+  type?: string;
 
-  @Field(() => Int, { nullable: true })
-  minimumOrder: number;
+  @Field({ nullable: true })
+  text?: string;
 
-  @Field({ defaultValue: true })
-  isFree: boolean;
+  @Field({ nullable: true })
+  category?: string;
 }
+
 
 @ObjectType()
 export class Vendor {
@@ -51,8 +55,17 @@ export class Vendor {
   @Field({ nullable: true })
   address?: string;
 
-  @Field(() => DeliveryDetails)
-  deliveryDetails: DeliveryDetails;
+  @Field()
+  charge: string;
+
+  @Field({ nullable: true })
+  maximumDistance?: string;
+
+  @Field(() => Int, { nullable: true })
+  minimumOrder: number;
+
+  @Field({ defaultValue: true })
+  isFree: boolean;
 
   @Field({ nullable: true })
   promotion?: string;
@@ -60,12 +73,24 @@ export class Vendor {
   @Field(() => [String], { nullable: true })
   owners?: string[];
 
-  @Field(() => [VendorProduct], { nullable: true })
-  products?: VendorProduct[];
+  @Field(() => [Product], { nullable: true })
+  products?: Product[];
 
   @Field()
   createdAt: Date;
 
   @Field()
   updatedAt: Date;
+}
+
+@ObjectType()
+export class Vendors {
+  @Field(type => [Vendor], { nullable: true })
+  items?: Vendor[];
+
+  @Field(type => Int, { defaultValue: 0 })
+  totalCount: number;
+
+  @Field()
+  hasMore: boolean;
 }
