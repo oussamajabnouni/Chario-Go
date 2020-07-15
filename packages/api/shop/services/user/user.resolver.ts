@@ -34,7 +34,7 @@ export class UserResolver {
           name: user.name,
           email: user.email,
           password: hashedPassword,
-          roleId: 3
+          roleId: 2
         }, { include: 'role' }
       )
     }
