@@ -1,15 +1,17 @@
-import React, { useState, useCallback } from 'react';
-import { useForm } from 'react-hook-form';
-import { Scrollbars } from 'react-custom-scrollbars';
-import { useDrawerDispatch, useDrawerState } from '../../context/DrawerContext';
-import Uploader from '../../components/Uploader/Uploader';
-import Button, { KIND } from '../../components/Button/Button';
-import DrawerBox from '../../components/DrawerBox/DrawerBox';
-import { Row, Col } from '../../components/FlexBox/FlexBox';
-import Input from '../../components/Input/Input';
-import { Textarea } from '../../components/Textarea/Textarea';
-import Select from '../../components/Select/Select';
-import { FormFields, FormLabel } from '../../components/FormFields/FormFields';
+import React, { useState, useCallback } from "react";
+import { useForm } from "react-hook-form";
+import gql from "graphql-tag";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { Scrollbars } from "react-custom-scrollbars";
+import { useDrawerDispatch, useDrawerState } from "../../context/DrawerContext";
+import Uploader from "../../components/Uploader/Uploader";
+import Button, { KIND } from "../../components/Button/Button";
+import DrawerBox from "../../components/DrawerBox/DrawerBox";
+import { Row, Col } from "../../components/FlexBox/FlexBox";
+import Input from "../../components/Input/Input";
+import { Textarea } from "../../components/Textarea/Textarea";
+import Select from "../../components/Select/Select";
+import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
 
 import {
   Form,
@@ -17,34 +19,77 @@ import {
   DrawerTitle,
   FieldDetails,
   ButtonGroup,
-} from '../DrawerItems/DrawerItems.style';
+} from "../DrawerItems/DrawerItems.style";
+
+const GET_PRODUCTS = gql`
+  query getProducts(
+    $type: String
+    $sortByPrice: String
+    $searchText: String
+    $offset: Int
+  ) {
+    products(
+      type: $type
+      sortByPrice: $sortByPrice
+      searchText: $searchText
+      offset: $offset
+    ) {
+      items {
+        id
+        name
+        image
+        type
+        price
+        unit
+        salePrice
+        discountInPercent
+      }
+      totalCount
+      hasMore
+    }
+  }
+`;
+
+const UPDATE_PRODUCT = gql`
+  mutation updateProduct($product: UpdateProductInput!) {
+    updateProduct(product: $product) {
+      id
+      title
+      image
+      slug
+      type
+      price
+      unit
+      description
+      discountInPercent
+    }
+  }
+`;
 
 const options = [
-  { value: 'Fruits & Vegetables', name: 'Fruits & Vegetables', id: '1' },
-  { value: 'Meat & Fish', name: 'Meat & Fish', id: '2' },
-  { value: 'Purse', name: 'Purse', id: '3' },
-  { value: 'Hand bags', name: 'Hand bags', id: '4' },
-  { value: 'Shoulder bags', name: 'Shoulder bags', id: '5' },
-  { value: 'Wallet', name: 'Wallet', id: '6' },
-  { value: 'Laptop bags', name: 'Laptop bags', id: '7' },
-  { value: 'Women Dress', name: 'Women Dress', id: '8' },
-  { value: 'Outer Wear', name: 'Outer Wear', id: '9' },
-  { value: 'Pants', name: 'Pants', id: '10' },
+  { value: "Fruits & Vegetables", name: "Fruits & Vegetables", id: "1" },
+  { value: "Meat & Fish", name: "Meat & Fish", id: "2" },
+  { value: "Purse", name: "Purse", id: "3" },
+  { value: "Hand bags", name: "Hand bags", id: "4" },
+  { value: "Shoulder bags", name: "Shoulder bags", id: "5" },
+  { value: "Wallet", name: "Wallet", id: "6" },
+  { value: "Laptop bags", name: "Laptop bags", id: "7" },
+  { value: "Women Dress", name: "Women Dress", id: "8" },
+  { value: "Outer Wear", name: "Outer Wear", id: "9" },
+  { value: "Pants", name: "Pants", id: "10" },
 ];
 
 const typeOptions = [
-  { value: 'grocery', name: 'Grocery', id: '1' },
-  { value: 'women-cloths', name: 'Women Cloths', id: '2' },
-  { value: 'bags', name: 'Bags', id: '3' },
-  { value: 'makeup', name: 'Makeup', id: '4' },
+  { value: "grocery", name: "Grocery", id: "1" },
+  { value: "food", name: "food", id: "2" },
 ];
 
 type Props = any;
 
 const AddProduct: React.FC<Props> = () => {
   const dispatch = useDrawerDispatch();
-  const data = useDrawerState('data');
-  const closeDrawer = useCallback(() => dispatch({ type: 'CLOSE_DRAWER' }), [
+  const data = useDrawerState("data");
+  const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
     dispatch,
   ]);
   const { register, handleSubmit, setValue } = useForm({
@@ -54,45 +99,66 @@ const AddProduct: React.FC<Props> = () => {
   const [tag, setTag] = useState([]);
   const [description, setDescription] = useState(data.description);
   React.useEffect(() => {
-    register({ name: 'type' });
-    register({ name: 'categories' });
-    register({ name: 'image' });
-    register({ name: 'description' });
+    register({ name: "type" });
+    register({ name: "categories" });
+    register({ name: "image" });
+    register({ name: "description" });
   }, [register]);
 
+  const [updateProduct] = useMutation(UPDATE_PRODUCT, {
+    update(cache, { data: { updateProduct } }) {
+      const { products } = cache.readQuery({
+        query: GET_PRODUCTS,
+      });
+
+      cache.writeQuery({
+        query: GET_PRODUCTS,
+        data: {
+          products: {
+            __typename: products.__typename,
+            items: [updateProduct, ...products.items],
+            hasMore: true,
+            totalCount: products.items.length,
+          },
+        },
+      });
+    },
+  });
+
   const handleMultiChange = ({ value }) => {
-    setValue('categories', value);
+    setValue("categories", value);
     setTag(value);
   };
-  const handleDescriptionChange = e => {
+  const handleDescriptionChange = (e) => {
     const value = e.target.value;
-    setValue('description', value);
+    setValue("description", value);
     setDescription(value);
   };
 
   const handleTypeChange = ({ value }) => {
-    setValue('type', value);
+    setValue("type", value);
     setType(value);
   };
-  const handleUploader = files => {
-    setValue('image', files[0].path);
+  const handleUploader = (files) => {
+    setValue("image", files[0].path);
   };
-  const onSubmit = data => {
-    // const newProduct = {
-    //   id: uuidv4(),
-    //   name: data.name,
-    //   type: data.type[0].value,
-    //   description: data.description,
-    //   image: data.image,
-    //   price: Number(data.price),
-    //   unit: data.unit,
-    //   salePrice: Number(data.salePrice),
-    //   discountInPercent: Number(data.discountInPercent),
-    //   quantity: Number(data.quantity),
-    //   slug: data.name,
-    //   creation_date: new Date(),
-    // };
-    console.log(data, 'newProduct data');
+  const onSubmit = (data) => {
+    const categories = data.categories.map((category) => category.id);
+    const updatProduct = {
+      title: data.title,
+      type: data.type[0].value,
+      description: data.description,
+      image: data.image && data.image.length !== 0 ? data.image : "",
+      price: Number(data.price),
+      unit: data.unit,
+      discountInPercent: Number(data.discountInPercent),
+      slug: data.title,
+      categories: categories,
+    };
+    console.log(updateProduct, "Product data updated");
+    updateProduct({
+      variables: { product: updatProduct },
+    });
     closeDrawer();
   };
 
@@ -104,18 +170,18 @@ const AddProduct: React.FC<Props> = () => {
 
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        style={{ height: '100%' }}
+        style={{ height: "100%" }}
         noValidate
       >
         <Scrollbars
           autoHide
-          renderView={props => (
-            <div {...props} style={{ ...props.style, overflowX: 'hidden' }} />
+          renderView={(props) => (
+            <div {...props} style={{ ...props.style, overflowX: "hidden" }} />
           )}
-          renderTrackHorizontal={props => (
+          renderTrackHorizontal={(props) => (
             <div
               {...props}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               className="track-horizontal"
             />
           )}
@@ -298,12 +364,12 @@ const AddProduct: React.FC<Props> = () => {
             overrides={{
               BaseButton: {
                 style: ({ $theme }) => ({
-                  width: '50%',
-                  borderTopLeftRadius: '3px',
-                  borderTopRightRadius: '3px',
-                  borderBottomRightRadius: '3px',
-                  borderBottomLeftRadius: '3px',
-                  marginRight: '15px',
+                  width: "50%",
+                  borderTopLeftRadius: "3px",
+                  borderTopRightRadius: "3px",
+                  borderBottomRightRadius: "3px",
+                  borderBottomLeftRadius: "3px",
+                  marginRight: "15px",
                   color: $theme.colors.red400,
                 }),
               },
@@ -317,11 +383,11 @@ const AddProduct: React.FC<Props> = () => {
             overrides={{
               BaseButton: {
                 style: ({ $theme }) => ({
-                  width: '50%',
-                  borderTopLeftRadius: '3px',
-                  borderTopRightRadius: '3px',
-                  borderBottomRightRadius: '3px',
-                  borderBottomLeftRadius: '3px',
+                  width: "50%",
+                  borderTopLeftRadius: "3px",
+                  borderTopRightRadius: "3px",
+                  borderBottomRightRadius: "3px",
+                  borderBottomLeftRadius: "3px",
                 }),
               },
             }}

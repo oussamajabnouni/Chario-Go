@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const GET_PRODUCTS = gql`
   query getProducts(
@@ -7,11 +7,15 @@ export const GET_PRODUCTS = gql`
     $category: String
     $offset: Int
     $limit: Int
+    $locationState: String
+    $locationCity: String
   ) {
     products(
       type: $type
       searchText: $searchText
       category: $category
+      locationState: $locationState
+      locationCity: $locationCity
       offset: $offset
       limit: $limit
     ) {
@@ -21,7 +25,7 @@ export const GET_PRODUCTS = gql`
         slug
         unit
         price
-        salePrice
+
         description
         discountInPercent
         type

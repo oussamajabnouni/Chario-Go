@@ -42,7 +42,21 @@ const locationOptions = [
 ];
 
 const RestaurantFilters: React.FC<Props> = () => {
-  const { filterState, changeLocationState, changeLocationCity } = useContext<any>(FilterContext);
+  const {
+    filterDispatch,
+    filterState,
+    changeLocationState,
+    changeLocationCity,
+  } = useContext<any>(FilterContext);
+
+  const handleSearchInput = (event) => {
+    const value = event.currentTarget.value;
+    filterDispatch({
+      type: "SET_SEARCH_TERM",
+
+      payload: value,
+    });
+  };
 
   return (
     <FiltersWrapper>
@@ -52,7 +66,10 @@ const RestaurantFilters: React.FC<Props> = () => {
           value={
             !filterState.locationState
               ? { label: "Select your state" }
-              : { label: filterState.locationState, value: filterState.locationState }
+              : {
+                  label: filterState.locationState,
+                  value: filterState.locationState,
+                }
           }
           onChange={changeLocationState}
         />
@@ -63,7 +80,10 @@ const RestaurantFilters: React.FC<Props> = () => {
           value={
             !filterState.locationCity
               ? { label: "Select your city" }
-              : { label: filterState.locationCity, value: filterState.locationCity }
+              : {
+                  label: filterState.locationCity,
+                  value: filterState.locationCity,
+                }
           }
           onChange={changeLocationCity}
           isDisabled={!filterState.locationState}
@@ -74,13 +94,18 @@ const RestaurantFilters: React.FC<Props> = () => {
           type="text"
           intlPlaceholderId="searchPlaceholder"
           style={{ height: 57 }}
+          onChange={handleSearchInput}
         />
       </RowInput>
       <Row>
         <Select inputValue="Trier" />
       </Row>
       <Row>
-        <Button variant="outlined" style={{ height: "100%", width: "100%" }} disabled={filterState.locationCity === ""}>
+        <Button
+          variant="outlined"
+          style={{ height: "100%", width: "100%" }}
+          disabled={filterState.locationCity === ""}
+        >
           <FormattedMessage id="searchButtonText" defaultMessage="Search" />
         </Button>
       </Row>

@@ -44,9 +44,20 @@ const locationOptions = [
 ];
 
 const ProductFilters: React.FC<Props> = ({ onClick }) => {
-  const { filterState, changeLocationState, changeLocationCity } = useContext<
-    any
-  >(FilterContext);
+  const {
+    filterState,
+    changeLocationState,
+    changeLocationCity,
+    filterDispatch,
+  } = useContext<any>(FilterContext);
+
+  const handleSearchInput = (event) => {
+    const value = event.currentTarget.value;
+    filterDispatch({
+      type: "SET_SEARCH_TERM",
+      payload: value,
+    });
+  };
 
   const { data, error, refetch } = useQuery(GET_PRODUCTS);
   const [priceOrder, setPriceOrder] = useState([]);
@@ -63,12 +74,6 @@ const ProductFilters: React.FC<Props> = ({ onClick }) => {
         sortByPrice: null,
       });
     }
-  }
-
-  function handleSearch(event) {
-    const value = event.currentTarget.value;
-    setSearch(value);
-    refetch({ searchText: value });
   }
 
   return (
@@ -104,10 +109,10 @@ const ProductFilters: React.FC<Props> = ({ onClick }) => {
       </Row>
       <RowInput>
         <Input
-          value={search}
+          value={filterState.searchTerm}
           intlPlaceholderId="searchPlaceholder"
           style={{ height: 57 }}
-          onChange={handleSearch}
+          onChange={handleSearchInput}
           clearable
         />
       </RowInput>
@@ -119,7 +124,6 @@ const ProductFilters: React.FC<Props> = ({ onClick }) => {
           variant="outlined"
           style={{ height: "100%", width: "100%" }}
           disabled={filterState.locationCity === ""}
-          onClick={handleSearch.bind(this)}
         >
           <FormattedMessage id="searchButtonText" defaultMessage="Search" />
         </Button>

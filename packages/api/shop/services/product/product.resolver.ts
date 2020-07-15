@@ -1,19 +1,28 @@
-import { Resolver, Query, Arg, Args, Mutation } from 'type-graphql';
+import { Resolver, Query, Arg, Args, Mutation } from "type-graphql";
 const { Op } = require("sequelize");
-import Product from './product.type';
-import Products from './products.type';
-import { GetProductsArgs } from './product.type';
-import { AddProductInput } from './product.type';
+import Product from "./product.type";
+import Products from "./products.type";
+import { GetProductsArgs } from "./product.type";
+import { AddProductInput } from "./product.type";
+import { UpdateProductInput } from "./product.type";
 
-const models = require('../../../models')
+const models = require("../../../models");
 
 @Resolver()
 export default class ProductResolver {
-
-  @Query((returns) => Products, { description: 'Get all the products' })
+  @Query((returns) => Products, { description: "Get all the products" })
   async products(
     @Args()
-    { limit, offset, sortByPrice, type, searchText, category, locationState, locationCity }: GetProductsArgs
+    {
+      limit,
+      offset,
+      sortByPrice,
+      type,
+      searchText,
+      category,
+      locationState,
+      locationCity,
+    }: GetProductsArgs
   ): Promise<Products> {
     let where = {};
     let order;
@@ -21,52 +30,55 @@ export default class ProductResolver {
     if (searchText) {
       where = {
         ...where,
-        title: { [Op.like]: `%${searchText}%` }
-      }
+        title: { [Op.like]: `%${searchText}%` },
+      };
     }
     if (type) {
       where = {
         ...where,
-        type
-      }
+        type,
+      };
     }
     if (category) {
-      include = [...include, {
-        model: models.Category,
-        where: { 'slug': category },
-        as: 'categories',
-      }]
-    };
+      include = [
+        ...include,
+        {
+          model: models.Category,
+          where: { slug: category },
+          as: "categories",
+        },
+      ];
+    }
     if (locationState && locationCity) {
-      include = [...include, {
-        model: models.Address,
-        where: { 'city': locationCity, "state": locationState },
-        as: 'deliverTo',
-      }]
-    };
+      include = [
+        ...include,
+        {
+          model: models.Address,
+          where: { city: locationCity, state: locationState },
+          as: "deliverTo",
+        },
+      ];
+    }
     if (sortByPrice) {
-      if (sortByPrice === 'highestToLowest') {
-        order = [['price', 'DESC']]
+      if (sortByPrice === "highestToLowest") {
+        order = [["price", "DESC"]];
       }
-      if (sortByPrice === 'lowestToHighest') {
-        order = [['price', 'ASC']]
+      if (sortByPrice === "lowestToHighest") {
+        order = [["price", "ASC"]];
       }
     }
-    const items = await models.Product
-      .findAll({
-        include,
-        where,
-        order,
-        limit,
-        offset
-      })
-    const count = await models.Product
-      .count({
-        where,
-        order,
-      })
-    const totalCount = await models.Product
-      .count()
+    const items = await models.Product.findAll({
+      include,
+      where,
+      order,
+      limit,
+      offset,
+    });
+    const count = await models.Product.count({
+      where,
+      order,
+    });
+    const totalCount = await models.Product.count();
     const hasMore = count > offset + limit;
 
     return {
@@ -77,20 +89,31 @@ export default class ProductResolver {
   }
 
   @Query(() => Product)
-  async product(@Arg('slug') slug: string): Promise<Product | undefined> {
-    return await models.Product.findOne({ where: { slug }, include: [{ all: true }] });
+  async product(@Arg("slug") slug: string): Promise<Product | undefined> {
+    return await models.Product.findOne({
+      where: { slug },
+      include: [{ all: true }],
+    });
   }
 
-  @Mutation(() => Product, { description: 'Create Category' })
+  @Mutation(() => Product, { description: "Create Category" })
   async createProduct(
-    @Arg('product') product: AddProductInput
+    @Arg("product") product: AddProductInput
   ): Promise<Product> {
-
     const new_product = await models.Product.create(product);
-    await new_product.setCategories(product.categories)
+    await new_product.setCategories(product.categories);
     // product.categories.forEach(async (category_id: string) => {
     //   await models.Product.create(product);
     // })
     return new_product;
+  }
+
+  @Mutation(() => Product, { description: "update product" })
+  async updateProduct(
+    @Arg("product") product: UpdateProductInput
+  ): Promise<Product> {
+    const update_product = await models.Product.update(product);
+    await update_product.setCategories(product.categories);
+    return update_product;
   }
 }

@@ -54,7 +54,9 @@ export const Banner: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { filterState, changeLocationState, changeLocationCity } = useContext<any>(FilterContext);
+  const { filterState, changeLocationState, changeLocationCity } = useContext<
+    any
+  >(FilterContext);
 
   const setSticky = useCallback(() => dispatch({ type: "SET_STICKY" }), [
     dispatch,
@@ -63,12 +65,8 @@ export const Banner: React.FC<Props> = ({
     dispatch,
   ]);
 
-
   const handleCardTypeClick = (value) => {
-    if (
-      filterState.locationState &&
-      filterState.locationCity
-    )
+    if (filterState.locationState && filterState.locationCity)
       router.push(`/${value}`);
   };
 
@@ -96,7 +94,10 @@ export const Banner: React.FC<Props> = ({
               value={
                 !filterState.locationState
                   ? { label: "Select your state" }
-                  : { label: filterState.locationState, value: filterState.locationState }
+                  : {
+                      label: filterState.locationState,
+                      value: filterState.locationState,
+                    }
               }
               onChange={changeLocationState}
             />
@@ -107,7 +108,10 @@ export const Banner: React.FC<Props> = ({
               value={
                 !filterState.locationCity
                   ? { label: "Select your city" }
-                  : { label: filterState.locationCity, value: filterState.locationCity }
+                  : {
+                      label: filterState.locationCity,
+                      value: filterState.locationCity,
+                    }
               }
               onChange={changeLocationCity}
               isDisabled={!filterState.locationState}
@@ -130,7 +134,7 @@ export const Banner: React.FC<Props> = ({
               icon={<Restaurant />}
               restaurantType="Restaurants"
               value="restaurant"
-              description="Vos plats préférés près de chez vous."
+              description="plats préférés près de chez vous."
               onClick={handleCardTypeClick}
               isActiveStateEmpty={filterState.locationCity === ""}
             ></CardType>

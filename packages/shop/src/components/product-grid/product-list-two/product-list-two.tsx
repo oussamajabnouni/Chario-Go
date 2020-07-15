@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import gql from 'graphql-tag';
-import FoodCard from 'components/product-card/product-card-four/product-card-four';
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
+import gql from "graphql-tag";
+import FoodCard from "components/product-card/product-card-four/product-card-four";
+
+import { FilterContext } from "contexts/filter/filter.context";
 import {
   ProductsRow,
   ProductsCol,
@@ -9,17 +11,17 @@ import {
   LoaderWrapper,
   LoaderItem,
   ProductCardWrapper,
-} from '../product-list/product-list.style';
-import { useQuery } from '@apollo/react-hooks';
-import { Button } from 'components/button/button';
-import Placeholder from 'components/placeholder/placeholder';
-import Fade from 'react-reveal/Fade';
-import NoResultFound from 'components/no-result/no-result';
+} from "../product-list/product-list.style";
+import { useQuery } from "@apollo/react-hooks";
+import { Button } from "components/button/button";
+import Placeholder from "components/placeholder/placeholder";
+import Fade from "react-reveal/Fade";
+import NoResultFound from "components/no-result/no-result";
 
-import { customerDistance } from 'utils/customerDistance';
-import { formatTime } from 'utils/formatTime';
-import { FormattedMessage } from 'react-intl';
-import { GET_VENDORS } from 'graphql/query/vendors.query';
+import { customerDistance } from "utils/customerDistance";
+import { formatTime } from "utils/formatTime";
+import { FormattedMessage } from "react-intl";
+import { GET_VENDORS } from "graphql/query/vendors.query";
 
 type ProductsProps = {
   deviceType?: {
@@ -38,11 +40,12 @@ export const Products: React.FC<ProductsProps> = ({
   loadMore = true,
 }) => {
   const router = useRouter();
+  const { filterState } = useContext<any>(FilterContext);
   const [loadingMore, toggleLoading] = useState(false);
   const { data, error, loading, fetchMore } = useQuery(GET_VENDORS, {
     variables: {
       // type: type,
-      text: router.query.text,
+      text: filterState.searchTerm,
       category: router.query.category,
       offset: 0,
       limit: fetchLimit,
@@ -102,12 +105,12 @@ export const Products: React.FC<ProductsProps> = ({
               <Fade
                 duration={800}
                 delay={index * 10}
-                style={{ height: '100%' }}
+                style={{ height: "100%" }}
               >
                 <FoodCard
                   name={item.name}
                   image={item.thumbnailUrl}
-                  restaurantType={item?.categories.join(', ')}
+                  restaurantType={item?.categories.join(", ")}
                   duration={formatTime(customerDistance())}
                   delivery={item.deliveryDetails.charge}
                   isFree={item.deliveryDetails.isFree}
@@ -115,7 +118,7 @@ export const Products: React.FC<ProductsProps> = ({
                   data={item}
                   onClick={() =>
                     router.push(
-                      '/restaurant/[slug]',
+                      "/restaurant/[slug]",
                       `/restaurant/${item.slug}`
                     )
                   }
