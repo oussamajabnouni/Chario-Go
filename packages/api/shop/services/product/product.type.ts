@@ -5,15 +5,15 @@ import Address from '../user/address.type';
 import { registerEnumType } from 'type-graphql';
 
 export enum ProductType {
-  BOOK = 'book',
-  BAGS = 'bags',
-  GROCERY = 'grocery',
-  MEDICINE = 'medicine',
-  CLOTH = 'cloth',
-  CLOTHING = 'clothing',
-  FURNITURE = 'furniture',
-  MAKEUP = 'makeup',
-  FOOD = 'food',
+  book = 'book',
+  bags = 'bags',
+  grocery = 'grocery',
+  medicine = 'medicine',
+  cloth = 'cloth',
+  clothing = 'clothing',
+  furniture = 'furniture',
+  makeup = 'makeup',
+  food = 'food',
 }
 
 registerEnumType(ProductType, {
@@ -48,8 +48,9 @@ export class GetProductsArgs {
   locationCity?: string;
 }
 
+
 @InputType({ description: 'New product data' })
-export class AddProductInput implements Partial<Product> {
+export class AddProductInput {
   @Field()
   title: string;
 
@@ -65,23 +66,26 @@ export class AddProductInput implements Partial<Product> {
   @Field({ defaultValue: '1' })
   unit: string;
 
-  @Field(type => Int)
+  @Field(() => Int)
   price: number;
 
-  @Field(type => Float, { nullable: true })
-  salePrice: number;
-
-  @Field(type => Int, { defaultValue: 0 })
+  @Field(() => Int, { defaultValue: 0 })
   discountInPercent: number;
 
-  @Field(type => Int, { defaultValue: 1 })
+  @Field(() => Int, { defaultValue: 1 })
   per_unit: number;
-
-  @Field(type => Int, { nullable: true })
-  quantity: number;
 
   @Field({ nullable: true })
   description?: string;
+
+  @Field(() => [String])
+  categories: string[];
+
+  @Field(() => [String], { nullable: true })
+  deliverTo: string[];
+
+  @Field(() => [String], { nullable: true })
+  galleries: string[];
 
 }
 
@@ -104,7 +108,7 @@ export default class Product {
   @Field()
   title: string;
 
-  @Field(() => ProductType)
+  @Field(() => String)
   type: ProductType;
 
   @Field(() => [Category])
@@ -130,9 +134,6 @@ export default class Product {
 
   @Field(type => Int, { nullable: true })
   views?: number;
-
-  @Field()
-  salePrice: number;
 
   @Field()
   discountInPercent: number;

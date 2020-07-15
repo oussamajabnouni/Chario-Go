@@ -11,19 +11,31 @@ export class CategoryResolver {
   @Query(returns => [Category], { description: 'Get all the categories' })
   async categories(
     @Arg('type', { defaultValue: '', nullable: true }) type?: string,
-    @Arg('searchBy', { defaultValue: '', nullable: true }) searchBy?: string
+    @Arg('searchBy', { defaultValue: '', nullable: true }) searchBy?: string,
+    @Arg('isParent', { defaultValue: false, nullable: true }) isParent?: boolean
   ): Promise<Category[]> {
-
+    let where = {};
+    if (searchBy) {
+      where = {
+        ...where,
+        title: { [Op.like]: `%${searchBy}%` }
+      }
+    }
+    if (type) {
+      where = {
+        ...where,
+        type
+      }
+    }
+    if (isParent) {
+      where = {
+        ...where,
+        parentId: { [Op.is]: null },
+      }
+    }
     return await models.Category
       .findAll({
-        include: [{ all: true }], where: {
-          type: {
-            [Op.like]: `%${type}%`
-          },
-          title: {
-            [Op.like]: `%${searchBy}%`
-          }
-        }
+        include: [{ all: true }], where
       })
   }
 

@@ -1,31 +1,60 @@
 import { Resolver, Query, Arg, Args } from 'type-graphql';
-import { vendorSamples } from './vendors.sample';
+const { Op } = require("sequelize");
 import { Vendor } from './vendor.type';
 import { Vendors } from './vendor.type';
 import { GetVendorsArgs } from './vendor.type';
-import search from '../../helpers/search';
+
+const models = require('../../../models')
 
 @Resolver()
 export class VendorResolver {
-  private readonly vendorCollection: Vendor[] = vendorSamples;
 
   @Query(() => Vendors, { description: 'Get all the vendors' })
   async vendors(
     @Args() { offset, limit, text, type, category }: GetVendorsArgs
   ): Promise<Vendors | undefined> {
-    let items = this.vendorCollection;
-
-    if (category) {
-      items = items.filter((item) => item.categories.includes(category));
+    let where = {};
+    let order;
+    let include: any = [{ all: true }];
+    if (text) {
+      where = {
+        ...where,
+        title: { [Op.like]: `%${text}%` }
+      }
     }
-    items = await search(items, ['name'], text);
-
-    const total = this.vendorCollection.length;
-    const hasMore = this.vendorCollection.length > offset + limit;
+    if (type) {
+      where = {
+        ...where,
+        type
+      }
+    }
+    if (category) {
+      include = [...include, {
+        model: models.Category,
+        where: { 'slug': category },
+        as: 'categories',
+      }]
+    };
+    const items = await models.Vendor
+      .findAll({
+        include,
+        where,
+        order,
+        limit,
+        offset
+      })
+    const count = await models.Vendor
+      .count({
+        where,
+        order,
+      })
+    const totalCount = await models.Vendor
+      .count()
+    const hasMore = count > offset + limit;
 
     return {
-      items: items.slice(offset, offset + limit),
-      totalCount: total,
+      items,
+      totalCount,
       hasMore,
     };
   }
@@ -34,6 +63,6 @@ export class VendorResolver {
   async vendor(
     @Arg('slug', (type) => String) slug: string
   ): Promise<Vendor | undefined> {
-    return await this.vendorCollection.find((item) => item.slug === slug);
+    return await models.Vendor.findOne({ where: { slug }, include: [{ all: true }] });
   }
 }

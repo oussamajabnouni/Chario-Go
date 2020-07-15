@@ -60,7 +60,6 @@ export default class ProductResolver {
         limit,
         offset
       })
-    console.log(items)
     const count = await models.Product
       .count({
         where,
@@ -86,6 +85,12 @@ export default class ProductResolver {
   async createProduct(
     @Arg('product') product: AddProductInput
   ): Promise<Product> {
-    return await models.Product.create(product);
+
+    const new_product = await models.Product.create(product);
+    await new_product.setCategories(product.categories)
+    // product.categories.forEach(async (category_id: string) => {
+    //   await models.Product.create(product);
+    // })
+    return new_product;
   }
 }

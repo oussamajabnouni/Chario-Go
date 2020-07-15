@@ -1,43 +1,248 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Categories', [
-      {
-        id: 1,
-        title: 'Fruits & Vegetables',
-        type: 'grocery',
-        icon: 'FruitsVegetable',
-        slug: 'fruits-and-vegetables',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        parentId: null
-      },
-      {
-        id: 2,
-        title: 'Meat & Fish',
-        type: 'grocery',
-        icon: 'MeatFish',
-        slug: 'meat-and-fish',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        parentId: 1
-      },
-      {
-        id: 3,
-        title: 'Snacks',
-        type: 'grocery',
-        icon: 'Snacks',
-        slug: 'snacks',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        parentId: 1
-      },
-    ], {});
+    return queryInterface.bulkInsert(
+      "Categories",
+      [
+        {
+          id: 1,
+          title: "Fruits & Vegetables",
+          type: "grocery",
+          icon: "FruitsVegetable",
+          slug: "fruits-and-vegetables",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2,
+          title: "Meat & Fish",
+          type: "grocery",
+          icon: "MeatFish",
+          slug: "meat-and-fish",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: 1,
+        },
+        {
+          id: 3,
+          title: "Snacks",
+          type: "grocery",
+          icon: "Snacks",
+          slug: "snacks",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: 1,
+        },
+
+        {
+          id: 4,
+          title: "Bread & Bakery",
+          slug: "Bread & Bakery",
+          icon: "FruitsVegetable",
+          type: "grocery",
+
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 5,
+          title: "Breakfast ",
+          slug: "Breakfast ",
+          icon: "FruitsVegetable",
+          type: "grocery",
+
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 6,
+          title: "Cookies",
+          slug: "Cookies",
+          icon: "FruitsVegetable",
+          type: "grocery",
+
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2000,
+          title: "Chinese",
+          slug: "chinese",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2001,
+          title: "Sea Food",
+          slug: "sea-food",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2002,
+          title: "Fast Food",
+          slug: "fast-food",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2003,
+          title: "Pizza",
+          slug: "pizza",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 2004,
+          title: "Indian",
+          slug: "indian",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2005,
+          title: "Kebab",
+          slug: "kebab",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2006,
+          title: "Thai",
+          slug: "thai",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 2007,
+          title: "Italian",
+          slug: "italian",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 2008,
+          title: "Steak House",
+          slug: "steak-house",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 2009,
+          title: "Traditional English",
+          slug: "traditional-english",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2010,
+          title: "Caribbean",
+          slug: "caribbean",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 2011,
+          title: "Arabic",
+          slug: "arabic",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2012,
+          title: "Lebanese",
+          slug: "lebanese",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2013,
+          title: "Vegetarian",
+          slug: "vegetarian",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+        {
+          id: 2014,
+          title: "Vegan",
+          slug: "vegan",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+
+        {
+          id: 201,
+          title: "Barista",
+          slug: "barista",
+          type: "restaurant",
+          icon: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          parentId: null,
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Categories', [{
-    }])
-  }
+    return queryInterface.bulkDelete("Categories", [{}]);
+  },
 };

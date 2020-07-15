@@ -25,7 +25,7 @@ import {
   CloseButton,
   DrawerWrapper,
 } from "./Topbar.style";
-import Logoimage from "../../../assets/image/PickBazar.png";
+import Logoimage from "../../../assets/image/chariogoAdmin.png";
 import UserImage from "../../../assets/image/user.jpg";
 import { useDrawerDispatch } from "../../../context/DrawerContext";
 import Drawer, { ANCHOR } from "../../../components/Drawer/Drawer";
@@ -103,7 +103,9 @@ const Topbar = ({ refs }: any) => {
       </DrawerWrapper>
 
       <TopbarRightSide>
-        <Button onClick={openDrawer}>Add Products</Button>
+        <Button onClick={openDrawer} style={{ marginRight: "10px" }}>
+          Add Products
+        </Button>
         <Button onClick={openDrawerVendor}>Add Restaurants</Button>
 
         <Popover

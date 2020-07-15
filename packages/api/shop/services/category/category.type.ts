@@ -37,7 +37,7 @@ export default class Category {
   @Field({ nullable: true })
   parentId: string;
 
-  @Field()
+  @Field({ nullable: true })
   icon: string;
 
   @Field()

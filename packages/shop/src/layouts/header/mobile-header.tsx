@@ -1,7 +1,7 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import { openModal, closeModal } from '@redq/reuse-modal';
-import MobileDrawer from './mobile-drawer';
+import React from "react";
+import { useRouter } from "next/router";
+import { openModal, closeModal } from "@redq/reuse-modal";
+import MobileDrawer from "./mobile-drawer";
 import {
   MobileHeaderWrapper,
   MobileHeaderInnerWrapper,
@@ -10,16 +10,16 @@ import {
   SearchWrapper,
   SearchModalWrapper,
   SearchModalClose,
-} from './header.style';
-import Search from 'features/search/search';
-import LogoImage from 'assets/images/logo.svg';
+} from "./header.style";
+import Search from "features/search/search";
+import LogoImage from "assets/images/charioGo.png";
 
-import { SearchIcon } from 'assets/icons/SearchIcon';
-import { LongArrowLeft } from 'assets/icons/LongArrowLeft';
-import Logo from 'layouts/logo/logo';
-import LanguageSwitcher from './menu/language-switcher/language-switcher';
-import { isCategoryPage } from '../is-home-page';
-import useDimensions from 'utils/useComponentSize';
+import { SearchIcon } from "assets/icons/SearchIcon";
+import { LongArrowLeft } from "assets/icons/LongArrowLeft";
+import Logo from "layouts/logo/logo";
+import LanguageSwitcher from "./menu/language-switcher/language-switcher";
+import { isCategoryPage } from "../is-home-page";
+import useDimensions from "utils/useComponentSize";
 
 type MobileHeaderProps = {
   className?: string;
@@ -55,16 +55,16 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className }) => {
       config: {
         enableResizing: false,
         disableDragging: true,
-        className: 'search-modal-mobile',
-        width: '100%',
-        height: '100%',
+        className: "search-modal-mobile",
+        width: "100%",
+        height: "100%",
       },
       closeOnClickOutside: false,
       component: SearchModal,
       closeComponent: () => <div />,
     });
   };
-  const type = pathname === '/restaurant' ? 'restaurant' : query.type;
+  const type = pathname === "/restaurant" ? "restaurant" : query.type;
 
   const isHomePage = isCategoryPage(type);
 

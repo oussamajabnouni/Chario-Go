@@ -26,13 +26,18 @@ const GET_ORDERS = gql`
   query getOrders($status: String, $limit: Int, $searchText: String) {
     orders(status: $status, limit: $limit, searchText: $searchText) {
       id
-      customer_id
-      creation_date
-      delivery_address
-      amount
+      userId
+      products
+      status
       payment_method
       contact_number
-      status
+      deliveryTime
+      amount
+      subtotal
+      discount
+      deliveryFee
+      deliveryAddress
+      date
     }
   }
 `;
@@ -255,8 +260,8 @@ export default function OrdersHistory() {
                   />
                 </StyledHeadCell>
                 <StyledHeadCell>ID</StyledHeadCell>
-                <StyledHeadCell>Customer ID</StyledHeadCell>
-                <StyledHeadCell>Time</StyledHeadCell>
+                <StyledHeadCell>User ID</StyledHeadCell>
+                <StyledHeadCell>Products</StyledHeadCell>
                 <StyledHeadCell>Delivery Address</StyledHeadCell>
                 <StyledHeadCell>Amount</StyledHeadCell>
                 <StyledHeadCell>Payment Method</StyledHeadCell>
