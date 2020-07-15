@@ -1,17 +1,17 @@
-import React, { useState, useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useCallback } from "react";
+import { useForm } from "react-hook-form";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { Scrollbars } from 'react-custom-scrollbars';
-import { useDrawerDispatch, useDrawerState } from '../../context/DrawerContext';
-import Uploader from '../../components/Uploader/Uploader';
-import Button, { KIND } from '../../components/Button/Button';
-import DrawerBox from '../../components/DrawerBox/DrawerBox';
-import { Row, Col } from '../../components/FlexBox/FlexBox';
-import Input from '../../components/Input/Input';
-import { Textarea } from '../../components/Textarea/Textarea';
-import Select from '../../components/Select/Select';
-import { FormFields, FormLabel } from '../../components/FormFields/FormFields';
+import { Scrollbars } from "react-custom-scrollbars";
+import { useDrawerDispatch, useDrawerState } from "../../context/DrawerContext";
+import Uploader from "../../components/Uploader/Uploader";
+import Button, { KIND } from "../../components/Button/Button";
+import DrawerBox from "../../components/DrawerBox/DrawerBox";
+import { Row, Col } from "../../components/FlexBox/FlexBox";
+import Input from "../../components/Input/Input";
+import { Textarea } from "../../components/Textarea/Textarea";
+import Select from "../../components/Select/Select";
+import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
 
 import {
   Form,
@@ -66,20 +66,6 @@ const UPDATE_PRODUCT = gql`
   }
 `;
 
-<<<<<<< HEAD
-const options = [
-  { value: "Fruits & Vegetables", name: "Fruits & Vegetables", id: "1" },
-  { value: "Meat & Fish", name: "Meat & Fish", id: "2" },
-  { value: "Purse", name: "Purse", id: "3" },
-  { value: "Hand bags", name: "Hand bags", id: "4" },
-  { value: "Shoulder bags", name: "Shoulder bags", id: "5" },
-  { value: "Wallet", name: "Wallet", id: "6" },
-  { value: "Laptop bags", name: "Laptop bags", id: "7" },
-  { value: "Women Dress", name: "Women Dress", id: "8" },
-  { value: "Outer Wear", name: "Outer Wear", id: "9" },
-  { value: "Pants", name: "Pants", id: "10" },
-];
-=======
 const GET_CATEGORIES = gql`
   query getCategories($type: String, $searchBy: String) {
     categories(type: $type, searchBy: $searchBy) {
@@ -92,23 +78,6 @@ const GET_CATEGORIES = gql`
   }
 `;
 
-const UPDATE_PRODUCT = gql`
-  mutation createProduct($product: AddProductInput!) {
-    createProduct(product: $product) {
-      id
-      title
-      image
-      slug
-      type
-      price
-      unit
-      description
-      discountInPercent
-    }
-  }
-`;
->>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
-
 const typeOptions = [
   { value: "grocery", name: "Grocery", id: "1" },
   { value: "food", name: "food", id: "2" },
@@ -118,15 +87,10 @@ type Props = any;
 
 const AddProduct: React.FC<Props> = () => {
   const dispatch = useDrawerDispatch();
-<<<<<<< HEAD
   const data = useDrawerState("data");
-  const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
-=======
-  const data = useDrawerState('data');
 
   const { data: gategoryOptions } = useQuery(GET_CATEGORIES);
-  const closeDrawer = useCallback(() => dispatch({ type: 'CLOSE_DRAWER' }), [
->>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
+  const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
     dispatch,
   ]);
   const { register, handleSubmit, setValue } = useForm({
@@ -163,13 +127,8 @@ const AddProduct: React.FC<Props> = () => {
   });
 
   const handleMultiChange = ({ value }) => {
-<<<<<<< HEAD
     setValue("categories", value);
-    setTag(value);
-=======
-    setValue('categories', value);
     setCategory(value);
->>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
   };
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -184,34 +143,13 @@ const AddProduct: React.FC<Props> = () => {
   const handleUploader = (files) => {
     setValue("image", files[0].path);
   };
-<<<<<<< HEAD
-  const onSubmit = (data) => {
-    const categories = data.categories.map((category) => category.id);
-    const updatProduct = {
-      title: data.title,
-      type: data.type[0].value,
-      description: data.description,
-      image: data.image && data.image.length !== 0 ? data.image : "",
-      price: Number(data.price),
-      unit: data.unit,
-      discountInPercent: Number(data.discountInPercent),
-      slug: data.title,
-      categories: categories,
-    };
-    console.log(updateProduct, "Product data updated");
-    updateProduct({
-      variables: { product: updatProduct },
-    });
-=======
 
   const getCategoriesFromData = () => {
-    const fullCatgories = data.categories.map((id) => {
+    const fullCatgories = data.categories.map((id) => {});
+  };
 
-    })
-  }
-
-  const onSubmit = data => {
-    const categories = data.categories.map(category => category.id);
+  const onSubmit = (data) => {
+    const categories = data.categories.map((category) => category.id);
     const updatedProduct = {
       name: data.name,
       type: data.type[0].value,
@@ -221,10 +159,9 @@ const AddProduct: React.FC<Props> = () => {
       unit: data.unit,
       discountInPercent: Number(data.discountInPercent),
       slug: data.name,
-      categories: categories
+      categories: categories,
     };
-    console.log(data, 'updateProduct data');
->>>>>>> 2218e0b4ff9a30492c5d813cedbda4c1edd6d2fc
+    console.log(data, "updateProduct data");
     closeDrawer();
   };
 
