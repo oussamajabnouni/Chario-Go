@@ -16,6 +16,12 @@ export class SignUpInput {
 }
 
 @ObjectType()
+export class Role {
+  @Field()
+  name: string;
+}
+
+@ObjectType()
 export default class User {
   @Field(type => Int)
   id: number;
@@ -27,6 +33,8 @@ export default class User {
   email: string;
 
   //column is database field and doesn't apear in the schema
+  @Field(type => Role)
+  role: Role;
 
   @Field(type => [Address])
   address: Address[];

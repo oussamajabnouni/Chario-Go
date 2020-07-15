@@ -21,16 +21,21 @@ export class UserResolver {
 
 
   @Mutation(() => User, { description: 'create user' })
-  async signUp(@Arg("user") user: SignUpInput): Promise<User> {
-    const hashedPassword = await bcrypt.hash(user.password, 12)
-
+  async signUp(@Arg("user") user: SignUpInput): Promise<User | Error> {
+    // checking if email exist
+    const userExit = await models.User.findOne({ where: { email: user.email } });
+    if (userExit) {
+      return new Error("User Already registered with this email")
+    }
     try {
+      const hashedPassword = await bcrypt.hash(user.password, 12)
       var newuser = await models.User.create(
         {
           name: user.name,
           email: user.email,
-          password: hashedPassword
-        }
+          password: hashedPassword,
+          roleId: 3
+        }, { include: 'role' }
       )
     }
     catch (err) {
@@ -45,7 +50,7 @@ export class UserResolver {
     @Arg("password") password: string,
     @Ctx() ctx: MyContext
   ): Promise<User | null> {
-    const user = await models.User.findOne({ where: { email } });
+    const user = await models.User.findOne({ where: { email }, include: 'role' });
 
     if (!user) {
       return null;
