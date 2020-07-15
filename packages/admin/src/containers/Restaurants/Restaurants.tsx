@@ -12,7 +12,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import RestaurantCard from "../../components/RestaurantCard/RestaurantCard";
 import NoResult from "../../components/NoResult/NoResult";
 import { CURRENCY } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
@@ -84,16 +84,10 @@ const GET_VENDORS = gql`
         id
         slug
         type
-        categories
         name
         thumbnailUrl
         description
         promotion
-        deliveryDetails {
-          charge
-          minimumOrder
-          isFree
-        }
       }
       totalCount
       hasMore
@@ -106,16 +100,11 @@ const typeSelectOptions = [
   { value: "bags", label: "Bags" },
   { value: "makeup", label: "Makeup" },
 ];
-const priceSelectOptions = [
-  { value: "highestToLowest", label: "Highest To Lowest" },
-  { value: "lowestToHighest", label: "Lowest To Highest" },
-];
 
 export default function Restaurants() {
   const { data, error, refetch, fetchMore } = useQuery(GET_VENDORS);
   const [loadingMore, toggleLoading] = useState(false);
   const [type, setType] = useState([]);
-  const [priceOrder, setPriceOrder] = useState([]);
   const [search, setSearch] = useState([]);
 
   if (error) {
@@ -140,18 +129,7 @@ export default function Restaurants() {
       },
     });
   }
-  function handlePriceSort({ value }) {
-    setPriceOrder(value);
-    if (value.length) {
-      refetch({
-        sortByPrice: value[0].value,
-      });
-    } else {
-      refetch({
-        sortByPrice: null,
-      });
-    }
-  }
+
   function handleCategoryType({ value }) {
     setType(value);
     if (value.length) {
@@ -167,7 +145,7 @@ export default function Restaurants() {
   function handleSearch(event) {
     const value = event.currentTarget.value;
     setSearch(value);
-    refetch({ searchText: value });
+    refetch({ text: value });
   }
 
   return (
@@ -193,19 +171,7 @@ export default function Restaurants() {
                   />
                 </Col>
 
-                <Col md={3} xs={12}>
-                  <Select
-                    options={priceSelectOptions}
-                    labelKey="label"
-                    valueKey="value"
-                    value={priceOrder}
-                    placeholder="Price"
-                    searchable={false}
-                    onChange={handlePriceSort}
-                  />
-                </Col>
-
-                <Col md={6} xs={12}>
+                <Col md={9} xs={12}>
                   <Input
                     value={search}
                     placeholder="Ex: Search By Name"
@@ -223,20 +189,20 @@ export default function Restaurants() {
                 data.vendors.items.map((item: any, index: number) => (
                   <Col
                     md={4}
-                    lg={3}
+                    lg={4}
                     sm={6}
                     xs={12}
                     key={index}
                     style={{ margin: "15px 0" }}
                   >
                     <Fade bottom duration={800} delay={index * 10}>
-                      <ProductCard
-                        title={item.name}
-                        weight={item.unit}
-                        image={item.image}
-                        currency={CURRENCY}
-                        price={item.price}
-                        salePrice={item.salePrice}
+                      <RestaurantCard
+                        id={item.id}
+                        name={item.name}
+                        type={item.type}
+                        thumbnailUrl={item.thumbnailUrl}
+                        description={item.description}
+                        promotion={item.promotion}
                         discountInPercent={item.discountInPercent}
                         data={item}
                       />
@@ -244,24 +210,24 @@ export default function Restaurants() {
                   </Col>
                 ))
               ) : (
-                <NoResult />
-              )
+                  <NoResult />
+                )
             ) : (
-              <LoaderWrapper>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-              </LoaderWrapper>
-            )}
+                <LoaderWrapper>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                </LoaderWrapper>
+              )}
           </Row>
           {data && data.vendors && data.vendors.hasMore && (
             <Row>

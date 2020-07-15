@@ -21,19 +21,13 @@ import {
 import NoResult from '../../components/NoResult/NoResult';
 
 const GET_CUSTOMERS = gql`
-  query getCustomers($searchBy: String, $sortBy: String) {
-    customers(searchBy: $searchBy, sortBy: $sortBy) {
+  query getUsers($email: String, $role: String) {
+    users(email: $email, role: $role) {
       id
       image
       name
-      contacts {
-        id
-        type
-        number
-      }
-      total_order
-      total_order_amount
-      creation_date
+      email
+      createdAt
     }
   }
 `;
@@ -79,7 +73,7 @@ const sortByOptions = [
 export default function Customers() {
   const { data, error, refetch } = useQuery(GET_CUSTOMERS);
   const [stock, setStock] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
 
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -99,10 +93,8 @@ export default function Customers() {
   }
   function handleSearch(event) {
     const value = event.currentTarget.value;
-    console.log(value, 'cus val');
-
     setSearch(value);
-    refetch({ searchBy: value });
+    refetch({ email: value });
   }
 
   return (
@@ -147,18 +139,16 @@ export default function Customers() {
 
           <Wrapper style={{ boxShadow: '0 0 5px rgba(0, 0 , 0, 0.05)' }}>
             <TableWrapper>
-              <StyledTable $gridTemplateColumns='minmax(70px, 70px) minmax(70px, 70px) minmax(200px, auto) minmax(150px, auto) minmax(150px, max-content) minmax(150px, auto) minmax(150px, auto)'>
+              <StyledTable $gridTemplateColumns='minmax(70px, 70px) minmax(70px, 70px) minmax(200px, auto) minmax(150px, auto) minmax(150px, max-content)'>
                 <StyledHeadCell>ID</StyledHeadCell>
                 <StyledHeadCell>Image</StyledHeadCell>
                 <StyledHeadCell>Name</StyledHeadCell>
-                <StyledHeadCell>Contacts</StyledHeadCell>
-                <StyledHeadCell>Total Order</StyledHeadCell>
-                <StyledHeadCell>Total Amount</StyledHeadCell>
-                <StyledHeadCell>Joining Date</StyledHeadCell>
+                <StyledHeadCell>Email</StyledHeadCell>
+                <StyledHeadCell>Created At</StyledHeadCell>
 
                 {data ? (
-                  data.customers.length ? (
-                    data.customers
+                  data.users.length ? (
+                    data.users
                       .map((item) => Object.values(item))
                       .map((row, index) => (
                         <React.Fragment key={index}>
@@ -169,23 +159,21 @@ export default function Customers() {
                             </ImageWrapper>
                           </StyledBodyCell>
                           <StyledBodyCell>{row[2]}</StyledBodyCell>
-                          <StyledBodyCell>{row[3][0].number}</StyledBodyCell>
-                          <StyledBodyCell>{row[4]}</StyledBodyCell>
-                          <StyledBodyCell>${row[5]}</StyledBodyCell>
+                          <StyledBodyCell>{row[3]}</StyledBodyCell>
                           <StyledBodyCell>
-                            <Moment format='Do MMM YYYY'>{row[6]}</Moment>
+                            <Moment format='Do MMM YYYY'>{row[4]}</Moment>
                           </StyledBodyCell>
                         </React.Fragment>
                       ))
                   ) : (
-                    <NoResult
-                      hideButton={false}
-                      style={{
-                        gridColumnStart: '1',
-                        gridColumnEnd: 'one',
-                      }}
-                    />
-                  )
+                      <NoResult
+                        hideButton={false}
+                        style={{
+                          gridColumnStart: '1',
+                          gridColumnEnd: 'one',
+                        }}
+                      />
+                    )
                 ) : null}
               </StyledTable>
             </TableWrapper>

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -70,7 +69,6 @@ const GET_VENDORS = gql`
 const CREATE_VENDOR = gql`
   mutation createVendor($vendor: AddVendorInput!) {
     createVendor(vendor: $vendor) {
-      id
       slug
       type
       categories
@@ -135,7 +133,6 @@ const AddRestaurant: React.FC<Props> = (props) => {
   };
   const onSubmit = (data) => {
     const newVendor = {
-      id: uuidv4(),
       name: data.name,
       type: data.type[0].value,
       description: data.description,

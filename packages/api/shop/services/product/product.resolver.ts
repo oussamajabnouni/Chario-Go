@@ -44,14 +44,14 @@ export default class ProductResolver {
         as: 'deliverTo',
       }]
     };
-    if (sortByPrice) {
-      if (sortByPrice === 'highestToLowest') {
-        order = [['price', 'DESC']]
-      }
-      if (sortByPrice === 'lowestToHighest') {
-        order = [['price', 'ASC']]
-      }
+
+    if (sortByPrice === 'highestToLowest') {
+      order = [['price', 'DESC']]
     }
+    if (sortByPrice === 'lowestToHighest') {
+      order = [['price', 'ASC']]
+    }
+
     const items = await models.Product
       .findAll({
         include,

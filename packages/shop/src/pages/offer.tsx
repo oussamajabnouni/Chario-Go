@@ -40,17 +40,17 @@ const GiftCardPage: NextPage<GiftCardProps> = ({ deviceType }) => {
 
   return (
     <Modal>
-      <SEO title="Offer - PickBazar" description="Offer Details" />
+      <SEO title="Offer - Chario Go" description="Offer Details" />
       <OfferPageWrapper>
         <MainContentArea>
           <div style={{ width: '100%' }}>
             <ProductsRow>
               {data && data.coupons
                 ? data.coupons.map((coupon) => (
-                    <ProductsCol key={coupon.id}>
-                      <GiftCard image={coupon.image} code={coupon.code} />
-                    </ProductsCol>
-                  ))
+                  <ProductsCol key={coupon.id}>
+                    <GiftCard image={coupon.image} code={coupon.code} />
+                  </ProductsCol>
+                ))
                 : null}
             </ProductsRow>
           </div>

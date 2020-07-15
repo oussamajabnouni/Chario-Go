@@ -1,4 +1,4 @@
-# PickBazar Documentation
+# Chario Go Documentation
 
 # Introduction
 

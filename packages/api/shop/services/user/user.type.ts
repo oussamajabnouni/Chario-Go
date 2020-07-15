@@ -23,8 +23,8 @@ export class Role {
 
 @ObjectType()
 export default class User {
-  @Field(type => Int)
-  id: number;
+  @Field()
+  id: string;
 
   @Field()
   name: string;
@@ -32,7 +32,9 @@ export default class User {
   @Field()
   email: string;
 
-  //column is database field and doesn't apear in the schema
+  @Field({ nullable: true })
+  image: string;
+
   @Field(type => Role)
   role: Role;
 
@@ -44,4 +46,7 @@ export default class User {
 
   @Field(type => [Card])
   card: Card[];
+
+  @Field()
+  createdAt: Date;
 }

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { useDrawerDispatch } from "../../context/DrawerContext";

@@ -69,6 +69,7 @@ const GET_PRODUCTS = gql`
   query getProducts(
     $type: String
     $searchText: String
+    $sortByPrice: String
     $category: String
     $offset: Int
     $limit: Int
@@ -76,6 +77,7 @@ const GET_PRODUCTS = gql`
     products(
       type: $type
       searchText: $searchText
+      sortByPrice: $sortByPrice
       category: $category
       offset: $offset
       limit: $limit
@@ -83,7 +85,6 @@ const GET_PRODUCTS = gql`
       items {
         id
         title
-
         unit
         price
         description
@@ -235,8 +236,8 @@ export default function Products() {
                   >
                     <Fade bottom duration={800} delay={index * 10}>
                       <ProductCard
-                        title={item.name}
-                        weight={item.unit}
+                        title={item.title}
+                        unit={item.unit}
                         image={item.image}
                         currency={CURRENCY}
                         price={item.price}
