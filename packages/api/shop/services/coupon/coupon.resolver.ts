@@ -39,7 +39,14 @@ export class CouponResolver {
   ): Promise<Coupon> {
     return await models.Coupon.create(coupon);
   }
-
+  @Mutation(() => Coupon, { nullable: true , description: 'Delete Coupon' })
+  async deleteCoupon(
+    @Arg('id') id: String
+  ): Promise<Coupon> {
+      let affectedRow = await models.Coupon.findOne({ where: { id }});
+      await models.Coupon.destroy({ where: { id: id } });
+      return affectedRow;
+  }
   // @Mutation(() => Coupon)
   // async applyCoupon(@Arg('code') code: string): Promise<Coupon> {
   //   const coupon = await this.items.find(

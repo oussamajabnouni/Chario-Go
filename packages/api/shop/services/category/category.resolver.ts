@@ -52,4 +52,12 @@ export class CategoryResolver {
   ): Promise<Category> {
     return await this.categoriesModel.create(category);
   }
+  @Mutation(() => Category, { nullable: true , description: 'Delete Category' })
+  async deleteCategory(
+    @Arg('id') id: String
+  ): Promise<Category> {
+      let affectedRow = await this.categoriesModel.findOne({ where: { id }});
+      await this.categoriesModel.destroy({ where: { id: id } });
+      return affectedRow;
+  }
 }

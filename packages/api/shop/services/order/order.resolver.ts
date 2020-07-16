@@ -33,6 +33,14 @@ export class OrderResolver {
     console.log(orderInput, 'orderinput');
     return await this.items[0];
   }
+  @Mutation(() => Order, { nullable: true , description: 'Delete Order' })
+  async deleteOrder(
+    @Arg('id') id: String
+  ): Promise<Order> {
+      let affectedRow = await models.Order.findOne({ where: { id }});
+      await models.Order.destroy({ where: { id: id } });
+      return affectedRow;
+  }
   // @Mutation(returns => Order, { description: 'Add an Order' })
   // async addOrder(@Arg('orderInput') orderInput: Order): Promise<Order> {
   //   console.log(orderInput, 'orderinput');
