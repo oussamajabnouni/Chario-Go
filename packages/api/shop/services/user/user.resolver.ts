@@ -4,7 +4,7 @@ import User from './user.type';
 import Adress from './address.type';
 import Card from './card.type';
 import Contact from './contact.type';
-
+import {UpdateUserInput} from './user.type'
 import bcrypt from "bcryptjs";
 import { SignUpInput } from "./user.type";
 import { MyContext } from '../../types/context';
@@ -126,10 +126,14 @@ export class UserResolver {
       return affectedRow;
   }
 
-  // @Mutation(() => User, { description: 'Update User' })
-  // async updateMe(@Arg('meInput') meInput: string): Promise<User> {
-  //   return await this.items[0];
-  // }
+   @Mutation(() => User, {nullable: true ,description: 'Update User' })
+   async updateMe(@Arg('user') user: UpdateUserInput
+   ): Promise<User> {
+    let affectedRow = await models.User.findOne({ where: { id:user.id }});
+    await models.User.update(user,
+      { where: { id: user.id } });
+    return affectedRow;
+   }
 
   // @Mutation(() => User, { description: 'Add or Edit Address' })
   // async updateAddress(
