@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
-import { openModal, closeModal } from '@redq/reuse-modal';
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import { openModal, closeModal } from "@redq/reuse-modal";
+import { FilterContext } from "contexts/filter/filter.context";
 import {
   ProductsRow,
   ProductsCol,
@@ -9,27 +10,28 @@ import {
   LoaderWrapper,
   LoaderItem,
   ProductCardWrapper,
-} from './product-list.style';
-import { CURRENCY } from 'utils/constant';
-import { useQuery } from '@apollo/react-hooks';
-import Placeholder from 'components/placeholder/placeholder';
-import Fade from 'react-reveal/Fade';
-import NoResultFound from 'components/no-result/no-result';
-import { FormattedMessage } from 'react-intl';
-import { Button } from 'components/button/button';
-import { GET_PRODUCTS } from 'graphql/query/products.query';
-const QuickView = dynamic(() => import('features/quick-view/quick-view'));
+} from "./product-list.style";
+import { CURRENCY } from "utils/constant";
+import { useQuery } from "@apollo/react-hooks";
+import Placeholder from "components/placeholder/placeholder";
+import Fade from "react-reveal/Fade";
+import NoResultFound from "components/no-result/no-result";
+import { FormattedMessage } from "react-intl";
+import { Button } from "components/button/button";
+import { GET_PRODUCTS } from "graphql/query/products.query";
+
+const QuickView = dynamic(() => import("features/quick-view/quick-view"));
 const GeneralCard = dynamic(
-  import('components/product-card/product-card-one/product-card-one')
+  import("components/product-card/product-card-one/product-card-one")
 );
 const BookCard = dynamic(
-  import('components/product-card/product-card-two/product-card-two')
+  import("components/product-card/product-card-two/product-card-two")
 );
 const FurnitureCard = dynamic(
-  import('components/product-card/product-card-three/product-card-three')
+  import("components/product-card/product-card-three/product-card-three")
 );
 const MedicineCard = dynamic(
-  import('components/product-card/product-card-five/product-card-five')
+  import("components/product-card/product-card-five/product-card-five")
 );
 
 type ProductsProps = {
@@ -50,11 +52,15 @@ export const Products: React.FC<ProductsProps> = ({
 }) => {
   const router = useRouter();
   const [loadingMore, toggleLoading] = useState(false);
+  const { filterState } = useContext<any>(FilterContext);
+  console.log(filterState);
   const { data, error, loading, fetchMore } = useQuery(GET_PRODUCTS, {
     variables: {
       type: type,
-      text: router.query.text,
+      searchText: filterState.searchTerm,
       category: router.query.category,
+      locationState: filterState.locationState,
+      locationCity: filterState.locationCity,
       offset: 0,
       limit: fetchLimit,
     },
@@ -83,24 +89,24 @@ export const Products: React.FC<ProductsProps> = ({
   ) => {
     const { pathname, query } = router;
     const as = `/product/${modalProps.slug}`;
-    if (pathname === '/product/[slug]') {
+    if (pathname === "/product/[slug]") {
       router.push(pathname, as);
       return;
     }
     openModal({
       show: true,
-      overlayClassName: 'quick-view-overlay',
+      overlayClassName: "quick-view-overlay",
       closeOnClickOutside: false,
       component: QuickView,
       componentProps: { modalProps, deviceType, onModalClose },
-      closeComponent: 'div',
+      closeComponent: "div",
       config: {
         enableResizing: false,
         disableDragging: true,
-        className: 'quick-view-modal',
+        className: "quick-view-modal",
         width: 900,
         y: 30,
-        height: 'auto',
+        height: "auto",
         transition: {
           mass: 1,
           tension: 0,
@@ -167,7 +173,7 @@ export const Products: React.FC<ProductsProps> = ({
 
   const renderCard = (props) => {
     switch (type) {
-      case 'book':
+      case "book":
         return (
           <BookCard
             title={props.title}
@@ -176,11 +182,11 @@ export const Products: React.FC<ProductsProps> = ({
             data={props}
             deviceType={deviceType}
             onClick={() =>
-              router.push('/product/[slug]', `/product/${props.slug}`)
+              router.push("/product/[slug]", `/product/${props.slug}`)
             }
           />
         );
-      case 'medicine':
+      case "medicine":
         return (
           <MedicineCard
             title={props.title}
@@ -191,7 +197,7 @@ export const Products: React.FC<ProductsProps> = ({
             data={props}
           />
         );
-      case 'furniture':
+      case "furniture":
         return (
           <FurnitureCard
             title={props.title}
@@ -231,7 +237,7 @@ export const Products: React.FC<ProductsProps> = ({
               <Fade
                 duration={800}
                 delay={index * 10}
-                style={{ height: '100%' }}
+                style={{ height: "100%" }}
               >
                 {renderCard(item)}
               </Fade>

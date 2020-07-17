@@ -13,16 +13,17 @@ import {
   Input,
   Divider,
 } from "./authentication-form.style";
+import ApolloClient from "apollo-boost";
 import { Facebook } from "assets/icons/Facebook";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useApolloClient } from "@apollo/react-hooks";
 import { Google } from "assets/icons/Google";
 import { AuthContext } from "contexts/auth/auth.context";
 import { FormattedMessage, useIntl } from "react-intl";
 import { closeModal } from "@redq/reuse-modal";
 
 const LOGIN = gql`
-  mutation login($email: String, $password: String) {
+  mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       id
       email
@@ -31,22 +32,18 @@ const LOGIN = gql`
 `;
 
 export default function SignInModal() {
-  const [loginUser] = useMutation(LOGIN, {
-    update(cache, { data: { loginUser } }) {
-      const { login } = cache.readQuery({
-        query: LOGIN,
-      });
+  const client: ApolloClient<any> = useApolloClient();
+  const [login, { data, loading, error }] = useMutation(LOGIN, {
+    onCompleted({ login }) {
+      localStorage.setItem("access_token", login as string);
+      client.writeData({ data: { isLoggedIn: true } });
 
-      cache.writeQuery({
-        query: LOGIN,
-        data: {
-          login: {
-            __typename: login.__typename,
-            items: [loginUser, ...login.items],
-            hasMore: true,
-          },
-        },
-      });
+      authDispatch({ type: "SIGNIN_SUCCESS" });
+      closeModal();
+      if (!login) {
+        return <p>{JSON.stringify(error)}</p>;
+      }
+      console.log(login);
     },
   });
 
@@ -67,13 +64,15 @@ export default function SignInModal() {
     });
   };
 
-  const loginCallback = () => {
+  const loginCallback = (e) => {
+    e.preventDefault();
     if (typeof window !== "undefined") {
-      localStorage.setItem("access_token", `${email}.${password}`);
-      authDispatch({ type: "SIGNIN_SUCCESS" });
-      closeModal();
+      login({ variables: { email, password } });
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{JSON.stringify(error)}</p>;
 
   return (
     <Wrapper>
@@ -134,7 +133,7 @@ export default function SignInModal() {
             backgroundColor: "#4267b2",
             marginBottom: 10,
           }}
-          onClick={loginCallback}
+          onClick={SignInModal}
         >
           <IconWrapper>
             <Facebook />
@@ -149,7 +148,7 @@ export default function SignInModal() {
           variant="primary"
           size="big"
           style={{ width: "100%", backgroundColor: "#4285f4" }}
-          onClick={loginCallback}
+          onClick={SignInModal}
         >
           <IconWrapper>
             <Google />

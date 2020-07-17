@@ -1,5 +1,5 @@
 {
-  "name": "@pick-bazar/api",
+  "name": "@chario-go/api",
   "version": "3.0.0",
   "scripts": {
     "shop-dev": "ts-node-dev --respawn server.ts",

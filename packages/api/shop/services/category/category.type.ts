@@ -19,6 +19,27 @@ export class AddCategoryInput implements Partial<Category> {
 
 }
 
+@InputType({ description: 'New Category Data' })
+export class UpdateCategoryInput implements Partial<Category> {
+  @Field(type => ID)
+  id: string;
+  
+  @Field()
+  title: string;
+
+  @Field({ nullable: true })
+  parentId: string;
+
+  @Field({ defaultValue: null })
+  type: string;
+
+  @Field({ nullable: true })
+  icon: string;
+
+  @Field({ nullable: true })
+  slug: string;
+
+}
 
 @ObjectType()
 export default class Category {

@@ -1,32 +1,40 @@
-import { ObjectType, Field, Int, Float, InputType, ArgsType, ID } from 'type-graphql';
-import Category from '../category/category.type';
-import Address from '../user/address.type';
+import {
+  ObjectType,
+  Field,
+  Int,
+  Float,
+  InputType,
+  ArgsType,
+  ID,
+} from "type-graphql";
+import Category from "../category/category.type";
+import Address from "../user/address.type";
 
-import { registerEnumType } from 'type-graphql';
+import { registerEnumType } from "type-graphql";
 
 export enum ProductType {
-  book = 'book',
-  bags = 'bags',
-  grocery = 'grocery',
-  medicine = 'medicine',
-  cloth = 'cloth',
-  clothing = 'clothing',
-  furniture = 'furniture',
-  makeup = 'makeup',
-  food = 'food',
+  book = "book",
+  bags = "bags",
+  grocery = "grocery",
+  medicine = "medicine",
+  cloth = "cloth",
+  clothing = "clothing",
+  furniture = "furniture",
+  makeup = "makeup",
+  food = "food",
 }
 
 registerEnumType(ProductType, {
-  name: 'ProductType',
-  description: 'The basic product types',
+  name: "ProductType",
+  description: "The basic product types",
 });
 
 @ArgsType()
 export class GetProductsArgs {
-  @Field(type => Int, { defaultValue: 12 })
+  @Field((type) => Int, { defaultValue: 12 })
   limit: number;
 
-  @Field(type => Int, { defaultValue: 0 })
+  @Field((type) => Int, { defaultValue: 0 })
   offset: number;
 
   @Field({ nullable: true })
@@ -48,8 +56,7 @@ export class GetProductsArgs {
   locationCity?: string;
 }
 
-
-@InputType({ description: 'New product data' })
+@InputType({ description: "New product data" })
 export class AddProductInput {
   @Field()
   title: string;
@@ -63,7 +70,7 @@ export class AddProductInput {
   @Field(() => ProductType)
   type: ProductType;
 
-  @Field({ defaultValue: '1' })
+  @Field({ defaultValue: "1" })
   unit: string;
 
   @Field(() => Int)
@@ -86,16 +93,52 @@ export class AddProductInput {
 
   @Field(() => [String], { nullable: true })
   galleries: string[];
-
 }
 
+@InputType({ description: "Update product data" })
+export class UpdateProductInput {
+  @Field()
+  id: string;
+
+  @Field({ nullable: true })
+  title: string;
+
+  @Field({ nullable: true })
+  slug: string;
+
+  @Field({ nullable: true })
+  image: string;
+
+  @Field(() => ProductType,{ nullable: true })
+  type: ProductType;
+
+  @Field({ nullable: true })
+  unit: string;
+
+  @Field({ nullable: true })
+  price: number;
+
+  @Field({ nullable: true })
+  discountInPercent: number;
+
+  @Field({ nullable: true })
+  per_unit: number;
+
+  @Field({ nullable: true })
+  description: string;
+
+  @Field(() => [String],{ nullable: true })
+  categories: string[];
+
+  @Field(() => [String],{ nullable: true })
+  deliverTo: string[];
+}
 
 @ObjectType()
 class Gallery {
   @Field()
   url: string;
 }
-
 
 @ObjectType()
 export default class Product {
@@ -132,7 +175,7 @@ export default class Product {
   @Field()
   price: number;
 
-  @Field(type => Int, { nullable: true })
+  @Field((type) => Int, { nullable: true })
   views?: number;
 
   @Field()
@@ -141,4 +184,3 @@ export default class Product {
   @Field()
   createdAt: Date;
 }
-

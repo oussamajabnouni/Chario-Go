@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Arg } from 'type-graphql';
 const { Op } = require("sequelize");
 import Coupon from './coupon.type';
 import { AddCouponInput } from './coupon.type';
+import {UpdateCouponInput} from './coupon.type';
 
 const models = require('../../../models')
 
@@ -38,6 +39,25 @@ export class CouponResolver {
     @Arg('coupon') coupon: AddCouponInput
   ): Promise<Coupon> {
     return await models.Coupon.create(coupon);
+  }
+
+  @Mutation(() => Coupon, { nullable: true , description: 'Update Coupon' })
+  async updateCoupon(
+    @Arg('coupon') coupon: UpdateCouponInput
+  ): Promise<Coupon> {
+      let affectedRow = await models.Coupon.findOne({ where: { id:coupon.id }});
+      await models.Coupon.update(coupon,
+        { where: { id: coupon.id } });
+      return affectedRow;
+  }
+
+  @Mutation(() => Coupon, { nullable: true , description: 'Delete Coupon' })
+  async deleteCoupon(
+    @Arg('id') id: String
+  ): Promise<Coupon> {
+      let affectedRow = await models.Coupon.findOne({ where: { id }});
+      await models.Coupon.destroy({ where: { id: id } });
+      return affectedRow;
   }
 
   // @Mutation(() => Coupon)

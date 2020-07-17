@@ -64,7 +64,7 @@ const main = async () => {
   // session models creation
   sequelizeStore.sync({ alter: true });
   // all models creation
-  // models.sequelize.sync({ alter: true });
+  models.sequelize.sync({ alter: true });
 
   app.listen(PORT, () => {
     console.log(`🚀 started http://localhost:${PORT}${path}`);

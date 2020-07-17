@@ -1,6 +1,10 @@
 import { Resolver, Query, Arg, Mutation, Ctx } from 'type-graphql';
 const { Op } = require("sequelize");
 import User from './user.type';
+import Adress from './address.type';
+import Card from './card.type';
+import Contact from './contact.type';
+import {UpdateUserInput} from './user.type'
 import bcrypt from "bcryptjs";
 import { SignUpInput } from "./user.type";
 import { MyContext } from '../../types/context';
@@ -87,12 +91,49 @@ export class UserResolver {
     ctx.req.session!.userId = user.id;
     return user;
   }
+  @Mutation(() => User, { nullable: true , description: 'Delete User' })
+  async deleteUser(
+    @Arg('id') id: String
+  ): Promise<User> {
+      let affectedRow = await models.User.findOne({ where: { id }});
+      await models.User.destroy({ where: { id: id } });
+      return affectedRow;
+  }
 
+  @Mutation(() => Adress, { nullable: true , description: 'Delete Adress' })
+  async deleteAdress(
+    @Arg('id') id: String
+  ): Promise<Adress> {
+      let affectedRow = await models.Adress.findOne({ where: { id }});
+      await models.Adress.destroy({ where: { id: id } });
+      return affectedRow;
+  }
+  @Mutation(() => Contact, { nullable: true , description: 'Delete Contact' })
+  async deleteContact(
+    @Arg('id') id: String
+  ): Promise<Contact> {
+      let affectedRow = await models.Contact.findOne({ where: { id }});
+      await models.Contact.destroy({ where: { id: id } });
+      return affectedRow;
+  }
 
-  // @Mutation(() => User, { description: 'Update User' })
-  // async updateMe(@Arg('meInput') meInput: string): Promise<User> {
-  //   return await this.items[0];
-  // }
+  @Mutation(() => Card, { nullable: true , description: 'Delete Card' })
+  async deleteCard(
+    @Arg('id') id: String
+  ): Promise<Card> {
+      let affectedRow = await models.Card.findOne({ where: { id }});
+      await models.Card.destroy({ where: { id: id } });
+      return affectedRow;
+  }
+
+   @Mutation(() => User, {nullable: true ,description: 'Update User' })
+   async updateMe(@Arg('user') user: UpdateUserInput
+   ): Promise<User> {
+    let affectedRow = await models.User.findOne({ where: { id:user.id }});
+    await models.User.update(user,
+      { where: { id: user.id } });
+    return affectedRow;
+   }
 
   // @Mutation(() => User, { description: 'Add or Edit Address' })
   // async updateAddress(
