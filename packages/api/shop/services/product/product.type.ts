@@ -98,40 +98,40 @@ export class AddProductInput {
 @InputType({ description: "Update product data" })
 export class UpdateProductInput {
   @Field()
-  id?: number;
+  id: string;
 
-  @Field()
-  title?: string;
+  @Field({ nullable: true })
+  title: string;
 
-  @Field()
-  slug?: string;
+  @Field({ nullable: true })
+  slug: string;
 
-  @Field()
-  image?: string;
+  @Field({ nullable: true })
+  image: string;
 
-  @Field(() => ProductType)
-  type?: ProductType;
+  @Field(() => ProductType,{ nullable: true })
+  type: ProductType;
 
-  @Field()
-  unit?: string;
+  @Field({ nullable: true })
+  unit: string;
 
-  @Field()
-  price?: number;
+  @Field({ nullable: true })
+  price: number;
 
-  @Field()
-  discountInPercent?: number;
+  @Field({ nullable: true })
+  discountInPercent: number;
 
-  @Field()
-  per_unit?: number;
+  @Field({ nullable: true })
+  per_unit: number;
 
-  @Field()
-  description?: string;
+  @Field({ nullable: true })
+  description: string;
 
-  @Field(() => [String])
-  categories?: string[];
+  @Field(() => [String],{ nullable: true })
+  categories: string[];
 
-  @Field(() => [String])
-  deliverTo?: string[];
+  @Field(() => [String],{ nullable: true })
+  deliverTo: string[];
 }
 
 @ObjectType()

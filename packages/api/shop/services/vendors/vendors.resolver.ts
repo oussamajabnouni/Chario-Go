@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg, Args } from 'type-graphql';
+import { Resolver, Query,Mutation, Arg, Args } from 'type-graphql';
 const { Op } = require("sequelize");
 import { Vendor } from './vendor.type';
 import { Vendors } from './vendor.type';
@@ -64,5 +64,14 @@ export class VendorResolver {
     @Arg('slug', (type) => String) slug: string
   ): Promise<Vendor | undefined> {
     return await models.Vendor.findOne({ where: { slug }, include: [{ all: true }] });
+  }
+
+  @Mutation(() => Vendor, { nullable: true , description: 'Delete Vendor' })
+  async deleteVendor(
+    @Arg('id') id: String
+  ): Promise<Vendor> {
+      let affectedRow = await models.Vendor.findOne({ where: { id }});
+      await models.Vendor.destroy({ where: { id: id } });
+      return affectedRow;
   }
 }

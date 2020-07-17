@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { styled, withStyle } from "baseui";
+import { useDrawerDispatch } from "../../context/DrawerContext";
 import Button from "../../components/Button/Button";
 import {
   Grid,
@@ -15,8 +16,8 @@ import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
 import RestaurantCard from "../../components/RestaurantCard/RestaurantCard";
 import NoResult from "../../components/NoResult/NoResult";
-import { CURRENCY } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
+import { Plus } from "../../components/AllSvgIcon";
 
 export const ProductsRow = styled("div", ({ $theme }) => ({
   display: "flex",
@@ -102,11 +103,11 @@ const typeSelectOptions = [
 
 export default function Restaurants() {
   const { data, error, refetch, fetchMore } = useQuery(GET_VENDORS);
+  const dispatch = useDrawerDispatch();
   const [loadingMore, toggleLoading] = useState(false);
   const [type, setType] = useState([]);
   const [search, setSearch] = useState([]);
 
-  const dispatch = useDrawerDispatch();
   const openDrawer = useCallback(
     () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "RESTAURANT_FORM" }),
     [dispatch]
@@ -176,7 +177,7 @@ export default function Restaurants() {
                   />
                 </Col>
 
-                <Col md={5} xs={12}>
+                <Col md={6} xs={12}>
                   <Input
                     value={search}
                     placeholder="Ex: Search By Name"
@@ -184,25 +185,24 @@ export default function Restaurants() {
                     clearable
                   />
                 </Col>
-                <Col>
-                  <Col>
-                    <Button
-                      onClick={openDrawer}
-                      overrides={{
-                        BaseButton: {
-                          style: () => ({
-                            width: "130%",
-                            borderTopLeftRadius: "3px",
-                            borderTopRightRadius: "3px",
-                            borderBottomLeftRadius: "3px",
-                            borderBottomRightRadius: "3px",
-                          }),
-                        },
-                      }}
-                    >
-                      Add Restaurant
-                    </Button>
-                  </Col>
+                <Col md={3} lg={3}>
+                  <Button
+                    onClick={openDrawer}
+                    startEnhancer={() => <Plus />}
+                    overrides={{
+                      BaseButton: {
+                        style: () => ({
+                          width: "100%",
+                          borderTopLeftRadius: "3px",
+                          borderTopRightRadius: "3px",
+                          borderBottomLeftRadius: "3px",
+                          borderBottomRightRadius: "3px",
+                        }),
+                      },
+                    }}
+                  >
+                    Add Restaurant
+                  </Button>
                 </Col>
               </Row>
             </Col>

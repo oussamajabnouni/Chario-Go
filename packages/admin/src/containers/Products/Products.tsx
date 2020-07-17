@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { styled, withStyle } from "baseui";
+import { useDrawerDispatch } from "../../context/DrawerContext";
 import Button from "../../components/Button/Button";
 import { useDrawerDispatch } from "../../context/DrawerContext";
 
@@ -18,6 +19,9 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import NoResult from "../../components/NoResult/NoResult";
 import { CURRENCY } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
+import {
+  Plus
+} from "../../components/AllSvgIcon";
 
 export const ProductsRow = styled("div", ({ $theme }) => ({
   display: "flex",
@@ -135,11 +139,20 @@ export default function Products() {
   const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS);
   const [loadingMore, toggleLoading] = useState(false);
   const [type, setType] = useState([]);
+<<<<<<< HEAD
   const [locationState, setLocationState] = useState([]);
   const [locationCity, setLocationCity] = useState([]);
+=======
+  const dispatch = useDrawerDispatch();
+>>>>>>> 8c78b072829de8c72a54252b5853b74a8a347cd9
   const [priceOrder, setPriceOrder] = useState([]);
   const [search, setSearch] = useState([]);
   const dispatch = useDrawerDispatch();
+  const openDrawer = useCallback(
+    () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "PRODUCT_FORM" }),
+    [dispatch]
+  );
+
   const openDrawer = useCallback(
     () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "PRODUCT_FORM" }),
     [dispatch]
@@ -267,13 +280,14 @@ export default function Products() {
                   />
                 </Col>
 
-                <Col>
+                <Col md={3} lg={3}>
                   <Button
                     onClick={openDrawer}
+                    startEnhancer={() => <Plus />}
                     overrides={{
                       BaseButton: {
                         style: () => ({
-                          width: "130%",
+                          width: "100%",
                           borderTopLeftRadius: "3px",
                           borderTopRightRadius: "3px",
                           borderBottomLeftRadius: "3px",

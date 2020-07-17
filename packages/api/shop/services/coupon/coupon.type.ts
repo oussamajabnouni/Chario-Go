@@ -26,6 +26,34 @@ export class AddCouponInput {
 
 }
 
+@InputType()
+export class UpdateCouponInput {
+  @Field()
+  id: string;
+
+  @Field({ nullable: true })
+  title: string;
+
+  @Field(type => Int,{ nullable: true })
+  number_of_coupon: number;
+
+  @Field(type => Int,{ nullable: true })
+  discount_in_percent: number;
+
+  @Field({ nullable: true })
+  category: string
+
+  @Field({ nullable: true })
+  code: string;
+
+  @Field(type => Int, { nullable: true })
+  minimum_amount: number;
+
+  @Field(type => String, { nullable: true })
+  status: string;
+
+}
+
 @ObjectType()
 export default class Coupon {
   @Field(type => ID)

@@ -15,6 +15,24 @@ export class SignUpInput {
   password: string;
 }
 
+
+@InputType()
+export class UpdateUserInput {
+  @Field(type => ID)
+  id:string;
+  @Field({ nullable: true })
+  name: string;
+
+  @Field({ nullable: true })
+  email: string;
+
+  @Field({ nullable: true })
+  password: string;
+
+  @Field({ nullable: true })
+  image: string;
+}
+
 @ObjectType()
 export class Role {
   @Field()

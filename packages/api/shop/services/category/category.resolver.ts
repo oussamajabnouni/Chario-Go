@@ -1,6 +1,6 @@
 import { Resolver, Query, Arg, ID, Mutation } from 'type-graphql';
 const { Op } = require("sequelize");
-import Category from './category.type';
+import Category, { UpdateCategoryInput } from './category.type';
 import { AddCategoryInput } from './category.type';
 const models = require('../../../models')
 
@@ -51,5 +51,23 @@ export class CategoryResolver {
     @Arg('category') category: AddCategoryInput
   ): Promise<Category> {
     return await this.categoriesModel.create(category);
+  }
+  @Mutation(() => Category, { nullable: true , description: 'Delete Category' })
+  async deleteCategory(
+    @Arg('id') id: String
+  ): Promise<Category> {
+      let affectedRow = await this.categoriesModel.findOne({ where: { id }});
+      await this.categoriesModel.destroy({ where: { id: id } });
+      return affectedRow;
+  }
+
+  @Mutation(() => Category, { nullable: true , description: 'Update Category' })
+  async updateCategory(
+    @Arg('category') category: UpdateCategoryInput
+  ): Promise<Category> {
+      let affectedRow = await this.categoriesModel.findOne({ where: { id:category.id }});
+      await this.categoriesModel.update(category,
+        { where: { id: category.id } })
+      return affectedRow;
   }
 }

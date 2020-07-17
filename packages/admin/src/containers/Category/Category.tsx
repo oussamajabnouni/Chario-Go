@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { withStyle } from "baseui";
+import ChevronDown from 'baseui/icon/chevron-down';
+import ChevronRight from 'baseui/icon/chevron-right';
 import {
   Grid,
   Row as Rows,
@@ -87,15 +89,23 @@ let icons = {
   Wallet: Wallet,
   WomenDress: WomenDress,
 };
+
 const GET_CATEGORIES = gql`
   query getCategories($type: String, $searchBy: String) {
-    categories(type: $type, searchBy: $searchBy) {
+    categories(type: $type, searchBy: $searchBy,isParent: true) {
       id
       icon
       title
       slug
       type
       parentId
+      children {
+        id
+        icon
+        title
+        slug
+        type
+      }
     }
   }
 `;
@@ -121,12 +131,119 @@ const categorySelectOptions = [
   { value: "foods", label: "foods" },
 ];
 
+const SubTable = ({ children, parentId }) => {
+  console.log(children)
+  return (
+    children.map((child, index) => {
+      return (
+        <React.Fragment key={index}>
+          <StyledCell>
+            <Checkbox
+              name={child.id}
+              // checked={checkedId.includes(row[0])}
+              // onChange={handleCheckbox}
+              overrides={{
+                Checkmark: {
+                  style: {
+                    borderTopWidth: "2px",
+                    borderRightWidth: "2px",
+                    borderBottomWidth: "2px",
+                    borderLeftWidth: "2px",
+                    borderTopLeftRadius: "4px",
+                    borderTopRightRadius: "4px",
+                    borderBottomRightRadius: "4px",
+                    borderBottomLeftRadius: "4px",
+                  },
+                },
+              }}
+            />
+          </StyledCell>
+          <StyledCell></StyledCell>
+          <StyledCell>
+            {child.id}
+          </StyledCell>
+          <StyledCell>
+            <ImageWrapper>
+              <Icon icon={child.icon} />
+            </ImageWrapper>
+          </StyledCell>
+          <StyledCell>{child.title}</StyledCell>
+          <StyledCell>{child.slug}</StyledCell>
+          <StyledCell>{child.type}</StyledCell>
+          <StyledCell>{child.type}</StyledCell>
+        </React.Fragment>
+      );
+    })
+  );
+}
+
+function Icon({ icon }) {
+  const Component = icons.hasOwnProperty(icon) ? icons[icon] : "span";
+  return <Component />;
+}
+
+const TableRow = ({ row, index }) => {
+  const [expanded, setExpanded] = React.useState(false);
+  return (
+    <React.Fragment key={index}>
+      <StyledCell>
+        <Checkbox
+          name={row[0]}
+          // checked={checkedId.includes(row[0])}
+          // onChange={handleCheckbox}
+          overrides={{
+            Checkmark: {
+              style: {
+                borderTopWidth: "2px",
+                borderRightWidth: "2px",
+                borderBottomWidth: "2px",
+                borderLeftWidth: "2px",
+                borderTopLeftRadius: "4px",
+                borderTopRightRadius: "4px",
+                borderBottomRightRadius: "4px",
+                borderBottomLeftRadius: "4px",
+              },
+            },
+          }}
+        />
+      </StyledCell>
+      <StyledCell>
+        {row[6].length > 0 && (<Button
+          size="compact"
+          kind="minimal"
+          onClick={() => setExpanded(!expanded)}
+          shape="square"
+        >
+          {expanded ? (
+            <ChevronDown size={18} />
+          ) : (
+              <ChevronRight size={18} />
+            )}
+        </Button>)}
+      </StyledCell>
+      <StyledCell>
+        {row[0]}</StyledCell>
+      <StyledCell>
+        <ImageWrapper>
+          <Icon icon={row[1]} />
+        </ImageWrapper>
+      </StyledCell>
+      <StyledCell>{row[2]}</StyledCell>
+      <StyledCell>{row[3]}</StyledCell>
+      <StyledCell>{row[4]}</StyledCell>
+      <StyledCell>{row[5]}</StyledCell>
+      {expanded && row[6] && <SubTable parentId={row[0]} children={row[6]} />}
+    </React.Fragment>
+  )
+}
+
 export default function Category() {
   const [category, setCategory] = useState([]);
   const [search, setSearch] = useState("");
   const dispatch = useDrawerDispatch();
   const [checkedId, setCheckedId] = useState([]);
   const [checked, setChecked] = useState(false);
+
   const openDrawer = useCallback(
     () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "CATEGORY_FORM" }),
     [dispatch]
@@ -134,9 +251,7 @@ export default function Category() {
 
   const { data, error, refetch } = useQuery(GET_CATEGORIES);
 
-  if (error) {
-    return <div>Error! {error.message}</div>;
-  }
+
   function handleSearch(event) {
     const value = event.currentTarget.value;
     setSearch(value);
@@ -176,10 +291,12 @@ export default function Category() {
       setCheckedId((prevState) => prevState.filter((id) => id !== name));
     }
   }
-  function Icon({ icon }) {
-    const Component = icons.hasOwnProperty(icon) ? icons[icon] : "span";
-    return <Component />;
+
+  if (error) {
+    return <div>Error! {error.message}</div>;
   }
+
+
   return (
     <Grid fluid={true}>
       <Row>
@@ -242,7 +359,7 @@ export default function Category() {
 
           <Wrapper style={{ boxShadow: "0 0 5px rgba(0, 0 , 0, 0.05)" }}>
             <TableWrapper>
-              <StyledTable $gridTemplateColumns="minmax(70px, 70px) minmax(70px, 70px) minmax(70px, 70px) minmax(150px, auto) minmax(150px, auto) minmax(70px, 70px) auto">
+              <StyledTable $gridTemplateColumns="minmax(70px, 70px) minmax(70px, 70px) minmax(70px, 70px) minmax(70px, 70px) minmax(150px, auto) minmax(150px, auto) minmax(70px, 70px) auto">
                 <StyledHeadCell>
                   <Checkbox
                     type="checkbox"
@@ -265,51 +382,19 @@ export default function Category() {
                     }}
                   />
                 </StyledHeadCell>
+                <StyledHeadCell> <ChevronDown size={18} /></StyledHeadCell>
                 <StyledHeadCell>Id</StyledHeadCell>
                 <StyledHeadCell>Image</StyledHeadCell>
                 <StyledHeadCell>Name</StyledHeadCell>
                 <StyledHeadCell>Slug</StyledHeadCell>
                 <StyledHeadCell>Type</StyledHeadCell>
                 <StyledHeadCell>Parent ID</StyledHeadCell>
-
                 {data ? (
                   data.categories.length ? (
                     data.categories
                       .map((item) => Object.values(item))
                       .map((row, index) => (
-                        <React.Fragment key={index}>
-                          <StyledCell>
-                            <Checkbox
-                              name={row[0]}
-                              checked={checkedId.includes(row[0])}
-                              onChange={handleCheckbox}
-                              overrides={{
-                                Checkmark: {
-                                  style: {
-                                    borderTopWidth: "2px",
-                                    borderRightWidth: "2px",
-                                    borderBottomWidth: "2px",
-                                    borderLeftWidth: "2px",
-                                    borderTopLeftRadius: "4px",
-                                    borderTopRightRadius: "4px",
-                                    borderBottomRightRadius: "4px",
-                                    borderBottomLeftRadius: "4px",
-                                  },
-                                },
-                              }}
-                            />
-                          </StyledCell>
-                          <StyledCell>{row[0]}</StyledCell>
-                          <StyledCell>
-                            <ImageWrapper>
-                              <Icon icon={row[1]} />
-                            </ImageWrapper>
-                          </StyledCell>
-                          <StyledCell>{row[2]}</StyledCell>
-                          <StyledCell>{row[3]}</StyledCell>
-                          <StyledCell>{row[4]}</StyledCell>
-                          <StyledCell>{row[5]}</StyledCell>
-                        </React.Fragment>
+                        <TableRow row={row} index={index} />
                       ))
                   ) : (
                     <NoResult

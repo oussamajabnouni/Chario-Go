@@ -16,7 +16,7 @@ export const ContentWrapper = styled('div', ({ $theme }) => ({
 export const ContentInnerWrapper = styled('div', () => ({
   width: '100%',
   height: 'auto',
-  padding: '45px 30px',
+  padding: '20px 20px',
   overflow: 'hidden',
   overflowY: 'auto',
 
