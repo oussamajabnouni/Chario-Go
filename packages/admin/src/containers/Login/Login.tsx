@@ -4,6 +4,8 @@ import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { Notification, KIND } from 'baseui/notification';
+
 import { AuthContext } from "../../context/auth";
 import {
   FormFields,
@@ -88,10 +90,9 @@ export default () => {
                 <FormTitle>Log in to admin</FormTitle>
               </FormFields>
               {mutationError && (
-                <Error>{mutationError}</Error>
-              )}
-              {mutationLoading && (
-                <Error>LOADING ...</Error>
+                <Notification overrides={{
+                  Body: { style: { width: 'auto' } },
+                }} kind={KIND.negative} closeable> {mutationError}</Notification>
               )}
               <FormFields>
                 <FormLabel>Username</FormLabel>
@@ -119,6 +120,7 @@ export default () => {
               </FormFields>
               <Button
                 type="submit"
+                isLoading={mutationLoading}
                 overrides={{
                   BaseButton: {
                     style: ({ $theme }) => ({

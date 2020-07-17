@@ -23,7 +23,7 @@ export const MenuWrapper = styled("div", ({ $theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-end",
-  padding: "45px 0",
+  padding: "15px 0",
   overflowY: "auto",
 
   "@media only screen and (max-width: 767px)": {

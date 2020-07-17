@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../../../components/Button/Button";
 import Popover, { PLACEMENT } from "../../../components/Popover/Popover";
 import Notification from "../../../components/Notification/Notification";
 import { AuthContext } from "../../../context/auth";
@@ -27,7 +26,6 @@ import {
 } from "./Topbar.style";
 import Logoimage from "../../../assets/image/chariogoAdmin.png";
 import UserImage from "../../../assets/image/user.jpg";
-import { useDrawerDispatch } from "../../../context/DrawerContext";
 import Drawer, { ANCHOR } from "../../../components/Drawer/Drawer";
 import Sidebar from "../Sidebar/Sidebar";
 
@@ -39,17 +37,9 @@ const data = [
   },
 ];
 const Topbar = ({ refs }: any) => {
-  const dispatch = useDrawerDispatch();
   const { signout } = React.useContext(AuthContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const openDrawer = useCallback(
-    () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "PRODUCT_FORM" }),
-    [dispatch]
-  );
-  const openDrawerVendor = useCallback(
-    () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "RESTAURANT_FORM" }),
-    [dispatch]
-  );
+
   return (
     <TopbarWrapper ref={refs}>
       <Logo>
@@ -103,11 +93,6 @@ const Topbar = ({ refs }: any) => {
       </DrawerWrapper>
 
       <TopbarRightSide>
-        <Button onClick={openDrawer} style={{ marginRight: "10px" }}>
-          Add Products
-        </Button>
-        <Button onClick={openDrawerVendor}>Add Restaurants</Button>
-
         <Popover
           content={({ close }) => <Notification data={data} onClear={close} />}
           accessibilityType={"tooltip"}

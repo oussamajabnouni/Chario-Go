@@ -26,6 +26,11 @@ export const TableWrapper = styled('div', () => ({
   height: '450px',
 }));
 
+export const SubTableWrapper = styled('div', () => ({
+  backgroundColor: "rgba(0, 197, 141, 0.16)",
+  width: '100%',
+}));
+
 export const StyledTable = withStyle(BaseStyledTable, () => ({
   borderTopLeftRadius: '0 !important',
   borderTopRightRadius: '0 !important',
@@ -45,6 +50,7 @@ export const StyledHeadCell = withStyle(BaseStyledHeadCell, () => ({
   borderBottomColor: 'rgba(0, 0, 0, 0.12)',
   borderLeftColor: 'rgba(0, 0, 0, 0.12)',
   alignSelf: 'start',
+  height: '100%'
 }));
 
 export const StyledCell = withStyle(BaseStyledCell, () => ({
@@ -67,8 +73,9 @@ export const StyledHeadCellCenter = withStyle(BaseStyledHeadCell, () => ({
 
 export const StyledCellCenter = withStyle(BaseStyledCell, () => ({
   fontFamily: "'Lato', sans-serif",
+  backgroundColor: "rgba(0, 197, 141, 0.16)",
+  // height: "100%",
   fontWeight: 400,
   color: '#161F6A !important',
-  alignSelf: 'center',
-  justifyContent: 'center',
+  alignSelf: 'center'
 }));

@@ -8,7 +8,8 @@ import { Grid as Grids, Row as Rows, Col as Cols } from 'react-flexbox-grid';
 //   }
 // }));
 
-export const Grid = styled(Grids, () => ({}));
+export const Grid = styled(Grids, () => ({
+}));
 
 export const Row = styled(Rows, () => ({
   margin: '0 -15px 30px',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Moment from 'react-moment';
 import { styled, withStyle } from 'baseui';
+import { Avatar } from "baseui/avatar";
 import {
   Grid,
   Row as Rows,
@@ -48,22 +49,6 @@ const Row = withStyle(Rows, () => ({
   },
 }));
 
-const ImageWrapper = styled('div', ({ $theme }) => ({
-  width: '38px',
-  height: '38px',
-  overflow: 'hidden',
-  display: 'inline-block',
-  borderTopLeftRadius: '20px',
-  borderTopRightRadius: '20px',
-  borderBottomRightRadius: '20px',
-  borderBottomLeftRadius: '20px',
-  backgroundColor: $theme.colors.backgroundF7,
-}));
-
-const Image = styled('img', () => ({
-  width: '100%',
-  height: 'auto',
-}));
 
 const sortByOptions = [
   { value: 'highestToLowest', label: 'Highest To Lowest' },
@@ -154,9 +139,11 @@ export default function Customers() {
                         <React.Fragment key={index}>
                           <StyledBodyCell>{row[0]}</StyledBodyCell>
                           <StyledBodyCell>
-                            <ImageWrapper>
-                              <Image src={row[1]} alt={row[2]} />
-                            </ImageWrapper>
+                            <Avatar
+                              name={row[2]}
+                              size="scale1000"
+                              src={row[1]}
+                            />
                           </StyledBodyCell>
                           <StyledBodyCell>{row[2]}</StyledBodyCell>
                           <StyledBodyCell>{row[3]}</StyledBodyCell>
