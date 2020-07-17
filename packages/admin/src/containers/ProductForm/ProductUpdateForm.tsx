@@ -80,7 +80,7 @@ const GET_CATEGORIES = gql`
 
 const typeOptions = [
   { value: "grocery", name: "Grocery", id: "1" },
-  { value: "food", name: "food", id: "2" },
+  { value: "foods", name: "foods", id: "2" },
 ];
 
 type Props = any;

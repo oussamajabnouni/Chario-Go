@@ -118,9 +118,7 @@ const Row = withStyle(Rows, () => ({
 
 const categorySelectOptions = [
   { value: "grocery", label: "Grocery" },
-  { value: "women-cloths", label: "Women Cloth" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "foods", label: "foods" },
 ];
 
 export default function Category() {
@@ -314,14 +312,14 @@ export default function Category() {
                         </React.Fragment>
                       ))
                   ) : (
-                      <NoResult
-                        hideButton={false}
-                        style={{
-                          gridColumnStart: "1",
-                          gridColumnEnd: "one",
-                        }}
-                      />
-                    )
+                    <NoResult
+                      hideButton={false}
+                      style={{
+                        gridColumnStart: "1",
+                        gridColumnEnd: "one",
+                      }}
+                    />
+                  )
                 ) : null}
               </StyledTable>
             </TableWrapper>

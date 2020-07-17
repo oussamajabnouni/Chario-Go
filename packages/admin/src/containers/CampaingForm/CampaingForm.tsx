@@ -1,23 +1,23 @@
-import React, { useState, useCallback } from 'react';
-import { useForm } from 'react-hook-form';
-import uuidv4 from 'uuid/v4';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
-import { useDrawerDispatch } from '../../context/DrawerContext';
-import { Scrollbars } from 'react-custom-scrollbars';
-import Input from '../../components/Input/Input';
-import Select from '../../components/Select/Select';
-import Button, { KIND } from '../../components/Button/Button';
-import DrawerBox from '../../components/DrawerBox/DrawerBox';
-import { Row, Col } from '../../components/FlexBox/FlexBox';
+import React, { useState, useCallback } from "react";
+import { useForm } from "react-hook-form";
+import uuidv4 from "uuid/v4";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
+import { useDrawerDispatch } from "../../context/DrawerContext";
+import { Scrollbars } from "react-custom-scrollbars";
+import Input from "../../components/Input/Input";
+import Select from "../../components/Select/Select";
+import Button, { KIND } from "../../components/Button/Button";
+import DrawerBox from "../../components/DrawerBox/DrawerBox";
+import { Row, Col } from "../../components/FlexBox/FlexBox";
 import {
   Form,
   DrawerTitleWrapper,
   DrawerTitle,
   FieldDetails,
   ButtonGroup,
-} from '../DrawerItems/DrawerItems.style';
-import { FormFields, FormLabel } from '../../components/FormFields/FormFields';
+} from "../DrawerItems/DrawerItems.style";
+import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
 
 const GET_COUPONS = gql`
   query getCoupons($status: String, $searchBy: String) {
@@ -50,23 +50,21 @@ const CREATE_COUPON = gql`
 `;
 
 const options = [
-  { value: 'grocery', name: 'Grocery', id: '1' },
-  { value: 'women-cloths', name: 'Women Cloths', id: '2' },
-  { value: 'bags', name: 'Bags', id: '3' },
-  { value: 'makeup', name: 'Makeup', id: '4' },
+  { value: "grocery", name: "Grocery", id: "1" },
+  { value: "foods", name: "foods", id: "2" },
 ];
 type Props = any;
 
-const AddCampaing: React.FC<Props> = props => {
+const AddCampaing: React.FC<Props> = (props) => {
   const dispatch = useDrawerDispatch();
-  const closeDrawer = useCallback(() => dispatch({ type: 'CLOSE_DRAWER' }), [
+  const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
     dispatch,
   ]);
 
   const { register, handleSubmit, setValue } = useForm();
   const [category, setCategory] = useState([]);
   React.useEffect(() => {
-    register({ name: 'category' });
+    register({ name: "category" });
   }, [register]);
   const [createCoupon] = useMutation(CREATE_COUPON, {
     update(cache, { data: { createCoupon } }) {
@@ -81,7 +79,7 @@ const AddCampaing: React.FC<Props> = props => {
     },
   });
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const newCoupon = {
       title: data.name,
       code: data.code,
@@ -94,10 +92,10 @@ const AddCampaing: React.FC<Props> = props => {
       variables: { coupon: newCoupon },
     });
     closeDrawer();
-    console.log(newCoupon, 'newCoupon');
+    console.log(newCoupon, "newCoupon");
   };
   const handleCategoryChange = ({ value }) => {
-    setValue('category', value);
+    setValue("category", value);
     setCategory(value);
   };
 
@@ -107,16 +105,16 @@ const AddCampaing: React.FC<Props> = props => {
         <DrawerTitle>Add Campaign</DrawerTitle>
       </DrawerTitleWrapper>
 
-      <Form onSubmit={handleSubmit(onSubmit)} style={{ height: '100%' }}>
+      <Form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
         <Scrollbars
           autoHide
-          renderView={props => (
-            <div {...props} style={{ ...props.style, overflowX: 'hidden' }} />
+          renderView={(props) => (
+            <div {...props} style={{ ...props.style, overflowX: "hidden" }} />
           )}
-          renderTrackHorizontal={props => (
+          renderTrackHorizontal={(props) => (
             <div
               {...props}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               className="track-horizontal"
             />
           )}
@@ -237,12 +235,12 @@ const AddCampaing: React.FC<Props> = props => {
             overrides={{
               BaseButton: {
                 style: ({ $theme }) => ({
-                  width: '50%',
-                  borderTopLeftRadius: '3px',
-                  borderTopRightRadius: '3px',
-                  borderBottomRightRadius: '3px',
-                  borderBottomLeftRadius: '3px',
-                  marginRight: '15px',
+                  width: "50%",
+                  borderTopLeftRadius: "3px",
+                  borderTopRightRadius: "3px",
+                  borderBottomRightRadius: "3px",
+                  borderBottomLeftRadius: "3px",
+                  marginRight: "15px",
                   color: $theme.colors.red400,
                 }),
               },
@@ -256,11 +254,11 @@ const AddCampaing: React.FC<Props> = props => {
             overrides={{
               BaseButton: {
                 style: ({ $theme }) => ({
-                  width: '50%',
-                  borderTopLeftRadius: '3px',
-                  borderTopRightRadius: '3px',
-                  borderBottomRightRadius: '3px',
-                  borderBottomLeftRadius: '3px',
+                  width: "50%",
+                  borderTopLeftRadius: "3px",
+                  borderTopRightRadius: "3px",
+                  borderBottomRightRadius: "3px",
+                  borderBottomLeftRadius: "3px",
                 }),
               },
             }}

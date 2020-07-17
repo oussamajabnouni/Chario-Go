@@ -20,8 +20,8 @@ import {
 import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
 
 const GET_CATEGORIES = gql`
-  query getCategories($type: String, $searchBy: String,$isParent: Boolean) {
-    categories(type: $type, searchBy: $searchBy,isParent: $isParent) {
+  query getCategories($type: String, $searchBy: String, $isParent: Boolean) {
+    categories(type: $type, searchBy: $searchBy, isParent: $isParent) {
       id
       icon
       title
@@ -45,9 +45,7 @@ const CREATE_CATEGORY = gql`
 
 const options = [
   { value: "grocery", name: "Grocery", id: "1" },
-  { value: "women-cloths", name: "Women Cloths", id: "2" },
-  { value: "bags", name: "Bags", id: "3" },
-  { value: "makeup", name: "Makeup", id: "4" },
+  { value: "foods", name: "foods", id: "2" },
 ];
 
 type Props = any;
@@ -84,7 +82,7 @@ const AddCategory: React.FC<Props> = (props) => {
       title: title,
       type: options[0].value,
       slug: slug,
-      parentId: parent ? parent[0].id : null
+      parentId: parent ? parent[0].id : null,
     };
 
     createCategory({

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { styled, withStyle } from "baseui";
 import Button from "../../components/Button/Button";
+import { useDrawerDispatch } from "../../context/DrawerContext";
+
 import {
   Grid,
   Row as Rows,
@@ -73,11 +75,15 @@ const GET_PRODUCTS = gql`
     $category: String
     $offset: Int
     $limit: Int
+    $locationState: String
+    $locationCity: String
   ) {
     products(
       type: $type
       searchText: $searchText
       sortByPrice: $sortByPrice
+      locationState: $locationState
+      locationCity: $locationCity
       category: $category
       offset: $offset
       limit: $limit
@@ -107,10 +113,19 @@ const GET_PRODUCTS = gql`
 
 const typeSelectOptions = [
   { value: "grocery", label: "Grocery" },
-  { value: "women-cloths", label: "Women Cloths" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "foods", label: "foods" },
 ];
+
+const locationStateOptions = [
+  { value: "sousse", label: "sousse" },
+  { value: "tunis", label: "tunis" },
+];
+
+const locationCityOptions = [
+  { value: "grocery", label: "Grocery" },
+  { value: "foods", label: "foods" },
+];
+
 const priceSelectOptions = [
   { value: "highestToLowest", label: "Highest To Lowest" },
   { value: "lowestToHighest", label: "Lowest To Highest" },
@@ -120,8 +135,15 @@ export default function Products() {
   const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS);
   const [loadingMore, toggleLoading] = useState(false);
   const [type, setType] = useState([]);
+  const [locationState, setLocationState] = useState([]);
+  const [locationCity, setLocationCity] = useState([]);
   const [priceOrder, setPriceOrder] = useState([]);
   const [search, setSearch] = useState([]);
+  const dispatch = useDrawerDispatch();
+  const openDrawer = useCallback(
+    () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "PRODUCT_FORM" }),
+    [dispatch]
+  );
 
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -169,6 +191,32 @@ export default function Products() {
       });
     }
   }
+
+  function handleChangeState({ value }) {
+    setLocationState(value);
+    if (value.length) {
+      refetch({
+        type: value[0].value,
+      });
+    } else {
+      refetch({
+        type: null,
+      });
+    }
+  }
+  function handleChangeCity({ value }) {
+    setLocationCity(value);
+    if (value.length) {
+      refetch({
+        type: value[0].value,
+      });
+    } else {
+      refetch({
+        type: null,
+      });
+    }
+  }
+
   function handleSearch(event) {
     const value = event.currentTarget.value;
     setSearch(value);
@@ -210,13 +258,32 @@ export default function Products() {
                   />
                 </Col>
 
-                <Col md={6} xs={12}>
+                <Col md={3} xs={12}>
                   <Input
                     value={search}
                     placeholder="Ex: Search By Name"
                     onChange={handleSearch}
                     clearable
                   />
+                </Col>
+
+                <Col>
+                  <Button
+                    onClick={openDrawer}
+                    overrides={{
+                      BaseButton: {
+                        style: () => ({
+                          width: "130%",
+                          borderTopLeftRadius: "3px",
+                          borderTopRightRadius: "3px",
+                          borderBottomLeftRadius: "3px",
+                          borderBottomRightRadius: "3px",
+                        }),
+                      },
+                    }}
+                  >
+                    Add Product
+                  </Button>
                 </Col>
               </Row>
             </Col>
@@ -248,24 +315,24 @@ export default function Products() {
                   </Col>
                 ))
               ) : (
-                  <NoResult />
-                )
+                <NoResult />
+              )
             ) : (
-                <LoaderWrapper>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                </LoaderWrapper>
-              )}
+              <LoaderWrapper>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+              </LoaderWrapper>
+            )}
           </Row>
           {data && data.products && data.products.hasMore && (
             <Row>

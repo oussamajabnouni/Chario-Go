@@ -1,18 +1,17 @@
-import { Resolver, Query, Arg, Mutation, Ctx } from 'type-graphql';
+import { Resolver, Query, Arg, Mutation, Ctx } from "type-graphql";
 const { Op } = require("sequelize");
-import User from './user.type';
+import User from "./user.type";
 import bcrypt from "bcryptjs";
 import { SignUpInput } from "./user.type";
-import { MyContext } from '../../types/context';
+import { MyContext } from "../../types/context";
 
-const models = require('../../../models')
+const models = require("../../../models");
 
 @Resolver()
 export class UserResolver {
-
   @Query(() => User)
-  async me(@Arg('id') id: string): Promise<User> {
-    return await models.User.findAll({ where: { id }, include: 'role' });
+  async me(@Arg("id") id: string): Promise<User> {
+    return await models.User.findAll({ where: { id }, include: "role" });
   }
 
   @Query(() => [User])
@@ -25,43 +24,46 @@ export class UserResolver {
     if (email) {
       where = {
         ...where,
-        email: { [Op.like]: `%${email}%` }
-      }
+        email: { [Op.like]: `%${email}%` },
+      };
     }
     if (role) {
-      include = [{
-        model: models.Role,
-        where: { 'name': role },
-        as: 'role',
-      }]
+      include = [
+        {
+          model: models.Role,
+          where: { name: role },
+          as: "role",
+        },
+      ];
     }
     return await models.User.findAll({
       where,
-      include
-    })
+      include,
+    });
   }
 
-
-  @Mutation(() => User, { description: 'create user' })
+  @Mutation(() => User, { description: "create user" })
   async signUp(@Arg("user") user: SignUpInput): Promise<User | Error> {
     // checking if email exist
-    const userExit = await models.User.findOne({ where: { email: user.email } });
+    const userExit = await models.User.findOne({
+      where: { email: user.email },
+    });
     if (userExit) {
-      return new Error("User Already registered with this email")
+      return new Error("User Already registered with this email");
     }
     try {
-      const hashedPassword = await bcrypt.hash(user.password, 12)
+      const hashedPassword = await bcrypt.hash(user.password, 12);
       var newuser = await models.User.create(
         {
           name: user.name,
           email: user.email,
           password: hashedPassword,
-          roleId: 2
-        }, { include: 'role' }
-      )
-    }
-    catch (err) {
-      err
+          roleId: 2,
+        },
+        { include: "role" }
+      );
+    } catch (err) {
+      err;
     }
     return newuser;
   }
@@ -72,22 +74,24 @@ export class UserResolver {
     @Arg("password") password: string,
     @Ctx() ctx: MyContext
   ): Promise<User | Error> {
-    const user = await models.User.findOne({ where: { email }, include: 'role' });
+    const user = await models.User.findOne({
+      where: { email },
+      include: "role",
+    });
 
     if (!user) {
-      return new Error("User does not exist")
+      return new Error("User does not exist");
     }
 
     const valid = await bcrypt.compare(password, user.password);
 
     if (!valid) {
-      return new Error("Password is incorrect")
+      return new Error("Password is incorrect");
     }
 
     ctx.req.session!.userId = user.id;
     return user;
   }
-
 
   // @Mutation(() => User, { description: 'Update User' })
   // async updateMe(@Arg('meInput') meInput: string): Promise<User> {

@@ -23,9 +23,7 @@ import {
 
 const typeOptions = [
   { value: "grocery", name: "Grocery", id: "1" },
-  { value: "women-cloths", name: "Women Cloths", id: "2" },
-  { value: "bags", name: "Bags", id: "3" },
-  { value: "makeup", name: "Makeup", id: "4" },
+  { value: "foods", name: "foods", id: "2" },
 ];
 
 const GET_CATEGORIES = gql`
@@ -139,7 +137,7 @@ const AddProduct: React.FC<Props> = (props) => {
     setValue("image", files[0].path);
   };
   const onSubmit = (data) => {
-    const categories = data.categories.map(category => category.id);
+    const categories = data.categories.map((category) => category.id);
     const newProduct = {
       title: data.title,
       type: data.type[0].value,
@@ -149,7 +147,7 @@ const AddProduct: React.FC<Props> = (props) => {
       unit: data.unit,
       discountInPercent: Number(data.discountInPercent),
       slug: data.title,
-      categories: categories
+      categories: categories,
     };
     console.log(newProduct, "newProduct data");
     createProduct({

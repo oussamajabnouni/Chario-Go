@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { styled, withStyle } from "baseui";
 import Button from "../../components/Button/Button";
 import {
@@ -6,6 +6,7 @@ import {
   Row as Rows,
   Col as Column,
 } from "../../components/FlexBox/FlexBox";
+import { useDrawerDispatch } from "../../context/DrawerContext";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Select/Select";
 import gql from "graphql-tag";
@@ -96,9 +97,7 @@ const GET_VENDORS = gql`
 `;
 const typeSelectOptions = [
   { value: "grocery", label: "Grocery" },
-  { value: "women-cloths", label: "Women Cloths" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "foods", label: "foods" },
 ];
 
 export default function Restaurants() {
@@ -106,6 +105,12 @@ export default function Restaurants() {
   const [loadingMore, toggleLoading] = useState(false);
   const [type, setType] = useState([]);
   const [search, setSearch] = useState([]);
+
+  const dispatch = useDrawerDispatch();
+  const openDrawer = useCallback(
+    () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "RESTAURANT_FORM" }),
+    [dispatch]
+  );
 
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -171,13 +176,33 @@ export default function Restaurants() {
                   />
                 </Col>
 
-                <Col md={9} xs={12}>
+                <Col md={5} xs={12}>
                   <Input
                     value={search}
                     placeholder="Ex: Search By Name"
                     onChange={handleSearch}
                     clearable
                   />
+                </Col>
+                <Col>
+                  <Col>
+                    <Button
+                      onClick={openDrawer}
+                      overrides={{
+                        BaseButton: {
+                          style: () => ({
+                            width: "130%",
+                            borderTopLeftRadius: "3px",
+                            borderTopRightRadius: "3px",
+                            borderBottomLeftRadius: "3px",
+                            borderBottomRightRadius: "3px",
+                          }),
+                        },
+                      }}
+                    >
+                      Add Restaurant
+                    </Button>
+                  </Col>
                 </Col>
               </Row>
             </Col>
@@ -210,24 +235,24 @@ export default function Restaurants() {
                   </Col>
                 ))
               ) : (
-                  <NoResult />
-                )
+                <NoResult />
+              )
             ) : (
-                <LoaderWrapper>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                </LoaderWrapper>
-              )}
+              <LoaderWrapper>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+              </LoaderWrapper>
+            )}
           </Row>
           {data && data.vendors && data.vendors.hasMore && (
             <Row>

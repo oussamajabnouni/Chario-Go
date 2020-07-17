@@ -103,11 +103,6 @@ const Topbar = ({ refs }: any) => {
       </DrawerWrapper>
 
       <TopbarRightSide>
-        <Button onClick={openDrawer} style={{ marginRight: "10px" }}>
-          Add Products
-        </Button>
-        <Button onClick={openDrawerVendor}>Add Restaurants</Button>
-
         <Popover
           content={({ close }) => <Notification data={data} onClear={close} />}
           accessibilityType={"tooltip"}
