@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { styled, withStyle } from "baseui";
 import { useDrawerDispatch } from "../../context/DrawerContext";
 import Button from "../../components/Button/Button";
-import { useDrawerDispatch } from "../../context/DrawerContext";
 
 import {
   Grid,
@@ -19,9 +18,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import NoResult from "../../components/NoResult/NoResult";
 import { CURRENCY } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
-import {
-  Plus
-} from "../../components/AllSvgIcon";
+import { Plus } from "../../components/AllSvgIcon";
 
 export const ProductsRow = styled("div", ({ $theme }) => ({
   display: "flex",
@@ -139,19 +136,9 @@ export default function Products() {
   const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS);
   const [loadingMore, toggleLoading] = useState(false);
   const [type, setType] = useState([]);
-<<<<<<< HEAD
-  const [locationState, setLocationState] = useState([]);
-  const [locationCity, setLocationCity] = useState([]);
-=======
   const dispatch = useDrawerDispatch();
->>>>>>> 8c78b072829de8c72a54252b5853b74a8a347cd9
   const [priceOrder, setPriceOrder] = useState([]);
   const [search, setSearch] = useState([]);
-  const dispatch = useDrawerDispatch();
-  const openDrawer = useCallback(
-    () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "PRODUCT_FORM" }),
-    [dispatch]
-  );
 
   const openDrawer = useCallback(
     () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "PRODUCT_FORM" }),
@@ -194,31 +181,6 @@ export default function Products() {
   }
   function handleCategoryType({ value }) {
     setType(value);
-    if (value.length) {
-      refetch({
-        type: value[0].value,
-      });
-    } else {
-      refetch({
-        type: null,
-      });
-    }
-  }
-
-  function handleChangeState({ value }) {
-    setLocationState(value);
-    if (value.length) {
-      refetch({
-        type: value[0].value,
-      });
-    } else {
-      refetch({
-        type: null,
-      });
-    }
-  }
-  function handleChangeCity({ value }) {
-    setLocationCity(value);
     if (value.length) {
       refetch({
         type: value[0].value,

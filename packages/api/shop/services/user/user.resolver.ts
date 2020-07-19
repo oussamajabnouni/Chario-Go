@@ -15,7 +15,7 @@ const models = require("../../../models");
 export class UserResolver {
   @Query(() => User)
   async me(@Arg("id") id: string): Promise<User> {
-    return await models.User.findAll({ where: { id }, include: "role" });
+    return await models.User.findOne({ where: { id: id }, include: "role" });
   }
 
   @Query(() => [User])

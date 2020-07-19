@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { openModal } from '@redq/reuse-modal';
-import Router from 'next/router';
-import { Scrollbars } from 'react-custom-scrollbars';
-import Drawer from 'components/drawer/drawer';
-import { Button } from 'components/button/button';
-import NavLink from 'components/nav-link/nav-link';
-import { CloseIcon } from 'assets/icons/CloseIcon';
-import { AuthContext } from 'contexts/auth/auth.context';
-import AuthenticationForm from 'features/authentication-form';
-import { FormattedMessage } from 'react-intl';
+import React, { useContext } from "react";
+import { openModal } from "@redq/reuse-modal";
+import Router from "next/router";
+import { Scrollbars } from "react-custom-scrollbars";
+import Drawer from "components/drawer/drawer";
+import { Button } from "components/button/button";
+import NavLink from "components/nav-link/nav-link";
+import { CloseIcon } from "assets/icons/CloseIcon";
+import { AuthContext } from "contexts/auth/auth.context";
+import AuthenticationForm from "features/authentication-form";
+import { FormattedMessage } from "react-intl";
 import {
   HamburgerIcon,
   DrawerContentWrapper,
@@ -21,8 +21,8 @@ import {
   DrawerMenu,
   DrawerMenuItem,
   UserOptionMenu,
-} from './header.style';
-import UserImage from 'assets/images/user.jpg';
+} from "./header.style";
+import UserImage from "assets/images/user.png";
 
 import {
   PROCEED_TO_CHECKOUT_PAGE,
@@ -32,62 +32,62 @@ import {
   ORDER_RECEIVED,
   HELP_PAGE,
   OFFER_PAGE,
-} from 'constants/navigation';
-import { useAppState, useAppDispatch } from 'contexts/app/app.provider';
+} from "constants/navigation";
+import { useAppState, useAppDispatch } from "contexts/app/app.provider";
 
 const DrawerMenuItems = [
   {
     id: 1,
-    intlLabelId: 'navLinkHome',
-    label: 'Home',
-    href: '/',
+    intlLabelId: "navLinkHome",
+    label: "Home",
+    href: "/",
   },
   {
     id: 2,
-    intlLabelId: 'navlinkCheckout',
-    label: 'Checkout',
+    intlLabelId: "navlinkCheckout",
+    label: "Checkout",
     href: PROCEED_TO_CHECKOUT_PAGE,
   },
   {
     id: 3,
-    label: 'Checkout Second',
-    intlLabelId: 'alternativeCheckout',
+    label: "Checkout Second",
+    intlLabelId: "alternativeCheckout",
     href: ALTERNATIVE_CHECKOUT_PAGE,
   },
   {
     id: 4,
-    intlLabelId: 'navlinkProfile',
-    label: 'Profile',
+    intlLabelId: "navlinkProfile",
+    label: "Profile",
     href: PROFILE_PAGE,
   },
   {
     id: 5,
-    intlLabelId: 'sidebarYourOrder',
-    label: 'Order',
+    intlLabelId: "sidebarYourOrder",
+    label: "Order",
     href: YOUR_ORDER,
   },
   {
     id: 6,
-    intlLabelId: 'navlinkOrderReceived',
-    label: 'Received',
+    intlLabelId: "navlinkOrderReceived",
+    label: "Received",
     href: ORDER_RECEIVED,
   },
   {
     id: 7,
-    intlLabelId: 'navlinkHelp',
-    label: 'Help',
+    intlLabelId: "navlinkHelp",
+    label: "Help",
     href: HELP_PAGE,
   },
   {
     id: 8,
-    intlLabelId: 'navlinkOffer',
-    label: 'Offer',
+    intlLabelId: "navlinkOffer",
+    label: "Offer",
     href: OFFER_PAGE,
   },
 ];
 
 const MobileDrawer: React.FunctionComponent = () => {
-  const isDrawerOpen = useAppState('isDrawerOpen');
+  const isDrawerOpen = useAppState("isDrawerOpen");
   const dispatch = useAppDispatch();
   const {
     authState: { isAuthenticated },
@@ -96,39 +96,39 @@ const MobileDrawer: React.FunctionComponent = () => {
   // Toggle drawer
   const toggleHandler = React.useCallback(() => {
     dispatch({
-      type: 'TOGGLE_DRAWER',
+      type: "TOGGLE_DRAWER",
     });
   }, [dispatch]);
 
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('access_token');
-      authDispatch({ type: 'SIGN_OUT' });
-      Router.push('/');
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("access_token");
+      authDispatch({ type: "SIGN_OUT" });
+      Router.push("/");
     }
   };
 
   const signInOutForm = () => {
     dispatch({
-      type: 'TOGGLE_DRAWER',
+      type: "TOGGLE_DRAWER",
     });
 
     authDispatch({
-      type: 'SIGNIN',
+      type: "SIGNIN",
     });
 
     openModal({
       show: true,
-      overlayClassName: 'quick-view-overlay',
+      overlayClassName: "quick-view-overlay",
       closeOnClickOutside: true,
       component: AuthenticationForm,
-      closeComponent: '',
+      closeComponent: "",
       config: {
         enableResizing: false,
         disableDragging: true,
-        className: 'quick-view-modal',
+        className: "quick-view-modal",
         width: 458,
-        height: 'auto',
+        height: "auto",
       },
     });
   };

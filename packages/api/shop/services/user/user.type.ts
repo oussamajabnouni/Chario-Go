@@ -1,7 +1,7 @@
-import { ObjectType, Field, InputType, Int, ID } from 'type-graphql';
-import Address from './address.type';
-import Contact from './contact.type';
-import Card from './card.type';
+import { ObjectType, Field, InputType, Int, ID } from "type-graphql";
+import Address from "./address.type";
+import Contact from "./contact.type";
+import Card from "./card.type";
 
 @InputType()
 export class SignUpInput {
@@ -15,11 +15,10 @@ export class SignUpInput {
   password: string;
 }
 
-
 @InputType()
 export class UpdateUserInput {
-  @Field(type => ID)
-  id:string;
+  @Field((type) => ID)
+  id: string;
   @Field({ nullable: true })
   name: string;
 
@@ -53,16 +52,16 @@ export default class User {
   @Field({ nullable: true })
   image: string;
 
-  @Field(type => Role)
+  @Field((type) => Role)
   role: Role;
 
-  @Field(type => [Address])
+  @Field((type) => [Address], { nullable: true })
   address: Address[];
 
-  @Field(type => [Contact])
+  @Field((type) => [Contact], { nullable: true })
   contact: Contact[];
 
-  @Field(type => [Card])
+  @Field((type) => [Card], { nullable: true })
   card: Card[];
 
   @Field()

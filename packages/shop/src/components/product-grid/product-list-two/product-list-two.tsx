@@ -110,10 +110,7 @@ export const Products: React.FC<ProductsProps> = ({
                 <FoodCard
                   name={item.name}
                   image={item.thumbnailUrl}
-                  restaurantType={item?.categories.join(", ")}
                   duration={formatTime(customerDistance())}
-                  delivery={item.deliveryDetails.charge}
-                  isFree={item.deliveryDetails.isFree}
                   discountInPercent={item.promotion}
                   data={item}
                   onClick={() =>
