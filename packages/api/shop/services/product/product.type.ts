@@ -97,9 +97,6 @@ export class AddProductInput {
 
 @InputType({ description: "Update product data" })
 export class UpdateProductInput {
-  @Field()
-  id: string;
-
   @Field({ nullable: true })
   title: string;
 
@@ -109,7 +106,7 @@ export class UpdateProductInput {
   @Field({ nullable: true })
   image: string;
 
-  @Field(() => ProductType,{ nullable: true })
+  @Field(() => ProductType, { nullable: true })
   type: ProductType;
 
   @Field({ nullable: true })
@@ -127,10 +124,10 @@ export class UpdateProductInput {
   @Field({ nullable: true })
   description: string;
 
-  @Field(() => [String],{ nullable: true })
+  @Field(() => [String], { nullable: true })
   categories: string[];
 
-  @Field(() => [String],{ nullable: true })
+  @Field(() => [String], { nullable: true })
   deliverTo: string[];
 }
 

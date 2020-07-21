@@ -51,8 +51,11 @@ const GET_PRODUCTS = gql`
 `;
 
 const UPDATE_PRODUCT = gql`
-  mutation updateProduct($product: UpdateProductInput!) {
-    updateProduct(product: $product) {
+  mutation updateProduct(
+    $product: UpdateProductInput = {}
+    $id: String = "__eq"
+  ) {
+    updateProduct(product: $product, id: $id) {
       id
       title
       image
@@ -80,7 +83,7 @@ const GET_CATEGORIES = gql`
 
 const typeOptions = [
   { value: "grocery", name: "Grocery", id: "1" },
-  { value: "foods", name: "foods", id: "2" },
+  { value: "food", name: "food", id: "2" },
 ];
 
 type Props = any;
@@ -106,11 +109,20 @@ const AddProduct: React.FC<Props> = () => {
     register({ name: "description" });
   }, [register]);
 
+  const [
+    updateProduit,
+    { loading: updating, error: updateError },
+  ] = useMutation(UPDATE_PRODUCT);
+
   const [updateProduct] = useMutation(UPDATE_PRODUCT, {
     update(cache, { data: { updateProduct } }) {
       const { products } = cache.readQuery({
         query: GET_PRODUCTS,
       });
+
+      const newData = {
+        todos: data.products.filter((e) => e.id !== data.id),
+      };
 
       cache.writeQuery({
         query: GET_PRODUCTS,
@@ -119,12 +131,34 @@ const AddProduct: React.FC<Props> = () => {
             __typename: products.__typename,
             items: [updateProduct, ...products.items],
             hasMore: true,
-            totalCount: products.items.length,
+            totalCount: products.items.length + 1,
           },
+          data: newData,
         },
       });
     },
   });
+
+  const updateCheckbox = () => {
+    const update = () => {
+      const categories = data.categories.map((category) => category.id);
+      if (updating) return;
+      updateProduit({
+        variables: {
+          name: data.name,
+          type: data.type[0].value,
+          description: data.description,
+          image: data.image,
+          price: Number(data.price),
+          unit: data.unit,
+          discountInPercent: Number(data.discountInPercent),
+          slug: data.name,
+          categories: categories,
+          id: data.id,
+        },
+      });
+    };
+  };
 
   const handleMultiChange = ({ value }) => {
     setValue("categories", value);
@@ -149,18 +183,22 @@ const AddProduct: React.FC<Props> = () => {
   };
 
   const onSubmit = (data) => {
+    if (updating) return;
     const categories = data.categories.map((category) => category.id);
-    const updatedProduct = {
-      name: data.name,
-      type: data.type[0].value,
-      description: data.description,
-      image: data.image,
-      price: Number(data.price),
-      unit: data.unit,
-      discountInPercent: Number(data.discountInPercent),
-      slug: data.name,
-      categories: categories,
-    };
+    updateProduct({
+      variables: {
+        name: data.name,
+        type: data.type[0].value,
+        description: data.description,
+        image: data.image,
+        price: Number(data.price),
+        unit: data.unit,
+        discountInPercent: Number(data.discountInPercent),
+        slug: data.name,
+        categories: categories,
+        id: data.id,
+      },
+    });
     console.log(data, "updateProduct data");
     closeDrawer();
   };

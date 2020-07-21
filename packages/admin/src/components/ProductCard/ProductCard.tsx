@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ProductCardWrapper,
   ProductImageWrapper,
@@ -13,8 +13,51 @@ import {
   ProductPriceWrapper,
   ProductPrice,
   DiscountedPrice,
-} from './ProductCard.style';
-import { useDrawerDispatch } from '../../context/DrawerContext';
+} from "./ProductCard.style";
+import Button, { KIND } from "../Button/Button";
+import { useDrawerDispatch } from "../../context/DrawerContext";
+import gql from "graphql-tag";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+const REMOVE_PRODUCT = gql`
+  mutation($id: String = "__eq") {
+    deleteProduct(id: $id) {
+      id
+    }
+  }
+`;
+const GET_PRODUCTS = gql`
+  query getProducts(
+    $type: String
+    $sortByPrice: String
+    $searchText: String
+    $offset: Int
+    $locationState: String
+    $locationCity: String
+  ) {
+    products(
+      type: $type
+      sortByPrice: $sortByPrice
+      searchText: $searchText
+      offset: $offset
+    ) {
+      items {
+        id
+        title
+        image
+        type
+        price
+        unit
+        deliverTo {
+          state
+          city
+        }
+        discountInPercent
+      }
+      totalCount
+      hasMore
+    }
+  }
+`;
 
 type ProductCardProps = {
   title: string;
@@ -27,6 +70,7 @@ type ProductCardProps = {
   orderId?: number;
   discountInPercent?: number;
   data: any;
+  onClick?: (e: any) => void;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -39,25 +83,57 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
   data,
   orderId,
+  onClick,
   ...props
 }) => {
   const dispatch = useDrawerDispatch();
-
+  const [
+    deleteProduct,
+    { loading: deleting, error: deleteError },
+  ] = useMutation(REMOVE_PRODUCT);
   const openDrawer = React.useCallback(
     () =>
       dispatch({
-        type: 'OPEN_DRAWER',
-        drawerComponent: 'PRODUCT_UPDATE_FORM',
+        type: "OPEN_DRAWER",
+        drawerComponent: "PRODUCT_UPDATE_FORM",
         data: data,
       }),
     [dispatch, data]
   );
+
+  const [removeProduct] = useMutation(REMOVE_PRODUCT, {
+    update(cache, { data: { removeProduct } }) {
+      const { products } = cache.readQuery({
+        query: GET_PRODUCTS,
+      });
+      const newData = {
+        todos: data.products.filter((e) => e.id !== data.id),
+      };
+
+      cache.writeQuery({
+        query: GET_PRODUCTS,
+        data: {
+          variables: {
+            __typename: products.__typename,
+            items: [removeProduct, ...products.items],
+
+            totalCount: products.items.length - 1,
+          },
+          data: newData,
+        },
+      });
+    },
+  });
+
+  const remove = () => {
+    if (deleting) return;
+    deleteProduct({
+      variables: { id: data.id },
+    });
+  };
+
   return (
-    <ProductCardWrapper
-      {...props}
-      className="product-card"
-      onClick={openDrawer}
-    >
+    <ProductCardWrapper {...props} className="product-card">
       <ProductImageWrapper>
         <Image url={image} className="product-image" />
         {discountInPercent && discountInPercent !== 0 ? (
@@ -87,6 +163,44 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
           <OrderID>{orderId}</OrderID>
         </ProductMeta>
+
+        <Button
+          kind={KIND.secondary}
+          onClick={remove}
+          overrides={{
+            BaseButton: {
+              style: ({ $theme }) => ({
+                width: "41%",
+                borderTopLeftRadius: "3px",
+                borderTopRightRadius: "3px",
+                borderBottomRightRadius: "3px",
+                borderBottomLeftRadius: "3px",
+                marginRight: "15px",
+                color: $theme.colors.red400,
+              }),
+            },
+          }}
+        >
+          Delete
+        </Button>
+        <Button
+          kind={KIND.primary}
+          style={{ marginLeft: "17px" }}
+          onClick={openDrawer}
+          overrides={{
+            BaseButton: {
+              style: ({ $theme }) => ({
+                width: "43%",
+                borderTopLeftRadius: "3px",
+                borderTopRightRadius: "3px",
+                borderBottomRightRadius: "3px",
+                borderBottomLeftRadius: "3px",
+              }),
+            },
+          }}
+        >
+          Update
+        </Button>
       </ProductInfo>
     </ProductCardWrapper>
   );
