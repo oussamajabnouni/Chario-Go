@@ -2,26 +2,23 @@ import React, { useContext, useState } from "react";
 import Link from "next/link";
 import {
   Button,
-  IconWrapper,
   Wrapper,
   Container,
-  LogoWrapper,
   Heading,
   SubHeading,
   HelperText,
   Offer,
   Input,
-  Divider,
   LinkButton,
 } from "./authentication-form.style";
+import ApolloClient from "apollo-boost";
 import { useForm } from "react-hook-form";
 import gql from "graphql-tag";
-import { Facebook } from "assets/icons/Facebook";
-import { Google } from "assets/icons/Google";
+import Alert from 'react-bootstrap/Alert';
 import { AuthContext } from "contexts/auth/auth.context";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useMutation } from "@apollo/react-hooks";
-
+import { useMutation, useApolloClient } from "@apollo/react-hooks";
+import { closeModal } from "@redq/reuse-modal";
 import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 
 const SIGN_UP = gql`
@@ -30,39 +27,49 @@ const SIGN_UP = gql`
       id
       email
       name
+      image
     }
   }
 `;
 
 export default function SignOutModal() {
   const intl = useIntl();
+  const client: ApolloClient<any> = useApolloClient();
   const { authDispatch } = useContext<any>(AuthContext);
-  const [user, setUser] = useState([]);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
+  const [error, setError] = React.useState("");
 
   const { register, handleSubmit, setValue } = useForm();
-  const [signUp] = useMutation(SIGN_UP, {
-    update(cache, { data: { signUp } }) {
-      const { me } = cache.readQuery({
-        query: GET_LOGGED_IN_CUSTOMER,
-      });
-
-      cache.writeQuery({
-        query: GET_LOGGED_IN_CUSTOMER,
-        data: { me: me.concat([signUp]) },
-      });
+  const [signUp, { loading }] = useMutation(SIGN_UP, {
+    onCompleted({ signUp }) {
+      localStorage.setItem("access_token", signUp as string);
+      client.writeData({ data: { isLoggedIn: true } });
+      authDispatch({ type: "SIGNIN_SUCCESS", payload: { ...signUp } });
+      closeModal();
     },
+    update(cache, { data: { signUp } }) {
+      // const { me } = cache.readQuery({
+      //   query: GET_LOGGED_IN_CUSTOMER,
+      // });
+
+      // cache.writeQuery({
+      //   query: GET_LOGGED_IN_CUSTOMER,
+      //   data: { me: me.concat([signUp]) },
+      // });
+    },
+    onError(error) {
+      setError(error.graphQLErrors[0].message)
+    }
   });
 
-  const onSubmit = ({}) => {
+  const onSubmit = ({ }) => {
     const newUser = {
       name: name,
       password: password,
       email: email,
     };
-    console.log("new user", newUser);
     signUp({
       variables: { user: newUser },
     });
@@ -95,9 +102,17 @@ export default function SignOutModal() {
             defaultMessage="Every fill is required in sign up"
           />
         </SubHeading>
+        {loading && (
+          <Alert variant="primary">Loading ...</Alert>
+        )}
+        {error && !loading && (
+          <Alert variant="danger"
+            dismissible>{error}</Alert>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             value={name}
+            name="name"
             onChange={(e) => setName(e.target.value)}
             type="text"
             ref={register({ required: true })}
@@ -110,6 +125,7 @@ export default function SignOutModal() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
+            name="email"
             ref={register({ required: true })}
             placeholder={intl.formatMessage({
               id: "emailAddressPlaceholder",
@@ -120,6 +136,7 @@ export default function SignOutModal() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
+            name="password"
             ref={register({ required: true })}
             placeholder={intl.formatMessage({
               id: "passwordPlaceholder",
@@ -149,41 +166,7 @@ export default function SignOutModal() {
             <FormattedMessage id="continueBtn" defaultMessage="Continue" />
           </Button>
         </form>
-        <Divider>
-          <span>
-            <FormattedMessage id="orText" defaultMessage="or" />
-          </span>
-        </Divider>
-        <Button
-          variant="primary"
-          size="big"
-          style={{
-            width: "100%",
-            backgroundColor: "#4267b2",
-            marginBottom: 10,
-          }}
-        >
-          <IconWrapper>
-            <Facebook />
-          </IconWrapper>
-          <FormattedMessage
-            id="continueFacebookBtn"
-            defaultMessage="Continue with Facebook"
-          />
-        </Button>
-        <Button
-          variant="primary"
-          size="big"
-          style={{ width: "100%", backgroundColor: "#4285f4" }}
-        >
-          <IconWrapper>
-            <Google />
-          </IconWrapper>
-          <FormattedMessage
-            id="continueGoogleBtn"
-            defaultMessage="Continue with Google"
-          />
-        </Button>
+
         <Offer style={{ padding: "20px 0" }}>
           <FormattedMessage
             id="alreadyHaveAccount"

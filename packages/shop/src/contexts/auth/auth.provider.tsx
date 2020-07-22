@@ -19,11 +19,17 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         isAuthenticated: true,
+        email: action.payload.email,
+        name: action.payload.name,
+        image: action.payload.image
       };
     case 'SIGN_OUT':
       return {
         ...state,
         isAuthenticated: false,
+        email: null,
+        name: null,
+        image: null
       };
     case 'SIGNUP':
       return {

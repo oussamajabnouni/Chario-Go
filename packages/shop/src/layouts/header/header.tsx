@@ -16,7 +16,7 @@ type Props = {
 
 const Header: React.FC<Props> = ({ className }) => {
   const {
-    authState: { isAuthenticated },
+    authState: { isAuthenticated, image },
     authDispatch,
   } = React.useContext<any>(AuthContext);
   const { pathname, query } = useRouter();
@@ -58,7 +58,7 @@ const Header: React.FC<Props> = ({ className }) => {
         isAuthenticated={isAuthenticated}
         onJoin={handleJoin}
         onLogout={handleLogout}
-        avatar={UserImage}
+        avatar={image}
       />
     </HeaderWrapper>
   );

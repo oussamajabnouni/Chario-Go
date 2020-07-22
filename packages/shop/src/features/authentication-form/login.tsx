@@ -2,22 +2,18 @@ import React, { useContext } from "react";
 import {
   LinkButton,
   Button,
-  IconWrapper,
   Wrapper,
   Container,
-  LogoWrapper,
   Heading,
   SubHeading,
   OfferSection,
   Offer,
   Input,
-  Divider,
 } from "./authentication-form.style";
 import ApolloClient from "apollo-boost";
-import { Facebook } from "assets/icons/Facebook";
+import Alert from 'react-bootstrap/Alert';
 import gql from "graphql-tag";
 import { useMutation, useApolloClient } from "@apollo/react-hooks";
-import { Google } from "assets/icons/Google";
 import { AuthContext } from "contexts/auth/auth.context";
 import { FormattedMessage, useIntl } from "react-intl";
 import { closeModal } from "@redq/reuse-modal";
@@ -27,30 +23,31 @@ const LOGIN = gql`
     login(email: $email, password: $password) {
       id
       email
+      name
+      image
     }
   }
 `;
 
 export default function SignInModal() {
   const client: ApolloClient<any> = useApolloClient();
-  const [login, { data, loading, error }] = useMutation(LOGIN, {
+  const [login, { loading }] = useMutation(LOGIN, {
     onCompleted({ login }) {
       localStorage.setItem("access_token", login as string);
       client.writeData({ data: { isLoggedIn: true } });
-
-      authDispatch({ type: "SIGNIN_SUCCESS" });
+      authDispatch({ type: "SIGNIN_SUCCESS", payload: { ...login } });
       closeModal();
-      if (!login) {
-        return <p>{JSON.stringify(error)}</p>;
-      }
-      console.log(login);
     },
+    onError(error) {
+      setError(error.graphQLErrors[0].message)
+    }
   });
 
   const intl = useIntl();
   const { authDispatch } = useContext<any>(AuthContext);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
 
   const toggleSignUpForm = () => {
     authDispatch({
@@ -71,8 +68,6 @@ export default function SignInModal() {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{JSON.stringify(error)}</p>;
 
   return (
     <Wrapper>
@@ -87,6 +82,13 @@ export default function SignInModal() {
             defaultMessage="Login with your email &amp; password"
           />
         </SubHeading>
+        {loading && (
+          <Alert variant="primary">Loading ...</Alert>
+        )}
+        {error && !loading && (
+          <Alert variant="danger"
+            dismissible>{error}</Alert>
+        )}
         <form onSubmit={loginCallback}>
           <Input
             type="email"
@@ -115,49 +117,12 @@ export default function SignInModal() {
             size="big"
             style={{ width: "100%" }}
             type="submit"
+            isLoading
           >
             <FormattedMessage id="continueBtn" defaultMessage="Continue" />
           </Button>
         </form>
-        <Divider>
-          <span>
-            <FormattedMessage id="orText" defaultMessage="or" />
-          </span>
-        </Divider>
 
-        <Button
-          variant="primary"
-          size="big"
-          style={{
-            width: "100%",
-            backgroundColor: "#4267b2",
-            marginBottom: 10,
-          }}
-          onClick={SignInModal}
-        >
-          <IconWrapper>
-            <Facebook />
-          </IconWrapper>
-          <FormattedMessage
-            id="continueFacebookBtn"
-            defaultMessage="Continue with Facebook"
-          />
-        </Button>
-
-        <Button
-          variant="primary"
-          size="big"
-          style={{ width: "100%", backgroundColor: "#4285f4" }}
-          onClick={SignInModal}
-        >
-          <IconWrapper>
-            <Google />
-          </IconWrapper>
-          <FormattedMessage
-            id="continueGoogleBtn"
-            defaultMessage="Continue with Google"
-          />
-        </Button>
 
         <Offer style={{ padding: "20px 0" }}>
           <FormattedMessage
