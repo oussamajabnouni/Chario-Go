@@ -1,7 +1,7 @@
 import { Resolver, Query, Arg, Mutation, Ctx } from "type-graphql";
 const { Op } = require("sequelize");
 import User from "./user.type";
-import Adress from "./address.type";
+import Address, { AddAddressInput } from "./address.type";
 import Card from "./card.type";
 import Contact from "./contact.type";
 import { UpdateUserInput } from "./user.type";
@@ -13,9 +13,13 @@ const models = require("../../../models");
 
 @Resolver()
 export class UserResolver {
+
   @Query(() => User)
   async me(@Arg("id") id: string): Promise<User> {
-    return await models.User.findOne({ where: { id: id }, include: "role" });
+    return await models.User.findOne({
+      where: { id },
+      include: [{ all: true }]
+    });
   }
 
   @Query(() => [User])
@@ -103,10 +107,10 @@ export class UserResolver {
     return affectedRow;
   }
 
-  @Mutation(() => Adress, { nullable: true, description: "Delete Adress" })
-  async deleteAdress(@Arg("id") id: String): Promise<Adress> {
-    let affectedRow = await models.Adress.findOne({ where: { id } });
-    await models.Adress.destroy({ where: { id: id } });
+  @Mutation(() => Address, { nullable: true, description: "Delete Address" })
+  async deleteAddress(@Arg("addressId") addressId: String): Promise<Address> {
+    let affectedRow = await models.Address.findOne({ where: { id: addressId } });
+    await models.Address.destroy({ where: { id: addressId } });
     return affectedRow;
   }
   @Mutation(() => Contact, { nullable: true, description: "Delete Contact" })
@@ -137,6 +141,11 @@ export class UserResolver {
   //   console.log(addressInput, 'addressinput');
   //   return await this.items[0];
   // }
+
+  @Mutation(() => Card, { nullable: true, description: "Add Address" })
+  async addAddress(@Arg("id") id: String, @Arg("address") address: AddAddressInput): Promise<Address> {
+    return await models.Address.create({ userId: id, ...address });
+  }
 
   // @Mutation(() => User, { description: 'Add or Edit Contact' })
   // async updateContact(

@@ -1,6 +1,8 @@
+import React from "react";
 import { NextPage } from 'next';
 import { useQuery } from '@apollo/react-hooks';
 import { Modal } from '@redq/reuse-modal';
+import { AuthContext } from "contexts/auth/auth.context";
 import { GET_LOGGED_IN_CUSTOMER } from 'graphql/query/customer.query';
 import { ProfileProvider } from 'contexts/profile/profile.provider';
 import SettingsContent from 'features/user-profile/settings/settings';
@@ -22,7 +24,12 @@ type Props = {
   };
 };
 const ProfilePage: NextPage<Props> = ({ deviceType }) => {
-  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER);
+  const {
+    authState: { id },
+    authDispatch,
+  } = React.useContext<any>(AuthContext);
+
+  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, { variables: { id } });
   if (!data || loading) {
     return <div>loading...</div>;
   }
@@ -40,10 +47,10 @@ const ProfilePage: NextPage<Props> = ({ deviceType }) => {
               <SettingsContent deviceType={deviceType} />
             </ContentBox>
 
-            <Footer />
           </PageWrapper>
         </Modal>
       </ProfileProvider>
+      <Footer />
     </>
   );
 };

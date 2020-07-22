@@ -40,7 +40,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS);
   const [deletePaymentCardMutation] = useMutation(DELETE_CARD);
 
-  const { address, contact, card } = state;
+  const { addresses, contact, card } = state;
 
   const handleChange = (value: string, field: string) => {
     dispatch({ type: "HANDLE_ON_INPUT_CHANGE", payload: { value, field } });
@@ -77,19 +77,19 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
           dispatch({ type: "DELETE_CARD", payload: item.id });
 
           return await deletePaymentCardMutation({
-            variables: { cardId: JSON.stringify(item.id) },
+            variables: { cardId: item.id },
           });
         case "contact":
           dispatch({ type: "DELETE_CONTACT", payload: item.id });
 
           return await deleteContactMutation({
-            variables: { contactId: JSON.stringify(item.id) },
+            variables: { contactId: item.id },
           });
         case "address":
           dispatch({ type: "DELETE_ADDRESS", payload: item.id });
 
           return await deleteAddressMutation({
-            variables: { addressId: JSON.stringify(item.id) },
+            variables: { addressId: item.id },
           });
         default:
           return false;
@@ -155,9 +155,9 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                   />
                 </Title>
               </HeadingSection>
-              {/*      <ButtonGroup>
+              <ButtonGroup>
                 <RadioGroup
-                  items={contact}
+                  items={contact || []}
                   component={(item: any) => (
                     <RadioCard
                       id={item.id}
@@ -212,12 +212,13 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
               </HeadingSection>
               <ButtonGroup>
                 <RadioGroup
-                  items={address}
+                  items={addresses || []}
                   component={(item: any) => (
                     <RadioCard
                       id={item.id}
                       key={item.id}
-                      title={item.name}
+                      title={item.state}
+                      subtitle={item.city}
                       content={item.info}
                       name="address"
                       checked={item.type === 'primary'}
@@ -251,7 +252,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                   }
                 />
               </ButtonGroup>
-               */}
+
             </SettingsFormContent>
           </Col>
         </Row>
@@ -267,10 +268,10 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                   />
                 </Title>
               </HeadingSection>
-              {/*        <PaymentGroup
+              <PaymentGroup
                 name="payment"
                 deviceType={deviceType}
-                items={card}
+                items={card || []}
                 onEditDeleteField={(item: any, type: string) =>
                   handleEditDelete(item, type, "payment")
                 }
@@ -288,7 +289,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                   );
                 }}
               />
-              */}
+
             </SettingsFormContent>
           </Col>
         </Row>

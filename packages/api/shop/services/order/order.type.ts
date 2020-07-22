@@ -1,20 +1,19 @@
 import { ObjectType, Field } from 'type-graphql';
 import OrderProduct from './orderProduct.type';
-// import { OrderStatusEnum } from './orderStatusEnum';
 
 @ObjectType()
 export default class Order {
   @Field()
-  id: number;
+  id: string;
 
   @Field()
-  userId: number;
+  userId: string;
 
   @Field(type => [OrderProduct])
   products: OrderProduct[];
 
   @Field(type => String)
-  status: number;
+  status: string;
 
   @Field()
   payment_method: string;

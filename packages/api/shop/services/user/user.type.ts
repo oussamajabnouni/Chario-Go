@@ -56,13 +56,13 @@ export default class User {
   role: Role;
 
   @Field((type) => [Address], { nullable: true })
-  address: Address[];
+  addresses: Address[];
 
   @Field((type) => [Contact], { nullable: true })
-  contact: Contact[];
+  contacts: Contact[];
 
   @Field((type) => [Card], { nullable: true })
-  card: Card[];
+  cards: Card[];
 
   @Field()
   createdAt: Date;

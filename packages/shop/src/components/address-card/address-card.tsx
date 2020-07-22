@@ -8,12 +8,14 @@ import { useMutation } from '@apollo/react-hooks';
 import { UPDATE_ADDRESS } from 'graphql/mutation/address';
 import { FieldWrapper, Heading } from './address-card.style';
 import { ProfileContext } from 'contexts/profile/profile.context';
+import { AuthContext } from 'contexts/auth/auth.context';
 import { FormattedMessage } from 'react-intl';
 
 // Shape of form values
 interface FormValues {
   id?: number | null;
-  name?: string;
+  state?: string;
+  city?: string;
   info?: string;
 }
 
@@ -27,13 +29,14 @@ const FormEnhancer = withFormik<MyFormProps, FormValues>({
   // Transform outer props into form values
   mapPropsToValues: (props) => {
     return {
-      id: props.item.id || null,
+      state: props.item.state || '',
       name: props.item.name || '',
       info: props.item.info || '',
     };
   },
   validationSchema: Yup.object().shape({
-    name: Yup.string().required('Title is required!'),
+    state: Yup.string().required('Title is required!'),
+    city: Yup.string().required('Title is required!'),
     info: Yup.string().required('Address is required'),
   }),
   handleSubmit: (values) => {
@@ -49,27 +52,24 @@ const UpdateAddress = (props: FormikProps<FormValues> & MyFormProps) => {
     values,
     touched,
     errors,
-    dirty,
     handleChange,
     handleBlur,
-
-    handleReset,
-    isSubmitting,
   } = props;
   const addressValue = {
-    id: values.id,
-    type: 'secondary',
-    name: values.name,
+    city: values.city,
+    state: values.state,
     info: values.info,
   };
   const { state, dispatch } = useContext(ProfileContext);
-
+  const {
+    authState: { id },
+  } = useContext(AuthContext);
   const [addressMutation, { data }] = useMutation(UPDATE_ADDRESS);
 
   const handleSubmit = async () => {
     if (isValid) {
       const addressData = await addressMutation({
-        variables: { addressInput: JSON.stringify(addressValue) },
+        variables: { id, address: addressValue },
       });
       console.log(addressData, 'address data');
       dispatch({ type: 'ADD_OR_UPDATE_ADDRESS', payload: addressValue });
@@ -81,11 +81,22 @@ const UpdateAddress = (props: FormikProps<FormValues> & MyFormProps) => {
       <Heading>{item && item.id ? 'Edit Address' : 'Add New Address'}</Heading>
       <FieldWrapper>
         <TextField
-          id='name'
+          id='state'
           type='text'
-          placeholder='Enter Title'
-          error={touched.name && errors.name}
-          value={values.name}
+          placeholder='Enter State'
+          error={touched.state && errors.state}
+          value={values.state}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <TextField
+          id='city'
+          type='text'
+          placeholder='Enter City'
+          error={touched.city && errors.city}
+          value={values.city}
           onChange={handleChange}
           onBlur={handleBlur}
         />

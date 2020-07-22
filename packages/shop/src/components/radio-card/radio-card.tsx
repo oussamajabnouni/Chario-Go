@@ -120,6 +120,7 @@ type RadioCardProps = {
   id: string;
   name: string;
   title: string;
+  subtitle: string;
   content: string;
   editIcon?: any;
   deleteIcon?: any;
@@ -136,6 +137,7 @@ const RadioCard: React.FC<RadioCardProps> = ({
   id,
   name,
   title,
+  subtitle,
   content,
   editIcon,
   deleteIcon,
@@ -164,6 +166,7 @@ const RadioCard: React.FC<RadioCardProps> = ({
         onChange={onChange}
       />
       {title && <CardTitle>{title}</CardTitle>}
+      {subtitle && <CardTitle>{subtitle}</CardTitle>}
       {content && <CardContent>{content}</CardContent>}
       {withActionButtons && (
         <CardButtons className='button-wrapper'>

@@ -92,15 +92,15 @@ const ButtonGroup = ({ next, previous }: any) => {
           </PrevButton>
         </>
       ) : (
-        <>
-          <PrevButton onClick={() => previous()}>
-            <ArrowPrev />
-          </PrevButton>
-          <NextButton onClick={() => next()}>
-            <ArrowNext />
-          </NextButton>
-        </>
-      )}
+          <>
+            <PrevButton onClick={() => previous()}>
+              <ArrowPrev />
+            </PrevButton>
+            <NextButton onClick={() => next()}>
+              <ArrowNext />
+            </NextButton>
+          </>
+        )}
 
       {/* if prop isRtl true swap prev and next btn */}
     </ButtonGroupWrapper>
@@ -174,9 +174,9 @@ export default function CustomCarousel({
         additionalTransfrom={0}
         customButtonGroup={<ButtonGroup />}
         {...props}
-        // use dir ltr when rtl true
+      // use dir ltr when rtl true
       >
-        {data.map((item: any, index: number) => {
+        {data?.map((item: any, index: number) => {
           if (component) return component(item);
           return (
             <div style={{ padding: '0 15px', overflow: 'hidden' }} key={index}>

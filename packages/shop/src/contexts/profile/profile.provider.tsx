@@ -15,6 +15,7 @@ type Action =
   | { type: 'SET_PRIMARY_ADDRESS'; payload: any }
   | { type: 'SET_PRIMARY_SCHEDULE'; payload: any }
   | { type: 'SET_PRIMARY_CARD'; payload: any };
+
 function reducer(state: any, action: Action): any {
   switch (action.type) {
     case 'HANDLE_ON_INPUT_CHANGE':
@@ -51,7 +52,7 @@ function reducer(state: any, action: Action): any {
       if (action.payload.id) {
         return {
           ...state,
-          address: state.address.map((item: any) =>
+          addresses: state.addresses.map((item: any) =>
             item.id === action.payload.id
               ? { ...item, ...action.payload }
               : item
@@ -61,16 +62,16 @@ function reducer(state: any, action: Action): any {
       const newAdress = {
         ...action.payload,
         id: uuidV4(),
-        type: state.address.length === '0' ? 'primary' : 'secondary',
+        type: state.addresses?.length === '0' ? 'primary' : 'secondary',
       };
       return {
         ...state,
-        address: [...state.address, newAdress],
+        addresses: [...state.addresses, newAdress],
       };
     case 'DELETE_ADDRESS':
       return {
         ...state,
-        address: state.address.filter(
+        addresses: state.addresses.filter(
           (item: any) => item.id !== action.payload
         ),
       };
@@ -103,7 +104,7 @@ function reducer(state: any, action: Action): any {
     case 'SET_PRIMARY_ADDRESS':
       return {
         ...state,
-        address: state.address.map((item: any) =>
+        addresses: state.addresses.map((item: any) =>
           item.id === action.payload
             ? { ...item, type: 'primary' }
             : { ...item, type: 'secondary' }

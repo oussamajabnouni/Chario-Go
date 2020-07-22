@@ -24,7 +24,7 @@ export class OrderResolver {
   }
 
   @Query(() => Order, { description: 'Get single order' })
-  async order(@Arg('id', type => Int) id: number): Promise<Order | undefined> {
+  async order(@Arg('id', type => Int) id: string): Promise<Order | undefined> {
     return await this.items.find(item => item.id === id);
   }
 
@@ -33,13 +33,13 @@ export class OrderResolver {
     console.log(orderInput, 'orderinput');
     return await this.items[0];
   }
-  @Mutation(() => Order, { nullable: true , description: 'Delete Order' })
+  @Mutation(() => Order, { nullable: true, description: 'Delete Order' })
   async deleteOrder(
     @Arg('id') id: String
   ): Promise<Order> {
-      let affectedRow = await models.Order.findOne({ where: { id }});
-      await models.Order.destroy({ where: { id: id } });
-      return affectedRow;
+    let affectedRow = await models.Order.findOne({ where: { id } });
+    await models.Order.destroy({ where: { id: id } });
+    return affectedRow;
   }
   // @Mutation(returns => Order, { description: 'Add an Order' })
   // async addOrder(@Arg('orderInput') orderInput: Order): Promise<Order> {

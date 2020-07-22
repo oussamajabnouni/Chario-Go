@@ -7,7 +7,6 @@ import { RightMenu } from "./menu/right-menu/right-menu";
 import { LeftMenu } from "./menu/left-menu/left-menu";
 import HeaderWrapper from "./header.style";
 import LogoImage from "assets/images/charioGo.png";
-import UserImage from "assets/images/user.png";
 import { isCategoryPage } from "../is-home-page";
 import Search from "features/search/search";
 type Props = {

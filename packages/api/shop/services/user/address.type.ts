@@ -3,13 +3,13 @@ import { ObjectType, Field, InputType } from 'type-graphql';
 @InputType({ description: 'New recipe data' })
 export class AddAddressInput {
   @Field()
-  type: string;
+  city: string;
 
   @Field()
-  title: string;
+  state: string;
 
   @Field()
-  location: string;
+  info: string;
 }
 
 @ObjectType()

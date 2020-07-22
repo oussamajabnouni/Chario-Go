@@ -1,10 +1,7 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { AuthContext } from './auth.context';
 const isBrowser = typeof window !== 'undefined';
-const INITIAL_STATE = {
-  isAuthenticated: isBrowser && !!localStorage.getItem('access_token'),
-  currentForm: 'signIn',
-};
+
 
 function reducer(state: any, action: any) {
   console.log(state, 'auth');
@@ -19,17 +16,12 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         isAuthenticated: true,
-        email: action.payload.email,
-        name: action.payload.name,
-        image: action.payload.image
+        id: action.payload.id
       };
     case 'SIGN_OUT':
       return {
         ...state,
         isAuthenticated: false,
-        email: null,
-        name: null,
-        image: null
       };
     case 'SIGNUP':
       return {
@@ -47,7 +39,23 @@ function reducer(state: any, action: any) {
 }
 
 export const AuthProvider: React.FunctionComponent = ({ children }) => {
+
+  let localState = null
+  if (typeof localStorage !== "undefined" && localStorage.getItem("access_token")) {
+    localState = localStorage.getItem("access_token") || ""
+  }
+  const INITIAL_STATE = {
+    isAuthenticated: isBrowser && !!localStorage.getItem('access_token'),
+    currentForm: 'signIn',
+    id: localState
+  };
   const [authState, authDispatch] = useReducer(reducer, INITIAL_STATE);
+
+  if (typeof localStorage !== "undefined") {
+    useEffect(() => {
+      localStorage.setItem("access_token", authState.id)
+    }, [authState])
+  }
   return (
     <AuthContext.Provider value={{ authState, authDispatch }}>
       {children}

@@ -33,7 +33,7 @@ export default function SignInModal() {
   const client: ApolloClient<any> = useApolloClient();
   const [login, { loading }] = useMutation(LOGIN, {
     onCompleted({ login }) {
-      localStorage.setItem("access_token", login as string);
+      // localStorage.setItem("access_token", login.id);
       client.writeData({ data: { isLoggedIn: true } });
       authDispatch({ type: "SIGNIN_SUCCESS", payload: { ...login } });
       closeModal();

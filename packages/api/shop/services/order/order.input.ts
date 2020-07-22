@@ -1,5 +1,4 @@
 import { InputType, Field, ID } from 'type-graphql';
-import ProductInput from '../product/product.input';
 
 @InputType()
 export default class OrderInput {
@@ -23,6 +22,6 @@ export default class OrderInput {
   @Field()
   price: number;
 
-  @Field(type => [ProductInput])
-  products: ProductInput[];
+  @Field(type => [String])
+  products: string[];
 }

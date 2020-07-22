@@ -36,7 +36,7 @@ const CreateOrUpdateContact: React.FC<Props> = ({ item }) => {
   const { state, dispatch } = useContext(ProfileContext);
   const handleSubmit = async (values: FormValues, { setSubmitting }: any) => {
     await addContactMutation({
-      variables: { contactInput: JSON.stringify(values) },
+      variables: { contactInput: values },
     });
     console.log(values, 'formik values');
     dispatch({ type: 'ADD_OR_UPDATE_CONTACT', payload: values });
@@ -55,55 +55,55 @@ const CreateOrUpdateContact: React.FC<Props> = ({ item }) => {
         handleBlur,
         isSubmitting,
       }: FormikProps<FormValues>) => (
-        <Form>
-          <Heading>
-            {item && item.id ? 'Edit Contact' : 'Add New Contact'}
-          </Heading>
-          <FieldWrapper>
-            <MaskedInput
-              mask={[
-                '(',
-                /[1-9]/,
-                /\d/,
-                /\d/,
-                ')',
-                ' ',
-                /\d/,
-                /\d/,
-                /\d/,
-                '-',
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-              ]}
-              className='form-control'
-              placeholder='Enter a phone number'
-              guide={false}
-              id='my-input-id'
-              value={values.number}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name='number'
-              render={(ref: any, props: {}) => (
-                <StyledInput ref={ref} {...props} />
-              )}
-            />
-          </FieldWrapper>
-          <ErrorMessage name='number' component={StyledError} />
+          <Form>
+            <Heading>
+              {item && item.id ? 'Edit Contact' : 'Add New Contact'}
+            </Heading>
+            <FieldWrapper>
+              <MaskedInput
+                mask={[
+                  '(',
+                  /[1-9]/,
+                  /\d/,
+                  /\d/,
+                  ')',
+                  ' ',
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  '-',
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                ]}
+                className='form-control'
+                placeholder='Enter a phone number'
+                guide={false}
+                id='my-input-id'
+                value={values.number}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name='number'
+                render={(ref: any, props: {}) => (
+                  <StyledInput ref={ref} {...props} />
+                )}
+              />
+            </FieldWrapper>
+            <ErrorMessage name='number' component={StyledError} />
 
-          <Button
-            disabled={isSubmitting}
-            type='submit'
-            style={{ width: '100%', height: '44px' }}
-          >
-            <FormattedMessage
-              id='savedContactId'
-              defaultMessage='Save Contact'
-            />
-          </Button>
-        </Form>
-      )}
+            <Button
+              disabled={isSubmitting}
+              type='submit'
+              style={{ width: '100%', height: '44px' }}
+            >
+              <FormattedMessage
+                id='savedContactId'
+                defaultMessage='Save Contact'
+              />
+            </Button>
+          </Form>
+        )}
     </Formik>
   );
 };
