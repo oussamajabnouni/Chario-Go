@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { styled, withStyle } from "baseui";
 import { useDrawerDispatch } from "../../context/DrawerContext";
 import Button from "../../components/Button/Button";
+
 import {
   Grid,
   Row as Rows,
@@ -17,9 +18,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import NoResult from "../../components/NoResult/NoResult";
 import { CURRENCY } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
-import {
-  Plus
-} from "../../components/AllSvgIcon";
+import { Plus } from "../../components/AllSvgIcon";
 
 export const ProductsRow = styled("div", ({ $theme }) => ({
   display: "flex",
@@ -77,11 +76,15 @@ const GET_PRODUCTS = gql`
     $category: String
     $offset: Int
     $limit: Int
+    $locationState: String
+    $locationCity: String
   ) {
     products(
       type: $type
       searchText: $searchText
       sortByPrice: $sortByPrice
+      locationState: $locationState
+      locationCity: $locationCity
       category: $category
       offset: $offset
       limit: $limit
@@ -111,10 +114,19 @@ const GET_PRODUCTS = gql`
 
 const typeSelectOptions = [
   { value: "grocery", label: "Grocery" },
-  { value: "women-cloths", label: "Women Cloths" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "foods", label: "foods" },
 ];
+
+const locationStateOptions = [
+  { value: "sousse", label: "sousse" },
+  { value: "tunis", label: "tunis" },
+];
+
+const locationCityOptions = [
+  { value: "grocery", label: "Grocery" },
+  { value: "foods", label: "foods" },
+];
+
 const priceSelectOptions = [
   { value: "highestToLowest", label: "Highest To Lowest" },
   { value: "lowestToHighest", label: "Lowest To Highest" },
@@ -179,6 +191,7 @@ export default function Products() {
       });
     }
   }
+
   function handleSearch(event) {
     const value = event.currentTarget.value;
     setSearch(value);
@@ -278,24 +291,24 @@ export default function Products() {
                   </Col>
                 ))
               ) : (
-                  <NoResult />
-                )
+                <NoResult />
+              )
             ) : (
-                <LoaderWrapper>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                </LoaderWrapper>
-              )}
+              <LoaderWrapper>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+              </LoaderWrapper>
+            )}
           </Row>
           {data && data.products && data.products.hasMore && (
             <Row>

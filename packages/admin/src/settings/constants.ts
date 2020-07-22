@@ -15,4 +15,4 @@ export const STAFF_MEMBERS = "/staff-members";
 export const SITE_SETTINGS = "/site-settings";
 // **************** ROUTE CONSTANT END **************************
 
-export const CURRENCY = "$";
+export const CURRENCY = "TND";

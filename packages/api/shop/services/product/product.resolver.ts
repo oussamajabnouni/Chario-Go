@@ -116,24 +116,21 @@ export default class ProductResolver {
     await update_product.setCategories(product.categories);
     return update_product;
   }*/
-  
-  @Mutation(() => Product, { nullable: true , description: 'Update Product' })
+
+  @Mutation(() => Product, { nullable: true, description: "Update Product" })
   async updateProduct(
-    @Arg('product') product: UpdateProductInput
+    @Arg("product") product: UpdateProductInput,
+    @Arg("id") id: String
   ): Promise<Product> {
-      let affectedRow = await models.Product.findOne({ where: { id:product.id }});
-      await models.Product.update(product,
-        { where: { id: product.id } });
-      return affectedRow;
+    let affectedRow = await models.Product.findOne({ where: { id } });
+    await models.Product.update(product, { where: { id: id } });
+    return affectedRow;
   }
 
-  @Mutation(() => Product, { nullable: true , description: 'Delete Product' })
-  async deleteProduct(
-    @Arg('id') id: String
-  ): Promise<Product> {
-      let affectedRow = await models.Product.findOne({ where: { id }});
-      await models.Product.destroy({ where: { id: id } });
-      return affectedRow;
+  @Mutation(() => Product, { nullable: true, description: "Delete Product" })
+  async deleteProduct(@Arg("id") id: String): Promise<Product> {
+    let affectedRow = await models.Product.findOne({ where: { id } });
+    await models.Product.destroy({ where: { id: id } });
+    return affectedRow;
   }
-  
 }

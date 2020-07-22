@@ -1,20 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react';
-import Router from 'next/router';
-import Link from 'next/link';
-import { Button } from 'components/button/button';
-import RadioCard from 'components/radio-card/radio-card';
-import RadioGroup from 'components/radio-group/radio-group';
-import PaymentGroup from 'components/payment-group/payment-group';
-import UpdateAddress from 'components/address-card/address-card';
-import UpdateContact from 'components/contact-card/contact-card';
-import StripePaymentForm from 'features/payment/stripe-form';
-import { DELETE_ADDRESS } from 'graphql/mutation/address';
-import { DELETE_CARD } from 'graphql/mutation/card';
-import { DELETE_CONTACT } from 'graphql/mutation/contact';
-import { CURRENCY } from 'utils/constant';
-import { openModal } from '@redq/reuse-modal';
-import { useMutation } from '@apollo/react-hooks';
-import { Scrollbars } from 'react-custom-scrollbars';
+import React, { useContext, useState, useEffect } from "react";
+import Router from "next/router";
+import Link from "next/link";
+import { Button } from "components/button/button";
+import RadioCard from "components/radio-card/radio-card";
+import RadioGroup from "components/radio-group/radio-group";
+import PaymentGroup from "components/payment-group/payment-group";
+import UpdateAddress from "components/address-card/address-card";
+import UpdateContact from "components/contact-card/contact-card";
+import StripePaymentForm from "features/payment/stripe-form";
+import { DELETE_ADDRESS } from "graphql/mutation/address";
+import { DELETE_CARD } from "graphql/mutation/card";
+import { DELETE_CONTACT } from "graphql/mutation/contact";
+import { CURRENCY } from "utils/constant";
+import { openModal } from "@redq/reuse-modal";
+import { useMutation } from "@apollo/react-hooks";
+import { Scrollbars } from "react-custom-scrollbars";
 import CheckoutWrapper, {
   CheckoutContainer,
   CheckoutInformation,
@@ -48,19 +48,19 @@ import CheckoutWrapper, {
   Small,
   NoProductMsg,
   IconWrapper,
-} from './checkout-two.style';
+} from "./checkout-two.style";
 
-import { Plus } from 'assets/icons/PlusMinus';
+import { Plus } from "assets/icons/PlusMinus";
 
-import Sticky from 'react-stickynode';
+import Sticky from "react-stickynode";
 // import { HeaderContext } from 'contexts/header/header.context';
 
-import { ProfileContext } from 'contexts/profile/profile.context';
-import { FormattedMessage } from 'react-intl';
-import { useCart } from 'contexts/cart/use-cart';
-import { APPLY_COUPON } from 'graphql/mutation/coupon';
-import { useLocale } from 'contexts/language/language.provider';
-import { useWindowSize } from 'utils/useWindowSize';
+import { ProfileContext } from "contexts/profile/profile.context";
+import { FormattedMessage } from "react-intl";
+import { useCart } from "contexts/cart/use-cart";
+import { APPLY_COUPON } from "graphql/mutation/coupon";
+import { useLocale } from "contexts/language/language.provider";
+import { useWindowSize } from "utils/useWindowSize";
 
 // The type of props Checkout Form receives
 interface MyFormProps {
@@ -80,7 +80,7 @@ const OrderItem: React.FC<CartItemProps> = ({ product }) => {
       <Quantity>{quantity}</Quantity>
       <Multiplier>x</Multiplier>
       <ItemInfo>
-        {name ? name : title} {unit ? `| ${unit}` : ''}
+        {name ? name : title} {unit ? `| ${unit}` : ""}
       </ItemInfo>
       <Price>
         {CURRENCY}
@@ -92,8 +92,8 @@ const OrderItem: React.FC<CartItemProps> = ({ product }) => {
 
 const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const [hasCoupon, setHasCoupon] = useState(false);
-  const [couponCode, setCouponCode] = useState('');
-  const [couponError, setError] = useState('');
+  const [couponCode, setCouponCode] = useState("");
+  const [couponError, setError] = useState("");
   const { state, dispatch } = useContext(ProfileContext);
   const { isRtl } = useLocale();
   const {
@@ -123,7 +123,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     setLoading(true);
     if (isValid) {
       clearCart();
-      Router.push('/order-received');
+      Router.push("/order-received");
     }
     setLoading(false);
   };
@@ -132,9 +132,9 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     if (
       calculatePrice() > 0 &&
       cartItemsCount > 0 &&
-      address.length &&
+      /* address.length &&
       contact.length &&
-      card.length &&
+      card.length && */
       schedules.length
     ) {
       setIsValid(true);
@@ -152,13 +152,13 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const handleModal = (
     modalComponent: any,
     modalProps = {},
-    className: string = 'add-address-modal'
+    className: string = "add-address-modal"
   ) => {
     openModal({
       show: true,
       config: {
         width: 360,
-        height: 'auto',
+        height: "auto",
         enableResizing: false,
         disableDragging: true,
         className: className,
@@ -170,25 +170,25 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   };
 
   const handleEditDelete = async (item: any, type: string, name: string) => {
-    if (type === 'edit') {
-      const modalComponent = name === 'address' ? UpdateAddress : UpdateContact;
+    if (type === "edit") {
+      const modalComponent = name === "address" ? UpdateAddress : UpdateContact;
       handleModal(modalComponent, item);
     } else {
       switch (name) {
-        case 'payment':
-          dispatch({ type: 'DELETE_CARD', payload: item.id });
+        case "payment":
+          dispatch({ type: "DELETE_CARD", payload: item.id });
 
           return await deletePaymentCardMutation({
             variables: { cardId: JSON.stringify(item.id) },
           });
-        case 'contact':
-          dispatch({ type: 'DELETE_CONTACT', payload: item.id });
+        case "contact":
+          dispatch({ type: "DELETE_CONTACT", payload: item.id });
 
           return await deleteContactMutation({
             variables: { contactId: JSON.stringify(item.id) },
           });
-        case 'address':
-          dispatch({ type: 'DELETE_ADDRESS', payload: item.id });
+        case "address":
+          dispatch({ type: "DELETE_ADDRESS", payload: item.id });
 
           return await deleteAddressMutation({
             variables: { addressId: JSON.stringify(item.id) },
@@ -205,9 +205,9 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     });
     if (data.applyCoupon && data.applyCoupon.discountInPercent) {
       applyCoupon(data.applyCoupon);
-      setCouponCode('');
+      setCouponCode("");
     } else {
-      setError('Invalid Coupon');
+      setError("Invalid Coupon");
     }
   };
   const handleOnUpdate = (code: any) => {
@@ -223,12 +223,12 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
             <InformationBox>
               <Heading>
                 <FormattedMessage
-                  id='checkoutDeliveryAddress'
-                  defaultMessage='Delivery Address'
+                  id="checkoutDeliveryAddress"
+                  defaultMessage="Delivery Address"
                 />
               </Heading>
               <ButtonGroup>
-                <RadioGroup
+                {/*   <RadioGroup
                   items={address}
                   component={(item: any) => (
                     <RadioCard
@@ -248,7 +248,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                       onDelete={() =>
                         handleEditDelete(item, 'delete', 'address')
                       }
-                    />
+                    />  
                   )}
                   secondaryComponent={
                     <Button
@@ -265,7 +265,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                       <FormattedMessage id='addNew' defaultMessage='Add New' />
                     </Button>
                   }
-                />
+                /> */}
               </ButtonGroup>
             </InformationBox>
 
@@ -274,11 +274,11 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
               <DeliverySchedule>
                 <Heading>
                   <FormattedMessage
-                    id='deliverySchedule'
-                    defaultMessage='Select Your Delivery Schedule'
+                    id="deliverySchedule"
+                    defaultMessage="Select Your Delivery Schedule"
                   />
                 </Heading>
-                <RadioGroup
+                {/**   <RadioGroup
                   items={schedules}
                   component={(item: any) => (
                     <RadioCard
@@ -286,18 +286,19 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                       key={item.id}
                       title={item.title}
                       content={item.time_slot}
-                      name='schedule'
-                      checked={item.type === 'primary'}
+                      name="schedule"
+                      checked={item.type === "primary"}
                       withActionButtons={false}
                       onChange={() =>
                         dispatch({
-                          type: 'SET_PRIMARY_SCHEDULE',
+                          type: "SET_PRIMARY_SCHEDULE",
                           payload: item.id.toString(),
                         })
                       }
                     />
                   )}
                 />
+                 */}
               </DeliverySchedule>
             </InformationBox>
 
@@ -305,12 +306,12 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
             <InformationBox>
               <Heading>
                 <FormattedMessage
-                  id='contactNumberText'
-                  defaultMessage='Select Your Contact Number'
+                  id="contactNumberText"
+                  defaultMessage="Select Your Contact Number"
                 />
               </Heading>
               <ButtonGroup>
-                <RadioGroup
+                {/**     <RadioGroup
                   items={contact}
                   component={(item: any) => (
                     <RadioCard
@@ -318,63 +319,64 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                       key={item.id}
                       title={item.type}
                       content={item.number}
-                      checked={item.type === 'primary'}
+                      checked={item.type === "primary"}
                       onChange={() =>
                         dispatch({
-                          type: 'SET_PRIMARY_CONTACT',
+                          type: "SET_PRIMARY_CONTACT",
                           payload: item.id.toString(),
                         })
                       }
-                      name='contact'
-                      onEdit={() => handleEditDelete(item, 'edit', 'contact')}
+                      name="contact"
+                      onEdit={() => handleEditDelete(item, "edit", "contact")}
                       onDelete={() =>
-                        handleEditDelete(item, 'delete', 'contact')
+                        handleEditDelete(item, "delete", "contact")
                       }
                     />
                   )}
                   secondaryComponent={
                     <Button
-                      className='addButton'
-                      variant='text'
-                      type='button'
+                      className="addButton"
+                      variant="text"
+                      type="button"
                       onClick={() =>
-                        handleModal(UpdateContact, 'add-contact-modal')
+                        handleModal(UpdateContact, "add-contact-modal")
                       }
                     >
                       <IconWrapper>
-                        <Plus width='10px' />
+                        <Plus width="10px" />
                       </IconWrapper>
                       <FormattedMessage
-                        id='addContactBtn'
-                        defaultMessage='Add Contact'
+                        id="addContactBtn"
+                        defaultMessage="Add Contact"
                       />
                     </Button>
                   }
                 />
+                 */}
               </ButtonGroup>
             </InformationBox>
             {/* PaymentOption */}
 
             <InformationBox
-              className='paymentBox'
+              className="paymentBox"
               style={{ paddingBottom: 30 }}
             >
               <Heading>
                 <FormattedMessage
-                  id='selectPaymentText'
-                  defaultMessage='Select Payment Option'
+                  id="selectPaymentText"
+                  defaultMessage="Select Payment Option"
                 />
               </Heading>
-              <PaymentGroup
-                name='payment'
+              {/**   <PaymentGroup
+                name="payment"
                 deviceType={deviceType}
                 items={card}
                 onEditDeleteField={(item: any, type: string) =>
-                  handleEditDelete(item, type, 'payment')
+                  handleEditDelete(item, type, "payment")
                 }
                 onChange={(item: any) =>
                   dispatch({
-                    type: 'SET_PRIMARY_CARD',
+                    type: "SET_PRIMARY_CARD",
                     payload: item.id.toString(),
                   })
                 }
@@ -382,16 +384,17 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   handleModal(
                     StripePaymentForm,
                     { totalPrice: calculatePrice() },
-                    'add-address-modal stripe-modal'
+                    "add-address-modal stripe-modal"
                   );
                 }}
               />
+               */}
 
               {/* Coupon start */}
               {coupon ? (
                 <CouponBoxWrapper>
                   <CouponCode>
-                    <FormattedMessage id='couponApplied' />
+                    <FormattedMessage id="couponApplied" />
                     <span>{coupon.code}</span>
 
                     <RemoveCoupon
@@ -401,7 +404,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                         setHasCoupon(false);
                       }}
                     >
-                      <FormattedMessage id='removeCoupon' />
+                      <FormattedMessage id="removeCoupon" />
                     </RemoveCoupon>
                   </CouponCode>
                 </CouponBoxWrapper>
@@ -410,8 +413,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   {!hasCoupon ? (
                     <HaveCoupon onClick={() => setHasCoupon((prev) => !prev)}>
                       <FormattedMessage
-                        id='specialCode'
-                        defaultMessage='Have a special code?'
+                        id="specialCode"
+                        defaultMessage="Have a special code?"
                       />
                     </HaveCoupon>
                   ) : (
@@ -420,7 +423,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                         <Input
                           onUpdate={handleOnUpdate}
                           value={couponCode}
-                          intlPlaceholderId='couponPlaceholder'
+                          intlPlaceholderId="couponPlaceholder"
                         />
                         {/* <Button
                           onClick={handleApplyCoupon}
@@ -428,13 +431,13 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                           intlButtonId='voucherApply'
                         /> */}
                         <Button
-                          type='button'
+                          type="button"
                           onClick={handleApplyCoupon}
-                          size='big'
+                          size="big"
                         >
                           <FormattedMessage
-                            id='voucherApply'
-                            defaultMessage='Apply'
+                            id="voucherApply"
+                            defaultMessage="Apply"
                           />
                         </Button>
                       </CouponInputBox>
@@ -442,7 +445,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                       {couponError && (
                         <ErrorMsg>
                           <FormattedMessage
-                            id='couponError'
+                            id="couponError"
                             defaultMessage={couponError}
                           />
                         </ErrorMsg>
@@ -454,14 +457,14 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
 
               <TermConditionText>
                 <FormattedMessage
-                  id='termAndConditionHelper'
-                  defaultMessage='By making this purchase you agree to our'
+                  id="termAndConditionHelper"
+                  defaultMessage="By making this purchase you agree to our"
                 />
-                <Link href='#'>
+                <Link href="#">
                   <TermConditionLink>
                     <FormattedMessage
-                      id='termAndCondition'
-                      defaultMessage='terms and conditions.'
+                      id="termAndCondition"
+                      defaultMessage="terms and conditions."
                     />
                   </TermConditionLink>
                 </Link>
@@ -480,16 +483,16 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                 /> */}
 
                 <Button
-                  type='button'
+                  type="button"
                   onClick={handleSubmit}
                   disabled={!isValid}
-                  size='big'
+                  size="big"
                   loading={loading}
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                 >
                   <FormattedMessage
-                    id='proceesCheckout'
-                    defaultMessage='Proceed to Checkout'
+                    id="proceesCheckout"
+                    defaultMessage="Proceed to Checkout"
                   />
                 </Button>
               </CheckoutSubmit>
@@ -506,8 +509,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
               <OrderInfo>
                 <Title>
                   <FormattedMessage
-                    id='cartTitle'
-                    defaultMessage='Your Order'
+                    id="cartTitle"
+                    defaultMessage="Your Order"
                   />
                 </Title>
 
@@ -515,7 +518,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   universal
                   autoHide
                   autoHeight
-                  autoHeightMax='390px'
+                  autoHeightMax="390px"
                   renderView={(props) => (
                     <div
                       {...props}
@@ -537,8 +540,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                     ) : (
                       <NoProductMsg>
                         <FormattedMessage
-                          id='noProductFound'
-                          defaultMessage='No products found'
+                          id="noProductFound"
+                          defaultMessage="No products found"
                         />
                       </NoProductMsg>
                     )}
@@ -549,8 +552,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   <TextWrapper>
                     <Text>
                       <FormattedMessage
-                        id='subTotal'
-                        defaultMessage='Subtotal'
+                        id="subTotal"
+                        defaultMessage="Subtotal"
                       />
                     </Text>
                     <Text>
@@ -562,8 +565,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   <TextWrapper>
                     <Text>
                       <FormattedMessage
-                        id='intlOrderDetailsDelivery'
-                        defaultMessage='Delivery Fee'
+                        id="intlOrderDetailsDelivery"
+                        defaultMessage="Delivery Fee"
                       />
                     </Text>
                     <Text>{CURRENCY}0.00</Text>
@@ -572,8 +575,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   <TextWrapper>
                     <Text>
                       <FormattedMessage
-                        id='discountText'
-                        defaultMessage='Discount'
+                        id="discountText"
+                        defaultMessage="Discount"
                       />
                     </Text>
                     <Text>
@@ -584,12 +587,12 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
 
                   <TextWrapper style={{ marginTop: 20 }}>
                     <Bold>
-                      <FormattedMessage id='totalText' defaultMessage='Total' />{' '}
+                      <FormattedMessage id="totalText" defaultMessage="Total" />{" "}
                       <Small>
                         (
                         <FormattedMessage
-                          id='vatText'
-                          defaultMessage='Incl. VAT'
+                          id="vatText"
+                          defaultMessage="Incl. VAT"
                         />
                         )
                       </Small>

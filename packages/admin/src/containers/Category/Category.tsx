@@ -128,9 +128,7 @@ const Row = withStyle(Rows, () => ({
 
 const categorySelectOptions = [
   { value: "grocery", label: "Grocery" },
-  { value: "women-cloths", label: "Women Cloth" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "foods", label: "foods" },
 ];
 
 const SubTable = ({ children, parentId }) => {
@@ -399,14 +397,14 @@ export default function Category() {
                         <TableRow row={row} index={index} />
                       ))
                   ) : (
-                      <NoResult
-                        hideButton={false}
-                        style={{
-                          gridColumnStart: "1",
-                          gridColumnEnd: "one",
-                        }}
-                      />
-                    )
+                    <NoResult
+                      hideButton={false}
+                      style={{
+                        gridColumnStart: "1",
+                        gridColumnEnd: "one",
+                      }}
+                    />
+                  )
                 ) : null}
               </StyledTable>
             </TableWrapper>

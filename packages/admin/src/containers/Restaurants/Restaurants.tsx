@@ -16,9 +16,7 @@ import Fade from "react-reveal/Fade";
 import RestaurantCard from "../../components/RestaurantCard/RestaurantCard";
 import NoResult from "../../components/NoResult/NoResult";
 import Placeholder from "../../components/Placeholder/Placeholder";
-import {
-  Plus
-} from "../../components/AllSvgIcon";
+import { Plus } from "../../components/AllSvgIcon";
 
 export const ProductsRow = styled("div", ({ $theme }) => ({
   display: "flex",
@@ -99,9 +97,7 @@ const GET_VENDORS = gql`
 `;
 const typeSelectOptions = [
   { value: "grocery", label: "Grocery" },
-  { value: "women-cloths", label: "Women Cloths" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "foods", label: "foods" },
 ];
 
 export default function Restaurants() {
@@ -238,24 +234,24 @@ export default function Restaurants() {
                   </Col>
                 ))
               ) : (
-                  <NoResult />
-                )
+                <NoResult />
+              )
             ) : (
-                <LoaderWrapper>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                  <LoaderItem>
-                    <Placeholder />
-                  </LoaderItem>
-                </LoaderWrapper>
-              )}
+              <LoaderWrapper>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+              </LoaderWrapper>
+            )}
           </Row>
           {data && data.vendors && data.vendors.hasMore && (
             <Row>

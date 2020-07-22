@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
-import { useMutation } from '@apollo/react-hooks';
-import { Col } from 'react-styled-flexboxgrid';
-import { openModal } from '@redq/reuse-modal';
-import RadioCard from 'components/radio-card/radio-card';
-import { ProfileContext } from 'contexts/profile/profile.context';
-import { DELETE_ADDRESS } from 'graphql/mutation/address';
-import { DELETE_CARD } from 'graphql/mutation/card';
-import { DELETE_CONTACT } from 'graphql/mutation/contact';
-import StripePaymentForm from 'features/payment/stripe-form';
+import React, { useContext } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { Col } from "react-styled-flexboxgrid";
+import { openModal } from "@redq/reuse-modal";
+import RadioCard from "components/radio-card/radio-card";
+import { ProfileContext } from "contexts/profile/profile.context";
+import { DELETE_ADDRESS } from "graphql/mutation/address";
+import { DELETE_CARD } from "graphql/mutation/card";
+import { DELETE_CONTACT } from "graphql/mutation/contact";
+import StripePaymentForm from "features/payment/stripe-form";
 import {
   SettingsForm,
   SettingsFormContent,
@@ -16,14 +16,14 @@ import {
   Input,
   Row,
   ButtonGroup,
-} from './settings.style';
-import RadioGroup from 'components/radio-group/radio-group';
-import PaymentGroup from 'components/payment-group/payment-group';
-import UpdateAddress from 'components/address-card/address-card';
-import UpdateContact from 'components/contact-card/contact-card';
-import { Button } from 'components/button/button';
-import { UPDATE_ME } from 'graphql/mutation/me';
-import { FormattedMessage } from 'react-intl';
+} from "./settings.style";
+import RadioGroup from "components/radio-group/radio-group";
+import PaymentGroup from "components/payment-group/payment-group";
+import UpdateAddress from "components/address-card/address-card";
+import UpdateContact from "components/contact-card/contact-card";
+import { Button } from "components/button/button";
+import { UPDATE_ME } from "graphql/mutation/me";
+import { FormattedMessage } from "react-intl";
 
 type SettingsContentProps = {
   deviceType?: {
@@ -43,19 +43,19 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   const { address, contact, card } = state;
 
   const handleChange = (value: string, field: string) => {
-    dispatch({ type: 'HANDLE_ON_INPUT_CHANGE', payload: { value, field } });
+    dispatch({ type: "HANDLE_ON_INPUT_CHANGE", payload: { value, field } });
   };
   // Add or edit modal
   const handleModal = (
     modalComponent: any,
     modalProps = {},
-    className: string = 'add-address-modal'
+    className: string = "add-address-modal"
   ) => {
     openModal({
       show: true,
       config: {
         width: 360,
-        height: 'auto',
+        height: "auto",
         enableResizing: false,
         disableDragging: true,
         className: className,
@@ -67,26 +67,26 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   };
 
   const handleEditDelete = async (item: any, type: string, name: string) => {
-    if (type === 'edit') {
-      const modalComponent = name === 'address' ? UpdateAddress : UpdateContact;
+    if (type === "edit") {
+      const modalComponent = name === "address" ? UpdateAddress : UpdateContact;
       handleModal(modalComponent, item);
     } else {
-      console.log(name, item, type, 'delete');
+      console.log(name, item, type, "delete");
       switch (name) {
-        case 'payment':
-          dispatch({ type: 'DELETE_CARD', payload: item.id });
+        case "payment":
+          dispatch({ type: "DELETE_CARD", payload: item.id });
 
           return await deletePaymentCardMutation({
             variables: { cardId: JSON.stringify(item.id) },
           });
-        case 'contact':
-          dispatch({ type: 'DELETE_CONTACT', payload: item.id });
+        case "contact":
+          dispatch({ type: "DELETE_CONTACT", payload: item.id });
 
           return await deleteContactMutation({
             variables: { contactId: JSON.stringify(item.id) },
           });
-        case 'address':
-          dispatch({ type: 'DELETE_ADDRESS', payload: item.id });
+        case "address":
+          dispatch({ type: "DELETE_ADDRESS", payload: item.id });
 
           return await deleteAddressMutation({
             variables: { addressId: JSON.stringify(item.id) },
@@ -115,14 +115,14 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
             />
           </Title>
         </HeadingSection>
-        <Row style={{ alignItems: 'flex-end', marginBottom: '50px' }}>
+        <Row style={{ alignItems: "flex-end", marginBottom: "50px" }}>
           <Col xs={12} sm={5} md={5} lg={5}>
             <Input
               type="text"
               label="Name"
               value={state.name}
-              onUpdate={(value: string) => handleChange(value, 'name')}
-              style={{ backgroundColor: '#F7F7F7' }}
+              onUpdate={(value: string) => handleChange(value, "name")}
+              style={{ backgroundColor: "#F7F7F7" }}
               intlInputLabelId="profileNameField"
             />
           </Col>
@@ -132,14 +132,14 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
               type="email"
               label="Email Address"
               value={state.email}
-              onUpdate={(value: string) => handleChange(value, 'email')}
-              style={{ backgroundColor: '#F7F7F7' }}
+              onUpdate={(value: string) => handleChange(value, "email")}
+              style={{ backgroundColor: "#F7F7F7" }}
               intlInputLabelId="profileEmailField"
             />
           </Col>
 
           <Col xs={12} sm={2} md={2} lg={2}>
-            <Button size="big" style={{ width: '100%' }} onClick={handleSave}>
+            <Button size="big" style={{ width: "100%" }} onClick={handleSave}>
               <FormattedMessage id="profileSaveBtn" defaultMessage="Save" />
             </Button>
           </Col>
@@ -155,7 +155,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                   />
                 </Title>
               </HeadingSection>
-              <ButtonGroup>
+              {/*      <ButtonGroup>
                 <RadioGroup
                   items={contact}
                   component={(item: any) => (
@@ -251,6 +251,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                   }
                 />
               </ButtonGroup>
+               */}
             </SettingsFormContent>
           </Col>
         </Row>
@@ -266,27 +267,28 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
                   />
                 </Title>
               </HeadingSection>
-              <PaymentGroup
+              {/*        <PaymentGroup
                 name="payment"
                 deviceType={deviceType}
                 items={card}
                 onEditDeleteField={(item: any, type: string) =>
-                  handleEditDelete(item, type, 'payment')
+                  handleEditDelete(item, type, "payment")
                 }
                 onChange={(item: any) =>
                   dispatch({
-                    type: 'SET_PRIMARY_CARD',
+                    type: "SET_PRIMARY_CARD",
                     payload: item.id.toString(),
                   })
                 }
                 handleAddNewCard={() => {
                   handleModal(
                     StripePaymentForm,
-                    { buttonText: 'Add Card' },
-                    'add-address-modal stripe-modal'
+                    { buttonText: "Add Card" },
+                    "add-address-modal stripe-modal"
                   );
                 }}
               />
+              */}
             </SettingsFormContent>
           </Col>
         </Row>
