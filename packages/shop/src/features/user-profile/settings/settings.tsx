@@ -40,7 +40,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS);
   const [deletePaymentCardMutation] = useMutation(DELETE_CARD);
 
-  const { addresses, contact, card } = state;
+  const { addresses, contacts, card } = state;
 
   const handleChange = (value: string, field: string) => {
     dispatch({ type: "HANDLE_ON_INPUT_CHANGE", payload: { value, field } });
@@ -157,7 +157,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
               </HeadingSection>
               <ButtonGroup>
                 <RadioGroup
-                  items={contact || []}
+                  items={contacts || []}
                   component={(item: any) => (
                     <RadioCard
                       id={item.id}

@@ -1,18 +1,13 @@
 import gql from 'graphql-tag';
 
 export const ADD_CARD = gql`
-  mutation($addressInput: String!) {
-    updateAddress(addressInput: $addressInput) {
+  mutation($userId: String!,$cardInput: AddCardInput!) {
+    addPaymentCard(userId: $userId,cardInput: $cardInput) {
       id
-      name
-      address {
-        id
-        name
-        info
-      }
     }
   }
 `;
+
 export const DELETE_CARD = gql`
   mutation($cardId: String!) {
     deletePaymentCard(cardId: $cardId) {

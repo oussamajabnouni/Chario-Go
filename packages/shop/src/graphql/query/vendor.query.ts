@@ -10,11 +10,9 @@ export const GET_VENDOR = gql`
       previewUrl
       thumbnailUrl
       type
-      deliveryDetails {
         charge
         minimumOrder
         isFree
-      }
       address
       products {
         id

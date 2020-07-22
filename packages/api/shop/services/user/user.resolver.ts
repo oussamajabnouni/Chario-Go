@@ -2,8 +2,8 @@ import { Resolver, Query, Arg, Mutation, Ctx } from "type-graphql";
 const { Op } = require("sequelize");
 import User from "./user.type";
 import Address, { AddAddressInput } from "./address.type";
-import Card from "./card.type";
-import Contact from "./contact.type";
+import Card, { AddCardInput } from "./card.type";
+import Contact, { AddContactInput } from "./contact.type";
 import { UpdateUserInput } from "./user.type";
 import bcrypt from "bcryptjs";
 import { SignUpInput } from "./user.type";
@@ -18,7 +18,8 @@ export class UserResolver {
   async me(@Arg("id") id: string): Promise<User> {
     return await models.User.findOne({
       where: { id },
-      include: [{ all: true }]
+      include: [
+        { all: true, include: [{ all: true }] }]
     });
   }
 
@@ -100,6 +101,7 @@ export class UserResolver {
     ctx.req.session!.userId = user.id;
     return user;
   }
+
   @Mutation(() => User, { nullable: true, description: "Delete User" })
   async deleteUser(@Arg("id") id: String): Promise<User> {
     let affectedRow = await models.User.findOne({ where: { id } });
@@ -114,9 +116,9 @@ export class UserResolver {
     return affectedRow;
   }
   @Mutation(() => Contact, { nullable: true, description: "Delete Contact" })
-  async deleteContact(@Arg("id") id: String): Promise<Contact> {
-    let affectedRow = await models.Contact.findOne({ where: { id } });
-    await models.Contact.destroy({ where: { id: id } });
+  async deleteContact(@Arg("contactId") contactId: String): Promise<Contact> {
+    let affectedRow = await models.Contact.findOne({ where: { id: contactId } });
+    await models.Contact.destroy({ where: { id: contactId } });
     return affectedRow;
   }
 
@@ -143,8 +145,13 @@ export class UserResolver {
   // }
 
   @Mutation(() => Card, { nullable: true, description: "Add Address" })
-  async addAddress(@Arg("id") id: String, @Arg("address") address: AddAddressInput): Promise<Address> {
-    return await models.Address.create({ userId: id, ...address });
+  async addAddress(@Arg("userId") userId: String, @Arg("addressInput") addressInput: AddAddressInput): Promise<Address> {
+    return await models.Address.create({ userId, ...addressInput });
+  }
+
+  @Mutation(() => Card, { nullable: true, description: "Add Contact" })
+  async addContact(@Arg("userId") userId: String, @Arg("contactInput") contactInput: AddContactInput): Promise<Contact> {
+    return await models.Contact.create({ userId, ...contactInput });
   }
 
   // @Mutation(() => User, { description: 'Add or Edit Contact' })
@@ -155,27 +162,15 @@ export class UserResolver {
   //   return await this.items[0];
   // }
 
-  // @Mutation(() => User, { description: 'Delete Address' })
-  // async deleteAddress(@Arg('addressId') addressId: string): Promise<User> {
-  //   console.log(addressId, 'address_id');
-  //   return await this.items[0];
-  // }
+  @Mutation(() => User, { description: 'Add Payment Card' })
+  async addPaymentCard(@Arg('userId') userId: string, @Arg('cardInput') cardInput: AddCardInput): Promise<User> {
+    return await models.Address.create({ userId, ...cardInput });
+  }
 
-  // @Mutation(() => User, { description: 'Delete Contact' })
-  // async deleteContact(@Arg('contactId') contactId: string): Promise<User> {
-  //   console.log(contactId, 'contact_id');
-  //   return await this.items[0];
-  // }
-
-  // @Mutation(() => User, { description: 'Add Payment Card' })
-  // async addPaymentCard(@Arg('cardInput') cardInput: string): Promise<User> {
-  //   console.log(cardInput, 'cardInput');
-  //   return await this.items[0];
-  // }
-
-  // @Mutation(() => User, { description: 'Delete Payment Card' })
-  // async deletePaymentCard(@Arg('cardId') cardId: string): Promise<User> {
-  //   console.log(cardId, 'card_id');
-  //   return await this.items[0];
-  // }
+  @Mutation(() => User, { description: 'Delete Payment Card' })
+  async deletePaymentCard(@Arg('cardId') cardId: string): Promise<User> {
+    let affectedRow = await models.Card.findOne({ where: { id: cardId } });
+    await models.Card.destroy({ where: { id: cardId } });
+    return affectedRow;
+  }
 }

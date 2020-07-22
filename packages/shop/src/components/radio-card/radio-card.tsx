@@ -120,7 +120,7 @@ type RadioCardProps = {
   id: string;
   name: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   content: string;
   editIcon?: any;
   deleteIcon?: any;

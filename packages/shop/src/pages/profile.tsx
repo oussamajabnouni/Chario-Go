@@ -25,8 +25,7 @@ type Props = {
 };
 const ProfilePage: NextPage<Props> = ({ deviceType }) => {
   const {
-    authState: { id },
-    authDispatch,
+    authState: { id }
   } = React.useContext<any>(AuthContext);
 
   const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, { variables: { id } });

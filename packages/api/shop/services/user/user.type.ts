@@ -2,6 +2,7 @@ import { ObjectType, Field, InputType, Int, ID } from "type-graphql";
 import Address from "./address.type";
 import Contact from "./contact.type";
 import Card from "./card.type";
+import Order from "../order/order.type";
 
 @InputType()
 export class SignUpInput {
@@ -63,6 +64,9 @@ export default class User {
 
   @Field((type) => [Card], { nullable: true })
   cards: Card[];
+
+  @Field((type) => [Order], { nullable: true })
+  orders: Order[];
 
   @Field()
   createdAt: Date;

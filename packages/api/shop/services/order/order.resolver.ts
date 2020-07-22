@@ -1,7 +1,7 @@
 import { Resolver, Query, Arg, Int, Mutation } from 'type-graphql';
 import loadOrders from './order.sample';
 import Order from './order.type';
-import { filterOrder } from '../../helpers/filter';
+
 const models = require('../../../models')
 
 @Resolver()

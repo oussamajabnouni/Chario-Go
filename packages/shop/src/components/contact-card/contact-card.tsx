@@ -3,21 +3,23 @@ import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 import * as Yup from 'yup';
 import { closeModal } from '@redq/reuse-modal';
+import { FormattedMessage } from 'react-intl';
 import { FormikProps, ErrorMessage, Formik, Form } from 'formik';
 import { useMutation } from '@apollo/react-hooks';
 import MaskedInput from 'react-text-mask';
+// contexts
 import { ProfileContext } from 'contexts/profile/profile.context';
+import { AuthContext } from 'contexts/auth/auth.context';
+
 import { Button } from 'components/button/button';
-import { UPDATE_CONTACT } from 'graphql/mutation/contact';
+import { ADD_CONTACT } from 'graphql/mutation/contact';
 import { FieldWrapper, Heading } from './contact-card.style';
-import { FormattedMessage } from 'react-intl';
 
 type Props = {
   item?: any | null;
 };
 // Shape of form values
 type FormValues = {
-  id?: number | null;
   type?: string;
   number?: string;
 };
@@ -28,15 +30,17 @@ const ContactValidationSchema = Yup.object().shape({
 
 const CreateOrUpdateContact: React.FC<Props> = ({ item }) => {
   const initialValues = {
-    id: item.id || null,
     type: item.type || 'secondary',
     number: item.number || '',
   };
-  const [addContactMutation] = useMutation(UPDATE_CONTACT);
+  const {
+    authState: { id },
+  } = useContext(AuthContext);
+  const [addContactMutation] = useMutation(ADD_CONTACT);
   const { state, dispatch } = useContext(ProfileContext);
   const handleSubmit = async (values: FormValues, { setSubmitting }: any) => {
     await addContactMutation({
-      variables: { contactInput: values },
+      variables: { userId: id, contactInput: values },
     });
     console.log(values, 'formik values');
     dispatch({ type: 'ADD_OR_UPDATE_CONTACT', payload: values });
@@ -62,17 +66,13 @@ const CreateOrUpdateContact: React.FC<Props> = ({ item }) => {
             <FieldWrapper>
               <MaskedInput
                 mask={[
-                  '(',
-                  /[1-9]/,
-                  /\d/,
-                  /\d/,
-                  ')',
-                  ' ',
-                  /\d/,
                   /\d/,
                   /\d/,
                   '-',
                   /\d/,
+                  /\d/,
+                  /\d/,
+                  '-',
                   /\d/,
                   /\d/,
                   /\d/,

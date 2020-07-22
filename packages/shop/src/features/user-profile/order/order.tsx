@@ -19,6 +19,8 @@ import {
   NoOrderFound,
 } from './order.style';
 
+import { AuthContext } from "contexts/auth/auth.context";
+import { GET_LOGGED_IN_CUSTOMER } from 'graphql/query/customer.query';
 import OrderDetails from './order-details/order-details';
 import OrderCard from './order-card/order-card';
 import OrderCardMobile from './order-card/order-card-mobile';
@@ -27,30 +29,6 @@ import { FormattedMessage } from 'react-intl';
 
 const progressData = ['Order Received', 'Order On The Way', 'Order Delivered'];
 
-const GET_ORDERS = gql`
-  query getAllOrders($text: String, $user: Int!, $limit: Int) {
-    orders(text: $text, limit: $limit, user: $user) {
-      id
-      status
-      deliveryAddress
-      amount
-      date
-      subtotal
-      deliveryFee
-      discount
-      deliveryTime
-      products {
-        title
-        price
-        total
-        image
-        weight
-        quantity
-        id
-      }
-    }
-  }
-`;
 
 const orderTableColumns = [
   {
@@ -107,24 +85,22 @@ type OrderTableProps = {
 const OrdersContent: React.FC<OrderTableProps> = ({
   deviceType: { mobile, tablet, desktop },
 }) => {
+  const {
+    authState: { id }
+  } = React.useContext<any>(AuthContext);
   const [order, setOrder] = useState(null);
   const [active, setActive] = useState('');
 
   const [targetRef, size] = useComponentSize();
   const orderListHeight = size.height - 79;
-  const { data, error, loading } = useQuery(GET_ORDERS, {
-    variables: {
-      limit: 7,
-      user: 1,
-    },
-  });
+  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, { variables: { id } });
 
   useEffect(() => {
-    if (data && data.orders && data.orders.length !== 0) {
-      setOrder(data.orders[0]);
-      setActive(data.orders[0].id);
+    if (data && data.me.orders && data.me.orders.length !== 0) {
+      setOrder(data.me.orders[0]);
+      setActive(data.me.orders[0].id);
     }
-  }, [data && data.orders]);
+  }, [data && data.me.orders]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -137,7 +113,7 @@ const OrdersContent: React.FC<OrderTableProps> = ({
     setActive(order.id);
   };
 
-  console.log(data.orders, 'data.orders', order, 'order');
+  console.log(data.me.orders, 'data.me.orders', order, 'order');
 
   return (
     <OrderBox>
@@ -158,8 +134,8 @@ const OrdersContent: React.FC<OrderTableProps> = ({
             autoHeightMax={isNaN(orderListHeight) ? 500 : orderListHeight}
           >
             <OrderList>
-              {data.orders.length !== 0 ? (
-                data.orders.map((order: any) => (
+              {data.me.orders.length !== 0 ? (
+                data.me.orders.map((order: any) => (
                   <OrderCard
                     key={order.id}
                     orderId={order.id}
@@ -174,25 +150,25 @@ const OrdersContent: React.FC<OrderTableProps> = ({
                   />
                 ))
               ) : (
-                <NoOrderFound>
-                  <FormattedMessage
-                    id="intlNoOrderFound"
-                    defaultMessage="No order found"
-                  />
-                </NoOrderFound>
-              )}
+                  <NoOrderFound>
+                    <FormattedMessage
+                      id="intlNoOrderFound"
+                      defaultMessage="No order found"
+                    />
+                  </NoOrderFound>
+                )}
             </OrderList>
           </Scrollbars>
         </OrderListWrapper>
 
-        <OrderDetailsWrapper ref={targetRef}>
-          <Title style={{ padding: '0 20px' }}>
-            <FormattedMessage
-              id="orderDetailsText"
-              defaultMessage="Order Details"
-            />
-          </Title>
-          {order && order.id && (
+        {order && order.id && (
+          <OrderDetailsWrapper ref={targetRef}>
+            <Title style={{ padding: '0 20px' }}>
+              <FormattedMessage
+                id="orderDetailsText"
+                defaultMessage="Order Details"
+              />
+            </Title>
             <OrderDetails
               progressStatus={order.status}
               progressData={progressData}
@@ -204,14 +180,14 @@ const OrdersContent: React.FC<OrderTableProps> = ({
               tableData={order.products}
               columns={orderTableColumns}
             />
-          )}
-        </OrderDetailsWrapper>
+          </OrderDetailsWrapper>
+        )}
       </DesktopView>
 
       <MobileView>
         <OrderList>
           <OrderCardMobile
-            orders={data.orders}
+            orders={data.me.orders}
             className={order && order.id === active ? 'active' : ''}
             progressData={progressData}
             columns={orderTableColumns}

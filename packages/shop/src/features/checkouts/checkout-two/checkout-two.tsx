@@ -111,7 +111,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   } = useCart();
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const { address, contact, card, schedules } = state;
+  const { addresses, contacts, card, schedules } = state;
 
   const [deleteContactMutation] = useMutation(DELETE_CONTACT);
   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS);
@@ -174,24 +174,25 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
       const modalComponent = name === "address" ? UpdateAddress : UpdateContact;
       handleModal(modalComponent, item);
     } else {
+      console.log(name, item, type, "delete");
       switch (name) {
         case "payment":
           dispatch({ type: "DELETE_CARD", payload: item.id });
 
           return await deletePaymentCardMutation({
-            variables: { cardId: JSON.stringify(item.id) },
+            variables: { cardId: item.id },
           });
         case "contact":
           dispatch({ type: "DELETE_CONTACT", payload: item.id });
 
           return await deleteContactMutation({
-            variables: { contactId: JSON.stringify(item.id) },
+            variables: { contactId: item.id },
           });
         case "address":
           dispatch({ type: "DELETE_ADDRESS", payload: item.id });
 
           return await deleteAddressMutation({
-            variables: { addressId: JSON.stringify(item.id) },
+            variables: { addressId: item.id },
           });
         default:
           return false;
@@ -228,13 +229,14 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                 />
               </Heading>
               <ButtonGroup>
-                {/*   <RadioGroup
-                  items={address}
+                <RadioGroup
+                  items={addresses || []}
                   component={(item: any) => (
                     <RadioCard
                       id={item.id}
                       key={item.id}
-                      title={item.name}
+                      title={item.state}
+                      subtitle={item.city}
                       content={item.info}
                       name='address'
                       checked={item.type === 'primary'}
@@ -248,7 +250,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                       onDelete={() =>
                         handleEditDelete(item, 'delete', 'address')
                       }
-                    />  
+                    />
                   )}
                   secondaryComponent={
                     <Button
@@ -265,7 +267,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                       <FormattedMessage id='addNew' defaultMessage='Add New' />
                     </Button>
                   }
-                /> */}
+                />
               </ButtonGroup>
             </InformationBox>
 
@@ -278,7 +280,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                     defaultMessage="Select Your Delivery Schedule"
                   />
                 </Heading>
-                {/**   <RadioGroup
+                <RadioGroup
                   items={schedules}
                   component={(item: any) => (
                     <RadioCard
@@ -298,7 +300,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                     />
                   )}
                 />
-                 */}
+
               </DeliverySchedule>
             </InformationBox>
 
@@ -311,8 +313,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                 />
               </Heading>
               <ButtonGroup>
-                {/**     <RadioGroup
-                  items={contact}
+                <RadioGroup
+                  items={contacts || []}
                   component={(item: any) => (
                     <RadioCard
                       id={item.id}
@@ -352,7 +354,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                     </Button>
                   }
                 />
-                 */}
+
               </ButtonGroup>
             </InformationBox>
             {/* PaymentOption */}
@@ -367,10 +369,10 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   defaultMessage="Select Payment Option"
                 />
               </Heading>
-              {/**   <PaymentGroup
+              <PaymentGroup
                 name="payment"
                 deviceType={deviceType}
-                items={card}
+                items={card || []}
                 onEditDeleteField={(item: any, type: string) =>
                   handleEditDelete(item, type, "payment")
                 }
@@ -388,7 +390,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   );
                 }}
               />
-               */}
+
 
               {/* Coupon start */}
               {coupon ? (
@@ -409,51 +411,51 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   </CouponCode>
                 </CouponBoxWrapper>
               ) : (
-                <CouponBoxWrapper>
-                  {!hasCoupon ? (
-                    <HaveCoupon onClick={() => setHasCoupon((prev) => !prev)}>
-                      <FormattedMessage
-                        id="specialCode"
-                        defaultMessage="Have a special code?"
-                      />
-                    </HaveCoupon>
-                  ) : (
-                    <>
-                      <CouponInputBox>
-                        <Input
-                          onUpdate={handleOnUpdate}
-                          value={couponCode}
-                          intlPlaceholderId="couponPlaceholder"
+                  <CouponBoxWrapper>
+                    {!hasCoupon ? (
+                      <HaveCoupon onClick={() => setHasCoupon((prev) => !prev)}>
+                        <FormattedMessage
+                          id="specialCode"
+                          defaultMessage="Have a special code?"
                         />
-                        {/* <Button
-                          onClick={handleApplyCoupon}
-                          title='Apply'
-                          intlButtonId='voucherApply'
-                        /> */}
-                        <Button
-                          type="button"
-                          onClick={handleApplyCoupon}
-                          size="big"
-                        >
-                          <FormattedMessage
-                            id="voucherApply"
-                            defaultMessage="Apply"
-                          />
-                        </Button>
-                      </CouponInputBox>
+                      </HaveCoupon>
+                    ) : (
+                        <>
+                          <CouponInputBox>
+                            <Input
+                              onUpdate={handleOnUpdate}
+                              value={couponCode}
+                              intlPlaceholderId="couponPlaceholder"
+                            />
+                            <Button
+                              onClick={handleApplyCoupon}
+                              title='Apply'
+                              intlButtonId='voucherApply'
+                            />
+                            <Button
+                              type="button"
+                              onClick={handleApplyCoupon}
+                              size="big"
+                            >
+                              <FormattedMessage
+                                id="voucherApply"
+                                defaultMessage="Apply"
+                              />
+                            </Button>
+                          </CouponInputBox>
 
-                      {couponError && (
-                        <ErrorMsg>
-                          <FormattedMessage
-                            id="couponError"
-                            defaultMessage={couponError}
-                          />
-                        </ErrorMsg>
+                          {couponError && (
+                            <ErrorMsg>
+                              <FormattedMessage
+                                id="couponError"
+                                defaultMessage={couponError}
+                              />
+                            </ErrorMsg>
+                          )}
+                        </>
                       )}
-                    </>
-                  )}
-                </CouponBoxWrapper>
-              )}
+                  </CouponBoxWrapper>
+                )}
 
               <TermConditionText>
                 <FormattedMessage
@@ -472,15 +474,15 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
 
               {/* CheckoutSubmit */}
               <CheckoutSubmit>
-                {/* <Button
+                <Button
                   onClick={handleSubmit}
                   type='button'
                   disabled={!isValid}
                   title='Proceed to Checkout'
                   intlButtonId='proceesCheckout'
-                  loader={<Loader />}
+                  // loader={<Loader />}
                   isLoading={loading}
-                /> */}
+                />
 
                 <Button
                   type="button"
@@ -538,13 +540,13 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                         <OrderItem key={`cartItem-${item.id}`} product={item} />
                       ))
                     ) : (
-                      <NoProductMsg>
-                        <FormattedMessage
-                          id="noProductFound"
-                          defaultMessage="No products found"
-                        />
-                      </NoProductMsg>
-                    )}
+                        <NoProductMsg>
+                          <FormattedMessage
+                            id="noProductFound"
+                            defaultMessage="No products found"
+                          />
+                        </NoProductMsg>
+                      )}
                   </ItemsWrapper>
                 </Scrollbars>
 

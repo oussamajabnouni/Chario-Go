@@ -23,6 +23,26 @@ export const GET_LOGGED_IN_CUSTOMER = gql`
         name
         lastFourDigit
       }
+      orders {
+        id
+        status
+        deliveryAddress
+        amount
+        date
+        subtotal
+        deliveryFee
+        discount
+        deliveryTime
+        products {
+          title
+          price
+          total
+          image
+          weight
+          quantity
+          id
+        }
+      }
     }
   }
 `;

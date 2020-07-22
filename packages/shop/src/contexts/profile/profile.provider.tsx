@@ -24,7 +24,7 @@ function reducer(state: any, action: Action): any {
       if (action.payload.id) {
         return {
           ...state,
-          contact: state.contact.map((item: any) =>
+          contacts: state.contacts.map((item: any) =>
             item.id === action.payload.id
               ? { ...item, ...action.payload }
               : item
@@ -34,17 +34,17 @@ function reducer(state: any, action: Action): any {
       const newContact = {
         ...action.payload,
         id: uuidV4(),
-        type: state.contact.length === '0' ? 'primary' : 'secondary',
+        type: state.contacts?.length === '0' ? 'primary' : 'secondary',
       };
       return {
         ...state,
-        contact: [...state.contact, newContact],
+        contacts: [...state.contacts, newContact],
       };
 
     case 'DELETE_CONTACT':
       return {
         ...state,
-        contact: state.contact.filter(
+        contacts: state.contacts.filter(
           (item: any) => item.id !== action.payload
         ),
       };

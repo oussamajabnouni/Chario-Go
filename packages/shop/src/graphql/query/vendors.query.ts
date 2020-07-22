@@ -24,11 +24,10 @@ export const GET_VENDORS = gql`
         thumbnailUrl
         description
         promotion
-        deliveryDetails {
-          charge
-          minimumOrder
-          isFree
-        }
+        charge
+        minimumOrder
+        isFree
+      
       }
       totalCount
       hasMore
