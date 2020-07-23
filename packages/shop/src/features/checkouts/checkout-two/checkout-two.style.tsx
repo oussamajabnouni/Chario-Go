@@ -75,6 +75,7 @@ export const InformationBox = styled.div`
   padding: 30px;
   padding-bottom: 20px;
   position: relative;
+  border-radius: 6px;
   margin-bottom: 20px;
   box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.08);
 

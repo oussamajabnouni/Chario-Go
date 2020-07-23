@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 export const GET_LOGGED_IN_CUSTOMER = gql`
   query getUser($id: String!) {
     me(id: $id) {
+      id
       name
       email
       addresses {
@@ -28,7 +29,6 @@ export const GET_LOGGED_IN_CUSTOMER = gql`
         status
         deliveryAddress
         amount
-        date
         subtotal
         deliveryFee
         discount
@@ -38,7 +38,6 @@ export const GET_LOGGED_IN_CUSTOMER = gql`
           price
           total
           image
-          weight
           quantity
           id
         }

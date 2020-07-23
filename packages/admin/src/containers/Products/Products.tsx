@@ -107,6 +107,7 @@ const GET_PRODUCTS = gql`
           slug
         }
       }
+      totalCount
       hasMore
     }
   }
@@ -117,15 +118,6 @@ const typeSelectOptions = [
   { value: "foods", label: "foods" },
 ];
 
-const locationStateOptions = [
-  { value: "sousse", label: "sousse" },
-  { value: "tunis", label: "tunis" },
-];
-
-const locationCityOptions = [
-  { value: "grocery", label: "Grocery" },
-  { value: "foods", label: "foods" },
-];
 
 const priceSelectOptions = [
   { value: "highestToLowest", label: "Highest To Lowest" },
@@ -291,24 +283,24 @@ export default function Products() {
                   </Col>
                 ))
               ) : (
-                <NoResult />
-              )
+                  <NoResult />
+                )
             ) : (
-              <LoaderWrapper>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-                <LoaderItem>
-                  <Placeholder />
-                </LoaderItem>
-              </LoaderWrapper>
-            )}
+                <LoaderWrapper>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                  <LoaderItem>
+                    <Placeholder />
+                  </LoaderItem>
+                </LoaderWrapper>
+              )}
           </Row>
           {data && data.products && data.products.hasMore && (
             <Row>

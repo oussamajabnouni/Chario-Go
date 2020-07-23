@@ -1,6 +1,7 @@
 import { Resolver, Query, Arg, Int, Mutation } from 'type-graphql';
 import loadOrders from './order.sample';
 import Order from './order.type';
+import AddOrderInput from './order.input'
 
 const models = require('../../../models')
 
@@ -29,10 +30,13 @@ export class OrderResolver {
   }
 
   @Mutation(() => Order, { description: 'Add an Order' })
-  async addOrder(@Arg('orderInput') orderInput: string): Promise<Order> {
-    console.log(orderInput, 'orderinput');
-    return await this.items[0];
+  async addOrder(@Arg('orderInput') orderInput: AddOrderInput): Promise<Order> {
+    const new_order = await models.Order.create(orderInput, { include: [{ model: models.OrderProduct, as: 'products' }] });
+
+
+    return new_order;
   }
+
   @Mutation(() => Order, { nullable: true, description: 'Delete Order' })
   async deleteOrder(
     @Arg('id') id: String

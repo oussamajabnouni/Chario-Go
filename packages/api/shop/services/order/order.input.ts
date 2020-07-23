@@ -1,27 +1,67 @@
-import { InputType, Field, ID } from 'type-graphql';
+import { InputType, Field, Int } from 'type-graphql';
+
 
 @InputType()
-export default class OrderInput {
-  @Field(type => ID)
-  id: string;
+export class OrderProductInput {
   @Field()
-  address: string;
+  title: string;
 
   @Field()
-  contact: string;
+  description: string;
 
   @Field()
-  payment: string;
+  type: string;
 
   @Field()
-  schedule: string;
+  image: string;
 
-  @Field()
+  @Field(() => Int)
+  price: number;
+
+  @Field(() => Int)
   quantity: number;
 
   @Field()
-  price: number;
+  total: number;
 
-  @Field(type => [String])
-  products: string[];
+}
+
+@InputType()
+export default class AddOrderInput {
+
+  @Field(() => Int)
+  status: number;
+
+  @Field()
+  deliveryTime: string;
+
+  @Field()
+  deliveryAddress: string;
+
+  @Field()
+  deliveryFee: number;
+
+  @Field()
+  contact_number: string;
+
+  @Field(() => Int)
+  discount: number;
+
+  @Field(() => Int)
+  amount: number;
+
+  @Field(() => Int)
+  subtotal: number;
+
+  @Field(() => Int)
+  number_of_product: number;
+
+  @Field()
+  userId: string;
+
+  @Field()
+  payment_method: string;
+
+  @Field(type => [OrderProductInput])
+  products: OrderProductInput[];
 }

@@ -9,12 +9,15 @@ import UpdateAddress from "components/address-card/address-card";
 import UpdateContact from "components/contact-card/contact-card";
 import StripePaymentForm from "features/payment/stripe-form";
 import { DELETE_ADDRESS } from "graphql/mutation/address";
+import { ADD_ORDER } from "graphql/mutation/order";
 import { DELETE_CARD } from "graphql/mutation/card";
 import { DELETE_CONTACT } from "graphql/mutation/contact";
 import { CURRENCY } from "utils/constant";
 import { openModal } from "@redq/reuse-modal";
 import { useMutation } from "@apollo/react-hooks";
 import { Scrollbars } from "react-custom-scrollbars";
+import { createOrderInput } from "utils/helpers";
+
 import CheckoutWrapper, {
   CheckoutContainer,
   CheckoutInformation,
@@ -117,15 +120,28 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS);
   const [deletePaymentCardMutation] = useMutation(DELETE_CARD);
   const [appliedCoupon] = useMutation(APPLY_COUPON);
+  const [addOrder] = useMutation(ADD_ORDER, {
+    onCompleted({ login }) {
+      Router.push("/order-received");
+      setLoading(false);
+      clearCart();
+    }
+  });
   const size = useWindowSize();
 
   const handleSubmit = async () => {
-    setLoading(true);
+    const orderInput = createOrderInput(
+      state,
+      items,
+      cartItemsCount,
+      calculatePrice(),
+      calculateSubTotalPrice(),
+      calculateDiscount()
+    )
     if (isValid) {
-      clearCart();
-      Router.push("/order-received");
+      setLoading(true);
+      addOrder({ variables: { orderInput } })
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -428,11 +444,6 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                               intlPlaceholderId="couponPlaceholder"
                             />
                             <Button
-                              onClick={handleApplyCoupon}
-                              title='Apply'
-                              intlButtonId='voucherApply'
-                            />
-                            <Button
                               type="button"
                               onClick={handleApplyCoupon}
                               size="big"
@@ -474,16 +485,6 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
 
               {/* CheckoutSubmit */}
               <CheckoutSubmit>
-                <Button
-                  onClick={handleSubmit}
-                  type='button'
-                  disabled={!isValid}
-                  title='Proceed to Checkout'
-                  intlButtonId='proceesCheckout'
-                  // loader={<Loader />}
-                  isLoading={loading}
-                />
-
                 <Button
                   type="button"
                   onClick={handleSubmit}

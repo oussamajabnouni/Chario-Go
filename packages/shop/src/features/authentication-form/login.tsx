@@ -117,7 +117,6 @@ export default function SignInModal() {
             size="big"
             style={{ width: "100%" }}
             type="submit"
-            isLoading
           >
             <FormattedMessage id="continueBtn" defaultMessage="Continue" />
           </Button>

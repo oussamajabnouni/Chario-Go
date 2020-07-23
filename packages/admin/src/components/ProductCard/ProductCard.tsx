@@ -89,7 +89,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const dispatch = useDrawerDispatch();
   const [
     deleteProduct,
-    { loading: deleting, error: deleteError },
+    { loading: deleting },
   ] = useMutation(REMOVE_PRODUCT);
   const openDrawer = React.useCallback(
     () =>
@@ -100,30 +100,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       }),
     [dispatch, data]
   );
-
-  const [removeProduct] = useMutation(REMOVE_PRODUCT, {
-    update(cache, { data: { removeProduct } }) {
-      const { products } = cache.readQuery({
-        query: GET_PRODUCTS,
-      });
-      const newData = {
-        todos: data.products.filter((e) => e.id !== data.id),
-      };
-
-      cache.writeQuery({
-        query: GET_PRODUCTS,
-        data: {
-          variables: {
-            __typename: products.__typename,
-            items: [removeProduct, ...products.items],
-
-            totalCount: products.items.length - 1,
-          },
-          data: newData,
-        },
-      });
-    },
-  });
 
   const remove = () => {
     if (deleting) return;

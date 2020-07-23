@@ -134,7 +134,7 @@ export const OtherPayOption = styled.div`
     flex-grow: 1;
     flex: 50%;
     max-width: 50%;
-
+    margin: 10px;
     span {
       display: block;
       border-radius: 6px;
@@ -161,9 +161,6 @@ export const OtherPayOption = styled.div`
           background-color: #ffffff;
         }
       }
-    }
-    &.cash-on-delivery {
-      margin-left: 15px;
     }
   }
 `;

@@ -9,6 +9,8 @@ import { HelpIcon } from 'assets/icons/HelpIcon';
 import { RightMenuBox } from './right-menu.style';
 import { FormattedMessage } from 'react-intl';
 
+import AvatarDefault from "assets/images/user.png";
+
 type Props = {
   onLogout: () => void;
   onJoin: () => void;
@@ -45,13 +47,13 @@ export const RightMenu: React.FC<Props> = ({
           <FormattedMessage id="joinButton" defaultMessage="join" />
         </Button>
       ) : (
-        <Popover
-          direction="right"
-          className="user-pages-dropdown"
-          handler={<img src={avatar} alt="user" />}
-          content={<AuthorizedMenu onLogout={onLogout} />}
-        />
-      )}
+          <Popover
+            direction="right"
+            className="user-pages-dropdown"
+            handler={<img src={AvatarDefault} alt="user" />}
+            content={<AuthorizedMenu onLogout={onLogout} />}
+          />
+        )}
     </RightMenuBox>
   );
 };

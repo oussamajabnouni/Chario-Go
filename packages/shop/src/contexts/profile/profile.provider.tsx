@@ -95,7 +95,7 @@ function reducer(state: any, action: Action): any {
     case 'SET_PRIMARY_CONTACT':
       return {
         ...state,
-        contact: state.contact.map((item: any) =>
+        contacts: state.contacts?.map((item: any) =>
           item.id === action.payload
             ? { ...item, type: 'primary' }
             : { ...item, type: 'secondary' }

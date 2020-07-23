@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -36,12 +36,11 @@ const GET_PRODUCTS = gql`
     ) {
       items {
         id
-        name
+        title
         image
         type
         price
         unit
-        salePrice
         discountInPercent
       }
       totalCount
@@ -52,19 +51,22 @@ const GET_PRODUCTS = gql`
 
 const UPDATE_PRODUCT = gql`
   mutation updateProduct(
-    $product: UpdateProductInput = {}
-    $id: String = "__eq"
+    $product: UpdateProductInput!
+    $id: String!
   ) {
     updateProduct(product: $product, id: $id) {
       id
       title
       image
-      slug
       type
       price
       unit
-      description
       discountInPercent
+      categories {
+        id
+        title
+        slug
+      }
     }
   }
 `;
@@ -102,6 +104,7 @@ const AddProduct: React.FC<Props> = () => {
   const [type, setType] = useState([{ value: data.type }]);
   const [category, setCategory] = useState([]);
   const [description, setDescription] = useState(data.description);
+
   React.useEffect(() => {
     register({ name: "type" });
     register({ name: "categories" });
@@ -109,20 +112,15 @@ const AddProduct: React.FC<Props> = () => {
     register({ name: "description" });
   }, [register]);
 
-  const [
-    updateProduit,
-    { loading: updating, error: updateError },
-  ] = useMutation(UPDATE_PRODUCT);
+  useEffect(() => {
+    setCategory(data.categories)
+  }, [data.categories])
 
   const [updateProduct] = useMutation(UPDATE_PRODUCT, {
     update(cache, { data: { updateProduct } }) {
       const { products } = cache.readQuery({
         query: GET_PRODUCTS,
       });
-
-      const newData = {
-        todos: data.products.filter((e) => e.id !== data.id),
-      };
 
       cache.writeQuery({
         query: GET_PRODUCTS,
@@ -131,34 +129,13 @@ const AddProduct: React.FC<Props> = () => {
             __typename: products.__typename,
             items: [updateProduct, ...products.items],
             hasMore: true,
-            totalCount: products.items.length + 1,
+            totalCount: products.items.length,
           },
-          data: newData,
         },
       });
     },
   });
 
-  const updateCheckbox = () => {
-    const update = () => {
-      const categories = data.categories.map((category) => category.id);
-      if (updating) return;
-      updateProduit({
-        variables: {
-          name: data.name,
-          type: data.type[0].value,
-          description: data.description,
-          image: data.image,
-          price: Number(data.price),
-          unit: data.unit,
-          discountInPercent: Number(data.discountInPercent),
-          slug: data.name,
-          categories: categories,
-          id: data.id,
-        },
-      });
-    };
-  };
 
   const handleMultiChange = ({ value }) => {
     setValue("categories", value);
@@ -178,24 +155,22 @@ const AddProduct: React.FC<Props> = () => {
     setValue("image", files[0].path);
   };
 
-  const getCategoriesFromData = () => {
-    const fullCatgories = data.categories.map((id) => {});
-  };
 
-  const onSubmit = (data) => {
-    if (updating) return;
-    const categories = data.categories.map((category) => category.id);
+  const onSubmit = (form) => {
+    const categories = form.categories.map((category) => category.id);
     updateProduct({
       variables: {
-        name: data.name,
-        type: data.type[0].value,
-        description: data.description,
-        image: data.image,
-        price: Number(data.price),
-        unit: data.unit,
-        discountInPercent: Number(data.discountInPercent),
-        slug: data.name,
-        categories: categories,
+        product: {
+          title: form.title,
+          type: form.type[0].value,
+          description: form.description,
+          image: form.image,
+          price: Number(form.price),
+          unit: form.unit,
+          discountInPercent: Number(form.discountInPercent),
+          slug: form.name,
+          categories: categories,
+        },
         id: data.id,
       },
     });

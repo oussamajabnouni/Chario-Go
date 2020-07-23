@@ -62,7 +62,7 @@ const PaymentGroup: React.FunctionComponent<PaymentGroupProps> = ({
   return (
     <>
       {/* {deviceType === 'desktop' && ( */}
-      <Header>
+      {/* <Header>
         {items?.length !== 0 && (
           <SavedCard>
             <FormattedMessage id="savedCardsId" defaultMessage="Saved Cards" />
@@ -96,53 +96,38 @@ const PaymentGroup: React.FunctionComponent<PaymentGroupProps> = ({
             />
           )}
         />
-      </PaymentCardList>
+      </PaymentCardList> */}
 
-      {items?.mobileWallet === true || items?.cashOnDelivery === true ? (
-        <OtherPayOption>
-          {/* Mobile Wallet */}
-          {items?.mobileWallet === true ? (
-            <label
-              htmlFor="mobile-wallet"
-              key="${name}-mobile-wa"
-              className="other-pay-radio"
-            >
-              <input
-                type="radio"
-                id="mobile-wallet"
-                name={name}
-                value="mobile-wallet"
-                onChange={handleChange}
-              />
-              <span>Mobile Wallet</span>
-            </label>
-          ) : (
-              ''
-            )}
+      <OtherPayOption>
+        <label
+          htmlFor="cash-on-delivery"
+          key="${name}-cash"
+          className="other-pay-radio cash-on-delivery"
+        >
+          <input
+            type="radio"
+            id="cash-on-delivery"
+            name={name}
+            value="cash-on-delivery"
+            checked
+          />
+          <span>Cash On Delivery</span>
+        </label>
+        <label
+          htmlFor="mobile-wallet"
+          key="${name}-mobile-wa"
+          className="other-pay-radio"
+        >
+          <input
+            type="radio"
+            id="mobile-wallet"
+            name={name}
+            value="mobile-wallet"
+          />
+          <span>Payment Card</span>
+        </label>
 
-          {/* Cash On Delivery */}
-          {items?.cashOnDelivery === true ? (
-            <label
-              htmlFor="cash-on-delivery"
-              key="${name}-cash"
-              className="other-pay-radio cash-on-delivery"
-            >
-              <input
-                type="radio"
-                id="cash-on-delivery"
-                name={name}
-                value="cash-on-delivery"
-                onChange={handleChange}
-              />
-              <span>Cash On Delivery</span>
-            </label>
-          ) : (
-              ''
-            )}
-        </OtherPayOption>
-      ) : (
-          ''
-        )}
+      </OtherPayOption>
     </>
   );
 };

@@ -18,7 +18,7 @@ import Placeholder from "components/placeholder/placeholder";
 import Fade from "react-reveal/Fade";
 import NoResultFound from "components/no-result/no-result";
 
-import { customerDistance } from "utils/customerDistance";
+import { customerDistance } from "utils/helpers";
 import { formatTime } from "utils/formatTime";
 import { FormattedMessage } from "react-intl";
 import { GET_VENDORS } from "graphql/query/vendors.query";
@@ -140,8 +140,8 @@ export const Products: React.FC<ProductsProps> = ({
             //   minWidth: 135,
             //   backgroundColor: '#ffffff',
             border="1px solid #f1f1f1"
-            //   color: '#009E7F',
-            // }}
+          //   color: '#009E7F',
+          // }}
           >
             <FormattedMessage id="loadMoreButton" defaultMessage="Load More" />
           </Button>

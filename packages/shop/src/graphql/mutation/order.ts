@@ -1,15 +1,9 @@
 import gql from 'graphql-tag';
 
 export const ADD_ORDER = gql`
-  mutation($orderInput: String!) {
+  mutation($orderInput: AddOrderInput!) {
     addOrder(orderInput: $orderInput) {
       id
-      userId
-      products {
-        id
-        title
-      }
-      status
     }
   }
 `;

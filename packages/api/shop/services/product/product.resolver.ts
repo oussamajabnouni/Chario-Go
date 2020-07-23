@@ -102,20 +102,9 @@ export default class ProductResolver {
   ): Promise<Product> {
     const new_product = await models.Product.create(product);
     await new_product.setCategories(product.categories);
-    // product.categories.forEach(async (category_id: string) => {
-    //   await models.Product.create(product);
-    // })
     return new_product;
   }
 
-  /*@Mutation(() => Product, { description: "update product" })
-  async updateProduct(
-    @Arg("product") product: UpdateProductInput
-  ): Promise<Product> {
-    const update_product = await models.Product.update(product);
-    await update_product.setCategories(product.categories);
-    return update_product;
-  }*/
 
   @Mutation(() => Product, { nullable: true, description: "Update Product" })
   async updateProduct(
@@ -123,8 +112,10 @@ export default class ProductResolver {
     @Arg("id") id: String
   ): Promise<Product> {
     let affectedRow = await models.Product.findOne({ where: { id } });
-    await models.Product.update(product, { where: { id: id } });
-    return affectedRow;
+    await affectedRow.setCategories(product.categories);
+    await models.Product.update(product, { where: { id } });
+    let updatedProduct = await models.Product.findOne({ where: { id }, include: [{ all: true }] });
+    return updatedProduct;
   }
 
   @Mutation(() => Product, { nullable: true, description: "Delete Product" })

@@ -20,9 +20,6 @@ export default class OrderProduct {
   price: number;
 
   @Field()
-  weight: string;
-
-  @Field()
   quantity: number;
 
   @Field()
