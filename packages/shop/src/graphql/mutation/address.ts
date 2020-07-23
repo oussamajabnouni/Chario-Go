@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const ADD_ADDRESS = gql`
-  mutation($id:String!,$addressInput: AddAddressInput!) {
-    addAddress(id:$id, addressInput: $addressInput) {
+  mutation($userId:String!,$addressInput: AddAddressInput!) {
+    addAddress(userId:$userId, addressInput: $addressInput) {
       id
     }
   }
