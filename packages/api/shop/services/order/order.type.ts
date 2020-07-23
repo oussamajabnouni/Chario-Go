@@ -39,4 +39,7 @@ export default class Order {
   @Field(type => String)
   deliveryAddress: string;
 
+  @Field(type => String)
+  createdAt: string;
+
 }

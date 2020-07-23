@@ -63,12 +63,6 @@ const sidebarMenus = [
     icon: <OrderIcon />,
   },
   {
-    name: "Orders history",
-    path: ORDERS_HISTORY,
-    exact: false,
-    icon: <OrderIcon />,
-  },
-  {
     name: "Customers",
     path: CUSTOMERS,
     exact: false,

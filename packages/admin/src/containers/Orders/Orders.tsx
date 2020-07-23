@@ -21,7 +21,6 @@ const GET_ORDERS = gql`
   query getOrders($status: String, $limit: Int, $searchText: String) {
     orders(status: $status, limit: $limit, searchText: $searchText) {
       id
-
       status
       payment_method
       contact_number
@@ -31,7 +30,7 @@ const GET_ORDERS = gql`
       discount
       deliveryFee
       deliveryAddress
-      date
+      createdAt
     }
   }
 `;
@@ -297,14 +296,14 @@ export default function Orders() {
                   </Wrapper>
                 ))
             ) : (
-              <NoResult
-                hideButton={false}
-                style={{
-                  gridColumnStart: "1",
-                  gridColumnEnd: "one",
-                }}
-              />
-            )
+                <NoResult
+                  hideButton={false}
+                  style={{
+                    gridColumnStart: "1",
+                    gridColumnEnd: "one",
+                  }}
+                />
+              )
           ) : null}
         </Col>
       </Row>
