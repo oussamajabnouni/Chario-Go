@@ -7,19 +7,7 @@ import Select from "../select/select";
 import Input from "../input/input";
 import { Button } from "../button/button";
 
-interface Props {
-  onEnter: (e: React.SyntheticEvent) => void;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  placeholder?: string;
 
-  value: string;
-  name: string;
-  minimal?: boolean;
-  className?: string;
-  showButtonText?: boolean;
-  shadow?: string;
-  [key: string]: unknown;
-}
 
 const locationOptions = [
   {
@@ -41,7 +29,7 @@ const locationOptions = [
   },
 ];
 
-const RestaurantFilters: React.FC<Props> = () => {
+const RestaurantFilters: React.FC = () => {
   const {
     filterDispatch,
     filterState,
@@ -67,9 +55,9 @@ const RestaurantFilters: React.FC<Props> = () => {
             !filterState.locationState
               ? { label: "Select your state" }
               : {
-                  label: filterState.locationState,
-                  value: filterState.locationState,
-                }
+                label: filterState.locationState,
+                value: filterState.locationState,
+              }
           }
           onChange={changeLocationState}
         />
@@ -81,9 +69,9 @@ const RestaurantFilters: React.FC<Props> = () => {
             !filterState.locationCity
               ? { label: "Select your city" }
               : {
-                  label: filterState.locationCity,
-                  value: filterState.locationCity,
-                }
+                label: filterState.locationCity,
+                value: filterState.locationCity,
+              }
           }
           onChange={changeLocationCity}
           isDisabled={!filterState.locationState}

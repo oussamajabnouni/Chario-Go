@@ -2,17 +2,17 @@ import "reflect-metadata";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "./shop/services/user/user.resolver";
-import ProductResolver from "./shop/services/product/product.resolver";
-import { OrderResolver } from "./shop/services/order/order.resolver";
-import { CouponResolver } from "./shop/services/coupon/coupon.resolver";
-import { CategoryResolver } from "./shop/services/category/category.resolver";
-import { VendorResolver } from "./shop/services/vendors/vendors.resolver";
+import { UserResolver } from "./src/services/user/user.resolver";
+import ProductResolver from "./src/services/product/product.resolver";
+import { OrderResolver } from "./src/services/order/order.resolver";
+import { CouponResolver } from "./src/services/coupon/coupon.resolver";
+import { CategoryResolver } from "./src/services/category/category.resolver";
+import { VendorResolver } from "./src/services/vendors/vendors.resolver";
 import session from "express-session";
 import cors from "cors";
 // Sequelize models
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const models = require("./models");
+const models = require("./src/models");
 
 const app: express.Application = express();
 const path = "/shop/graphql";
@@ -27,6 +27,7 @@ const main = async () => {
       CategoryResolver,
       VendorResolver,
     ],
+    validate: false
   });
   const apolloServer = new ApolloServer({
     schema,

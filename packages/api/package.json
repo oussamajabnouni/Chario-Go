@@ -1,12 +1,13 @@
 {
-  "name": "@pick-bazar/api",
+  "name": "@chario-go/api",
   "version": "3.0.0",
   "scripts": {
     "shop-dev": "ts-node-dev --respawn server.ts",
+    "dev": "ts-node-dev --respawn server.ts",
     "admin": "ts-node-dev --respawn server.ts",
     "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles -u 1 src/ dist/",
-    "serve": "NODE_ENV=production node dist/server.admin.js",
-    "start": "NODE_ENV=production node dist/server.shop.js"
+    "serve": "NODE_ENV=production node dist/server.js",
+    "start": "NODE_ENV=production node dist/server.js"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -21,9 +22,11 @@
     "fuse.js": "6.0.0",
     "graphql": "^15.0.0",
     "graphql-tools": "^6.0.3",
+    "knex": "^0.21.2",
     "lodash": "^4.17.15",
     "mariadb": "^2.4.1",
     "mysql2": "^2.1.0",
+    "objection": "^2.2.1",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.3.1",
     "sequelize-cli": "^6.2.0",

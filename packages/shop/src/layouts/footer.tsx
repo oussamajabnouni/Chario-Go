@@ -193,6 +193,7 @@ const Footer = () => {
           </Row>
         </Col>
         <Col>
+        
           <Row style={{ marginBottom: "30px" }}>
             <Title>
               <FormattedMessage
@@ -207,11 +208,13 @@ const Footer = () => {
               <Facebook />
             </Icon>
           </Row>
+
           <Row>
             <Icon>
               <Google />
             </Icon>
           </Row>
+
         </Col>
       </Row>
       <Row>

@@ -16,6 +16,7 @@ export const LanguageProvider = ({ children, messages, cookies }) => {
     document.documentElement.lang = newLocale;
     Cookie.set("locale", newLocale);
   };
+
   let isRtl = isRTL(locale);
 
   return (

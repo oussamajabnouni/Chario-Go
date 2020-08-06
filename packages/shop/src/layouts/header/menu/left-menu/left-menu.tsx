@@ -40,7 +40,6 @@ const MENU_ITEMS = [
     intlId: "navGroceryMenu",
     dynamic: true,
   },
-
   {
     link: RESTAURANT_PAGE,
     label: "Foods",

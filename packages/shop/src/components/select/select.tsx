@@ -17,6 +17,10 @@ type SelectProps = {
   name?: string;
   value?: any;
   labelPosition?: "top" | "bottom" | "left" | "right";
+  options?: any,
+  onChange?: any,
+  isDisabled?: boolean,
+  inputValue?: string,
   props?: any;
 };
 

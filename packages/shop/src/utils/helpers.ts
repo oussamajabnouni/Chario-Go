@@ -6,6 +6,7 @@ export function customerDistance() {
 function findByPrimary(array) {
   return array.filter(item => item.type === "primary")
 }
+
 export function createOrderInput(user, items, number_of_product, amount, subtotal, discount) {
   const deliveryTime = (findByPrimary(user.schedules))[0].time_slot;
   const contact_number = (findByPrimary(user.contacts))[0].number;

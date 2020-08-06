@@ -34,6 +34,7 @@ export function withApollo(PageComponent, { ssr = true } = {}) {
       console.warn("This withApollo HOC only works with PageComponents.");
     }
 
+
     WithApollo.displayName = `withApollo(${displayName})`;
   }
 

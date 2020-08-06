@@ -6,7 +6,7 @@ import {
   StyledSearchButton,
 } from "./search-box.style";
 import { SearchIcon } from "assets/icons/SearchIcon";
-import SelectPage from "../dropdown/dropdown";
+import DropDown from "../dropdown/dropdown";
 
 interface Props {
   onEnter: (e: React.SyntheticEvent) => void;
@@ -41,11 +41,9 @@ export const SearchBox: React.FC<Props> = ({
       minimal={minimal}
     >
       <div style={{ width: 325, marginLeft: "50px" }}>
-        <SelectPage></SelectPage>
       </div>
 
       <div style={{ width: 325, marginLeft: "50px" }}>
-        <SelectPage></SelectPage>
       </div>
     </StyledForm>
   );

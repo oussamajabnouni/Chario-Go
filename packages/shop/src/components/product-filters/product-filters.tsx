@@ -8,20 +8,6 @@ import Input from "../input/input";
 import { Button } from "../button/button";
 import { GET_PRODUCTS } from "graphql/query/products.query";
 
-interface Props {
-  onEnter: (e: React.SyntheticEvent) => void;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  placeholder?: string;
-
-  value: string;
-  name: string;
-  minimal?: boolean;
-  className?: string;
-  showButtonText?: boolean;
-  shadow?: string;
-  onClick?: Function;
-  [key: string]: unknown;
-}
 
 const locationOptions = [
   {
@@ -43,7 +29,7 @@ const locationOptions = [
   },
 ];
 
-const ProductFilters: React.FC<Props> = ({ onClick }) => {
+const ProductFilters: React.FC = () => {
   const {
     filterState,
     changeLocationState,
@@ -85,9 +71,9 @@ const ProductFilters: React.FC<Props> = ({ onClick }) => {
             !filterState.locationState
               ? { label: "Select your state" }
               : {
-                  label: filterState.locationState,
-                  value: filterState.locationState,
-                }
+                label: filterState.locationState,
+                value: filterState.locationState,
+              }
           }
           onChange={changeLocationState}
         />
@@ -99,9 +85,9 @@ const ProductFilters: React.FC<Props> = ({ onClick }) => {
             !filterState.locationCity
               ? { label: "Select your city" }
               : {
-                  label: filterState.locationCity,
-                  value: filterState.locationCity,
-                }
+                label: filterState.locationCity,
+                value: filterState.locationCity,
+              }
           }
           onChange={changeLocationCity}
           isDisabled={!filterState.locationState}
@@ -117,7 +103,7 @@ const ProductFilters: React.FC<Props> = ({ onClick }) => {
         />
       </RowInput>
       <Row>
-        <Select inputValue="Trier" />
+        <Select inputValue="Sort by price" />
       </Row>
       <Row>
         <Button

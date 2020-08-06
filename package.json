@@ -1,8 +1,8 @@
 {
-  "name": "pick-bazar",
+  "name": "chario-go",
   "version": "3.0.0",
   "private": true,
-  "author": "RedQ, Inc.",
+  "author": "Chario, Inc.",
   "workspaces": [
     "packages/*"
   ],
@@ -10,14 +10,15 @@
     "clean": "lerna clean --yes && rimraf node_modules",
     "clean:build": "lerna exec -- rimraf \"{.next,dist,build}\"",
     "dev:shop": "lerna run --parallel shop-dev",
-    "build:shop": "yarn workspace @pick-bazar/shop build",
+    "build:shop": "yarn workspace @chario-go/shop build",
     "serve:shop": "lerna run --parallel start",
-    "dev:admin": "concurrently \"yarn workspace @pick-bazar/admin dev\" \"yarn workspace @pick-bazar/api admin\"",
-    "build:admin": "yarn workspace @pick-bazar/admin build",
+    "dev:admin": "concurrently \"yarn workspace @chario-go/admin dev\" \"yarn workspace @chario-go/api admin\"",
+    "dev:all": "lerna run --parallel dev",
+    "build:admin": "yarn workspace @chario-go/admin build",
     "serve:admin": "lerna run --parallel serve",
-    "dev:api-shop": "yarn workspace @pick-bazar/api shop-dev",
-    "dev:api-admin": "yarn workspace @pick-bazar/api admin",
-    "build:api": "yarn workspace @pick-bazar/api build"
+    "dev:api-shop": "yarn workspace @chario-go/api shop-dev",
+    "dev:api-admin": "yarn workspace @chario-go/api admin",
+    "build:api": "yarn workspace @chario-go/api build"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
